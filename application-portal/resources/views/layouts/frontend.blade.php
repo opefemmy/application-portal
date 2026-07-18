@@ -271,7 +271,7 @@
             <hr class="my-4" style="border-color: rgba(255,255,255,0.2);">
             <div class="row">
                 <div class="col-md-6">
-                    <p class="mb-0">&copy; {{ date('Y') }} {{ $settings['portal_name'] ?? 'Application Portal' }}. All rights reserved.</p>
+                    <p class="mb-0">&copy; {{ date('Y') }} {{ $settings['institution_name'] ?? $settings['portal_name'] ?? 'Application Portal' }}. All rights reserved.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
                     <p class="mb-0">{{ $settings['institution_name'] ?? 'Institution Name' }}</p>
