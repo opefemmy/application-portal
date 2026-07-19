@@ -65,6 +65,7 @@ try {
         `role_id` bigint UNSIGNED NULL,
         `created_at` timestamp NULL,
         `updated_at` timestamp NULL,
+        `deleted_at` timestamp NULL,
         FOREIGN KEY (`role_id`) REFERENCES `roles`(`id`) ON DELETE SET NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     echo "✓ administrators table\n";
@@ -85,6 +86,15 @@ try {
         `deleted_at` timestamp NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
     echo "✓ applications table\n";
+
+    // Add missing columns to existing tables if they exist
+    echo "\n[4b] Adding missing columns to existing tables...\n";
+    try {
+        \DB::statement("ALTER TABLE `applications` ADD COLUMN `deleted_at` timestamp NULL AFTER `updated_at`");
+        echo "✓ Added deleted_at to applications\n";
+    } catch (Exception $e) {
+        // Ignore if column exists
+    }
 
     // Application documents table
     \DB::statement("CREATE TABLE `application_documents` (
