@@ -25,17 +25,16 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        if (Auth::guard('admin')->attempt($credentials, $request->remember)) {
+        if (Auth::guard('admin')->attempt($credentials, $request->filled('remember'))) {
             $request->session()->regenerate();
 
             ActivityLog::log('login', 'Administrator logged in');
 
-            return redirect()->intended(route('admin.dashboard'))->with('success', 'Welcome back!');
+            // Redirect to dashboard directly, not intended
+            return redirect('/admin/dashboard')->with('success', 'Welcome back!');
         }
 
-        throw ValidationException::withMessages([
-            'email' => ['The provided credentials are incorrect.'],
-        ]);
+        return back()->with('error', 'Invalid email or password.')->withInput($request->only('email'));
     }
 
     public function logout(Request $request)

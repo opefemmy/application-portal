@@ -142,8 +142,11 @@
                                         <span class="input-group-text bg-white border-end-0">
                                             <i class="bi bi-envelope" style="color: var(--primary-color);"></i>
                                         </span>
-                                        <input type="email" name="email" class="form-control border-start-0" placeholder="admin@example.com" required>
+                                        <input type="email" name="email" class="form-control border-start-0 @error('email') is-invalid @enderror" placeholder="admin@example.com" required value="{{ old('email') }}">
                                     </div>
+                                    @error('email')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3">
                                     <label class="form-label">Password</label>
@@ -151,8 +154,11 @@
                                         <span class="input-group-text bg-white border-end-0">
                                             <i class="bi bi-lock" style="color: var(--primary-color);"></i>
                                         </span>
-                                        <input type="password" name="password" class="form-control border-start-0" placeholder="Enter your password" required>
+                                        <input type="password" name="password" class="form-control border-start-0 @error('password') is-invalid @enderror" placeholder="Enter your password" required>
                                     </div>
+                                    @error('password')
+                                    <div class="text-danger small mt-1">{{ $message }}</div>
+                                    @enderror
                                 </div>
                                 <div class="mb-3 form-check">
                                     <input type="checkbox" name="remember" class="form-check-input" id="remember">
