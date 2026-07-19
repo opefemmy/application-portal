@@ -102,8 +102,8 @@ try {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     echo "✓ form_fields\n";
 
-    // APPLICATION TYPE FORM FIELD (pivot)
-    \DB::statement("CREATE TABLE `application_type_form_field` (
+    // APPLICATION TYPE FIELDS (pivot) - MUST BE THIS NAME
+    \DB::statement("CREATE TABLE `application_type_fields` (
         `application_type_id` bigint UNSIGNED NOT NULL,
         `form_field_id` bigint UNSIGNED NOT NULL,
         `is_enabled` tinyint(1) DEFAULT 1,
@@ -113,7 +113,7 @@ try {
         FOREIGN KEY (`application_type_id`) REFERENCES `application_types`(`id`) ON DELETE CASCADE,
         FOREIGN KEY (`form_field_id`) REFERENCES `form_fields`(`id`) ON DELETE CASCADE
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
-    echo "✓ application_type_form_field\n";
+    echo "✓ application_type_fields\n";
 
     // APPLICATIONS (with SoftDeletes)
     \DB::statement("CREATE TABLE `applications` (
