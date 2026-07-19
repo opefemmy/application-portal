@@ -167,11 +167,11 @@ try {
     // NOTIFICATIONS
     \DB::statement("CREATE TABLE `notifications` (
         `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-        `user_id` bigint UNSIGNED,
-        `user_type` varchar(50),
+        `type` varchar(255) NOT NULL,
         `title` varchar(255) NOT NULL,
         `message` text NOT NULL,
         `is_read` tinyint(1) DEFAULT 0,
+        `data` json,
         `created_at` timestamp NULL,
         `updated_at` timestamp NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
