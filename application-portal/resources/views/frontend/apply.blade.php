@@ -207,11 +207,15 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label class="form-label required-label">State of Origin</label>
-                                    <input type="text" name="state_of_origin" class="form-control" required>
+                                    <select name="state_of_origin" id="state_of_origin" class="form-select" required>
+                                        <option value="">Select State</option>
+                                    </select>
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-4" id="lga-container">
                                     <label class="form-label required-label">Local Government</label>
-                                    <input type="text" name="local_government" class="form-control" required>
+                                    <select name="local_government" id="local_government" class="form-control" required disabled>
+                                        <option value="">Select Local Government</option>
+                                    </select>
                                 </div>
                                 <div class="col-md-6">
                                     <label class="form-label required-label">Residential Address</label>
@@ -693,4 +697,5 @@
         col.querySelector('.file-upload-zone').classList.remove('has-file');
     }
 </script>
+<script src="{{ asset('js/nigerian-lgas.js') }}"></script>
 @endsection
