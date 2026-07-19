@@ -32,13 +32,21 @@ try {
     $dbName = \DB::connection()->getDatabaseName();
     echo "[2] Database: $dbName\n\n";
 
-    // Drop all tables
+    // Drop all tables with foreign key checks disabled
     echo "[3] Dropping tables...\n";
+    \DB::statement('SET FOREIGN_KEY_CHECKS = 0');
+
     $tables = \DB::select('SHOW TABLES');
     foreach ($tables as $table) {
         $tableName = array_values((array)$table)[0];
-        \DB::statement("DROP TABLE IF EXISTS `$tableName`");
+        try {
+            \DB::statement("DROP TABLE IF EXISTS `$tableName`");
+        } catch (Exception $e) {
+            // Ignore errors
+        }
     }
+
+    \DB::statement('SET FOREIGN_KEY_CHECKS = 1');
     echo "✓ All tables dropped\n\n";
 
     // Create tables using DIRECT SQL
