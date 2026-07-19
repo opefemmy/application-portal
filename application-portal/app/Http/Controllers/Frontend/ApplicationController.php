@@ -96,13 +96,13 @@ class ApplicationController extends Controller
             'other_documents.*' => 'mimes:pdf,jpg,jpeg,png|max:5120',
         ]);
 
-        // Check for duplicate email or phone
-        $existingEmail = Application::where('personal_info->email', $validated['email'])->exists();
+        // Check for duplicate email or phone (MariaDB compatible)
+        $existingEmail = Application::whereRaw('JSON_UNQUOTE(JSON_EXTRACT(personal_info, "$.email")) = ?', [$validated['email']])->exists();
         if ($existingEmail) {
             return back()->with('error', 'An application with this email already exists.')->withInput();
         }
 
-        $existingPhone = Application::where('personal_info->phone_number', $validated['phone_number'])->exists();
+        $existingPhone = Application::whereRaw('JSON_UNQUOTE(JSON_EXTRACT(personal_info, "$.phone_number")) = ?', [$validated['phone_number']])->exists();
         if ($existingPhone) {
             return back()->with('error', 'An application with this phone number already exists.')->withInput();
         }

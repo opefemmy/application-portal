@@ -101,6 +101,27 @@
                 <div class="card-custom p-4">
                     <h2 class="text-center mb-4">Application Form</h2>
 
+                    <!-- Error Message -->
+                    @if(session('error'))
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>{{ session('error') }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    @endif
+
+                    <!-- Validation Errors -->
+                    @if($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <i class="bi bi-exclamation-circle me-2"></i>Please correct the errors below:
+                        <ul class="mb-0 mt-2">
+                            @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                    </div>
+                    @endif
+
                     <!-- Progress Indicator -->
                     <div class="progress-indicator">
                         <div class="progress-step active" data-step="1">
@@ -333,22 +354,25 @@
                         <div class="wizard-step" data-step="4">
                             <h4 class="mb-4"><i class="bi bi-file-earmark-text me-2"></i>Application Details</h4>
                             <div class="row g-3">
-                                @if(count($programmes ?? []) > 0)
                                 <div class="col-md-6">
-                                    <label class="form-label required-label">Select Programme Applying For</label>
+                                    <label class="form-label required-label">Position Applying For</label>
                                     <select name="position_applying_for" class="form-select" required>
-                                        <option value="">Select a programme</option>
-                                        @foreach($programmes as $prog)
-                                        <option value="{{ $prog['name'] }}">{{ $prog['code'] }} - {{ $prog['name'] }}</option>
-                                        @endforeach
+                                        <option value="">Select a position</option>
+                                        @if(count($programmes ?? []) > 0)
+                                            @foreach($programmes as $prog)
+                                            <option value="{{ $prog['name'] }}">{{ $prog['code'] }} - {{ $prog['name'] }}</option>
+                                            @endforeach
+                                        @else
+                                            <option value="NCE">NCE - Nigeria Certificate in Education</option>
+                                            <option value="ND">ND - National Diploma</option>
+                                            <option value="HND">HND - Higher National Diploma</option>
+                                            <option value="PGDE">PGDE - Postgraduate Diploma in Education</option>
+                                            <option value="Bachelor">Bachelor Degree (B.Ed, B.Sc, B.A)</option>
+                                            <option value="Masters">Master's Degree (M.Ed, M.Sc, M.A)</option>
+                                            <option value="PhD">Doctor of Philosophy (PhD)</option>
+                                        @endif
                                     </select>
                                 </div>
-                                @else
-                                <div class="col-md-6">
-                                    <label class="form-label required-label">Position/Programme Applying For</label>
-                                    <input type="text" name="position_applying_for" class="form-control" required>
-                                </div>
-                                @endif
                                 <div class="col-md-6">
                                     <label class="form-label">Programme Applying For</label>
                                     <input type="text" name="programme_applying_for" class="form-control">
