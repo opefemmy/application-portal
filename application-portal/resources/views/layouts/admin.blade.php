@@ -244,7 +244,11 @@
     <!-- Sidebar -->
     <aside class="sidebar">
         <div class="sidebar-brand">
-            <h4><i class="bi bi-mortarboard-fill me-2"></i>EKSCOTECH</h4>
+            @if(($settings['logo'] ?? false))
+                <img src="{{ asset($settings['logo']) }}" alt="Logo" style="height: 40px;" class="mb-2">
+            @else
+                <h4><i class="bi bi-mortarboard-fill me-2"></i>EKSCOTECH</h4>
+            @endif
             <small style="color: var(--accent);">Admin Portal</small>
         </div>
         <div class="sidebar-menu">

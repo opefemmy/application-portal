@@ -103,7 +103,7 @@
                         <div class="col-lg-5 d-none d-lg-block login-image">
                             <div class="brand-overlay">
                                 @if($settings['logo'] ?? false)
-                                    <img src="{{ asset($settings['logo']) }}" alt="Logo" height="60" class="mb-3">
+                                    <img src="{{ asset($settings['logo']) }}" alt="Logo" style="max-height: 80px;" class="mb-3">
                                 @else
                                     <i class="bi bi-mortarboard-fill fs-1 mb-3"></i>
                                 @endif

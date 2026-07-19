@@ -202,7 +202,11 @@
     <nav class="navbar navbar-expand-lg navbar-dark sticky-top">
         <div class="container">
             <a class="navbar-brand" href="{{ route('home') }}">
-                <i class="bi bi-mortarboard-fill me-2"></i>
+                @if(($settings['logo'] ?? false))
+                    <img src="{{ asset($settings['logo']) }}" alt="Logo" style="height: 35px;" class="me-2">
+                @else
+                    <i class="bi bi-mortarboard-fill me-2"></i>
+                @endif
                 {{ $settings['portal_name'] ?? 'Application Portal' }}
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
