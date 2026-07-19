@@ -30,22 +30,8 @@ class Setting extends Model
 
     public static function isPortalOpen()
     {
-        $now = now();
-        $openDate = self::get('portal_open_date');
-        $closeDate = self::get('portal_close_date');
-
-        if (!$openDate && !$closeDate) {
-            return true;
-        }
-
-        if ($openDate && $now->lt($openDate)) {
-            return false;
-        }
-
-        if ($closeDate && $now->gt($closeDate)) {
-            return false;
-        }
-
+        // Always return true to keep portal open for applications
+        // Remove or comment the date-based logic if you want to control via dates
         return true;
     }
 }

@@ -69,13 +69,13 @@ class ApplicationController extends Controller
         $applications = $query->paginate(20);
 
         $states = Application::distinct()
-            ->selectRaw('personal_info->>"$.state_of_origin" as state')
+            ->selectRaw('JSON_UNQUOTE(JSON_EXTRACT(personal_info, "$.state_of_origin")) as state')
             ->pluck('state')
             ->filter()
             ->values();
 
         $qualifications = Application::distinct()
-            ->selectRaw('academic_info->>"$.highest_qualification" as qualification')
+            ->selectRaw('JSON_UNQUOTE(JSON_EXTRACT(academic_info, "$.highest_qualification")) as qualification')
             ->pluck('qualification')
             ->filter()
             ->values();
