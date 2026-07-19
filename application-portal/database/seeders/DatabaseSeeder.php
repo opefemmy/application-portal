@@ -75,8 +75,8 @@ class DatabaseSeeder extends Seeder
         // Create Settings
         $settings = [
             ['key' => 'portal_name', 'value' => 'Online Application Portal'],
-            ['key' => 'institution_name', 'value' => 'Institution Name'],
-            ['key' => 'contact_email', 'value' => 'contact@institution.com'],
+            ['key' => 'institution_name', 'value' => 'EKSCOTECH'],
+            ['key' => 'contact_email', 'value' => 'contact@ekscotech.edu.ng'],
             ['key' => 'phone_number', 'value' => '+2341234567890'],
             ['key' => 'application_prefix', 'value' => 'APP'],
             ['key' => 'portal_open_date', 'value' => '2024-01-01'],
@@ -86,6 +86,15 @@ class DatabaseSeeder extends Seeder
             ['key' => 'allowed_file_types', 'value' => 'pdf,jpg,jpeg,png'],
             ['key' => 'maintenance_mode', 'value' => '0'],
             ['key' => 'maintenance_message', 'value' => ''],
+            ['key' => 'programmes', 'value' => json_encode([
+                ['code' => 'NCE', 'name' => 'Nigeria Certificate in Education', 'is_active' => true, 'sort_order' => 1],
+                ['code' => 'ND', 'name' => 'National Diploma', 'is_active' => true, 'sort_order' => 2],
+                ['code' => 'HND', 'name' => 'Higher National Diploma', 'is_active' => true, 'sort_order' => 3],
+                ['code' => 'PGDE', 'name' => 'Postgraduate Diploma in Education', 'is_active' => true, 'sort_order' => 4],
+                ['code' => 'BACHELOR', 'name' => 'Bachelor Degree', 'is_active' => true, 'sort_order' => 5],
+                ['code' => 'MASTERS', 'name' => "Master's Degree", 'is_active' => true, 'sort_order' => 6],
+                ['code' => 'PHD', 'name' => 'Doctor of Philosophy', 'is_active' => true, 'sort_order' => 7],
+            ])],
         ];
 
         foreach ($settings as $setting) {

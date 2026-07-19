@@ -70,6 +70,24 @@ class ApplicationTypeSeeder extends Seeder
             'sort_order' => 2,
         ]);
 
+        // Create Scholarship Application type
+        $scholarshipType = ApplicationType::create([
+            'name' => 'Scholarship Application',
+            'slug' => 'scholarship',
+            'description' => 'Application for scholarships and grants',
+            'is_active' => true,
+            'sort_order' => 3,
+        ]);
+
+        // Create Training Application type
+        $trainingType = ApplicationType::create([
+            'name' => 'Training Application',
+            'slug' => 'training',
+            'description' => 'Application for training programmes',
+            'is_active' => true,
+            'sort_order' => 4,
+        ]);
+
         // Attach fields to Academic type
         $order = 1;
         foreach ($personalFields as $field) {
