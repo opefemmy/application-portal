@@ -55,7 +55,10 @@
         <div class="stat-card mb-4">
             <h5 class="mb-3">Quick Actions</h5>
             <div class="d-grid gap-2">
-                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#shortlistModal">
+                <button class="btn btn-success" data-bs-toggle="modal" data-bs-target="#acceptModal">
+                    <i class="bi bi-check2-circle me-2"></i>Send Acceptance Email
+                </button>
+                <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#shortlistModal">
                     <i class="bi bi-check-circle me-2"></i>Send Shortlist Email
                 </button>
                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
@@ -248,6 +251,59 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-danger">Send Rejection Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Accept Modal -->
+<div class="modal fade" id="acceptModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Send Acceptance Email</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ route('admin.applications.accept', $application->id) }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Position/Role</label>
+                        <input type="text" name="position" class="form-control" placeholder="e.g. Software Engineer">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Department</label>
+                        <input type="text" name="department" class="form-control" placeholder="e.g. IT Department">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Start Date</label>
+                        <input type="date" name="start_date" class="form-control">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reporting Venue</label>
+                        <input type="text" name="venue" class="form-control" placeholder="e.g. Main Office, Floor 3">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contact Person</label>
+                        <input type="text" name="contact_person" class="form-control" placeholder="Name of contact person">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contact Email</label>
+                        <input type="email" name="contact_email" class="form-control" placeholder="hr@institution.com">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Contact Phone</label>
+                        <input type="text" name="contact_phone" class="form-control" placeholder="+2341234567890">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Additional Message</label>
+                        <textarea name="additional_message" class="form-control" rows="3" placeholder="Any additional information..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-success">Send Acceptance Email</button>
                 </div>
             </form>
         </div>

@@ -55,6 +55,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::post('/applications/bulk-status', [ApplicationController::class, 'bulkUpdateStatus'])->name('applications.bulk-status');
         Route::post('/applications/{application}/shortlist', [ApplicationController::class, 'sendShortlistEmail'])->name('applications.shortlist');
         Route::post('/applications/{application}/reject', [ApplicationController::class, 'sendRejectionEmail'])->name('applications.reject');
+        Route::post('/applications/{application}/accept', [ApplicationController::class, 'sendAcceptanceEmail'])->name('applications.accept');
         Route::get('/applications/{application}/print', [ApplicationController::class, 'print'])->name('applications.print');
         Route::delete('/applications/{application}', [ApplicationController::class, 'destroy'])->name('applications.destroy');
         Route::post('/applications/bulk-delete', [ApplicationController::class, 'bulkDestroy'])->name('applications.bulk-delete');

@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationReceived;
 use App\Mail\ShortlistEmail;
 use App\Mail\RejectionEmail;
+use App\Mail\AcceptanceEmail;
 use Carbon\Carbon;
 use ZipArchive;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -174,6 +175,30 @@ class ApplicationController extends Controller
         }
 
         return back()->with('success', 'Rejection email sent successfully.');
+    }
+
+    public function sendAcceptanceEmail(Request $request, Application $application)
+    {
+        $request->validate([
+            'position' => 'nullable|string',
+            'department' => 'nullable|string',
+            'start_date' => 'nullable|date',
+            'venue' => 'nullable|string',
+            'contact_person' => 'nullable|string',
+            'contact_email' => 'nullable|email',
+            'contact_phone' => 'nullable|string',
+            'additional_message' => 'nullable|string',
+        ]);
+
+        try {
+            Mail::to($application->email)->send(new AcceptanceEmail($application, $request->all()));
+            $application->update(['status' => 'accepted']);
+            ActivityLog::log('email_sent', "Acceptance email sent to {$application->email}");
+        } catch (\Exception $e) {
+            return back()->with('error', 'Failed to send email: ' . $e->getMessage());
+        }
+
+        return back()->with('success', 'Acceptance email sent successfully.');
     }
 
     public function downloadDocument(ApplicationDocument $document)
