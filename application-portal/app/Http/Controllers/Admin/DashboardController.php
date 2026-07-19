@@ -36,15 +36,15 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->get();
 
-        // Applications by state
-        $applicationsByState = Application::selectRaw('personal_info->>"$.state_of_origin" as state, COUNT(*) as count')
+        // Applications by state - MariaDB compatible
+        $applicationsByState = Application::selectRaw('JSON_UNQUOTE(JSON_EXTRACT(personal_info, "$.state_of_origin")) as state, COUNT(*) as count')
             ->groupBy('state')
             ->orderByDesc('count')
             ->limit(10)
             ->get();
 
-        // Applications by qualification
-        $applicationsByQualification = Application::selectRaw('academic_info->>"$.highest_qualification" as qualification, COUNT(*) as count')
+        // Applications by qualification - MariaDB compatible
+        $applicationsByQualification = Application::selectRaw('JSON_UNQUOTE(JSON_EXTRACT(academic_info, "$.highest_qualification")) as qualification, COUNT(*) as count')
             ->groupBy('qualification')
             ->orderByDesc('count')
             ->get();
