@@ -207,8 +207,11 @@ try {
         `user_type` varchar(50),
         `action` varchar(255) NOT NULL,
         `description` text,
-        `metadata` json,
-        `created_at` timestamp NULL,
+        `old_values` json,
+        `new_values` json,
+        `ip_address` varchar(45),
+        `user_agent` text,
+        `created_at` timestamp NOT NULL,
         `updated_at` timestamp NULL
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     echo "✓ activity_logs\n\n";
@@ -249,13 +252,13 @@ try {
         ['key' => 'secondary_color', 'value' => '#4052a0', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'accent_color', 'value' => '#fcb900', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'programmes', 'value' => json_encode([
-            ['code' => 'NCE', 'name' => 'Nigeria Certificate in Education', 'is_active' => true, 'sort_order' => 1],
-            ['code' => 'ND', 'name' => 'National Diploma', 'is_active' => true, 'sort_order' => 2],
-            ['code' => 'HND', 'name' => 'Higher National Diploma', 'is_active' => true, 'sort_order' => 3],
-            ['code' => 'PGDE', 'name' => 'Postgraduate Diploma in Education', 'is_active' => true, 'sort_order' => 4],
-            ['code' => 'BACHELOR', 'name' => 'Bachelor Degree', 'is_active' => true, 'sort_order' => 5],
-            ['code' => 'MASTERS', 'name' => "Master's Degree", 'is_active' => true, 'sort_order' => 6],
-            ['code' => 'PHD', 'name' => 'Doctor of Philosophy', 'is_active' => true, 'sort_order' => 7],
+            ['code' => 'NCE', 'name' => 'Nigeria Certificate in Education', 'department' => 'Education', 'is_active' => true, 'sort_order' => 1],
+            ['code' => 'ND', 'name' => 'National Diploma', 'department' => 'Various', 'is_active' => true, 'sort_order' => 2],
+            ['code' => 'HND', 'name' => 'Higher National Diploma', 'department' => 'Various', 'is_active' => true, 'sort_order' => 3],
+            ['code' => 'PGDE', 'name' => 'Postgraduate Diploma in Education', 'department' => 'Education', 'is_active' => true, 'sort_order' => 4],
+            ['code' => 'BACHELOR', 'name' => 'Bachelor Degree', 'department' => 'Various', 'is_active' => true, 'sort_order' => 5],
+            ['code' => 'MASTERS', 'name' => "Master's Degree", 'department' => 'Various', 'is_active' => true, 'sort_order' => 6],
+            ['code' => 'PHD', 'name' => 'Doctor of Philosophy', 'department' => 'Research', 'is_active' => true, 'sort_order' => 7],
         ]), 'created_at' => now(), 'updated_at' => now()],
     ]);
     echo "✓ 10 settings (including programmes)\n";
