@@ -102,16 +102,19 @@ try {
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     echo "✓ form_fields\n";
 
-    // APPLICATION TYPE FIELDS (pivot) - MUST BE THIS NAME
+    // APPLICATION TYPE FIELDS (pivot) - MUST MATCH MIGRATION
     \DB::statement("CREATE TABLE `application_type_fields` (
+        `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
         `application_type_id` bigint UNSIGNED NOT NULL,
         `form_field_id` bigint UNSIGNED NOT NULL,
         `is_enabled` tinyint(1) DEFAULT 1,
         `is_required` tinyint(1) DEFAULT 0,
         `sort_order` int DEFAULT 0,
-        PRIMARY KEY (`application_type_id`, `form_field_id`),
+        `created_at` timestamp NULL,
+        `updated_at` timestamp NULL,
         FOREIGN KEY (`application_type_id`) REFERENCES `application_types`(`id`) ON DELETE CASCADE,
-        FOREIGN KEY (`form_field_id`) REFERENCES `form_fields`(`id`) ON DELETE CASCADE
+        FOREIGN KEY (`form_field_id`) REFERENCES `form_fields`(`id`) ON DELETE CASCADE,
+        UNIQUE KEY `application_type_fields_application_type_id_form_field_id_unique` (`application_type_id`, `form_field_id`)
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
     echo "✓ application_type_fields\n";
 
