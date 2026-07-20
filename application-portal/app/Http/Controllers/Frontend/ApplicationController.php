@@ -266,11 +266,12 @@ class ApplicationController extends Controller
     public function downloadAcknowledge(Application $application)
     {
         try {
-            // Use dompdf directly
+            // Use dompdf v2.0
             $options = new \Dompdf\Options();
-            $options->set('isRemoteEnabled', true);
+            $options->setIsRemoteEnabled(true);
 
-            $dompdf = new \Dompdf\Dompdf($options);
+            $dompdf = new \Dompdf\Dompdf();
+            $dompdf->setOptions($options);
 
             // Render the view to HTML
             $html = view('frontend.application-form-pdf', [
