@@ -128,20 +128,20 @@
 <div class="section py-5">
     <div class="container">
         <div class="acknowledge-card p-5">
-            <!-- QR Code - Top Right -->
+            <!-- Applicant Passport - Top Right -->
             <div class="qr-code-container no-print">
-                <div class="qr-code">
-                    <img src="https://quickchart.io/qr?size=100x100&data={{ $application->application_number }}" alt="QR Code" onerror="this.style.display='none'">
+                <div class="qr-code" style="width:100px;height:120px;">
+                    @php
+                    $passportDoc = $application->documents->where('document_type', 'Passport Photograph')->first();
+                    @endphp
+                    @if($passportDoc)
+                    <img src="{{ asset('storage/' . $passportDoc->file_path) }}" alt="Passport Photo" style="width:100%;height:100%;object-fit:cover;">
+                    @else
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;border:1px solid #ddd;">
+                        <span class="text-muted">No Photo</span>
+                    </div>
+                    @endif
                 </div>
-            </div>
-
-            <!-- Print Header - Shows only when printing -->
-            <div class="print-header">
-                @if(!empty($settings['logo']))
-                <img src="{{ asset($settings['logo']) }}" alt="Institution Logo">
-                @endif
-                <h4>{{ $settings['institution_name'] ?? 'Institution Name' }}</h4>
-                <p>{{ $settings['portal_name'] ?? 'Online Application Portal' }}</p>
             </div>
 
             <div class="text-center mb-4">
@@ -190,24 +190,14 @@
                 </div>
             </div>
 
-            <div class="text-center mb-4 no-print">
-                <p class="small text-muted">Scan QR code or use application number to track your application</p>
-            </div>
-
             <div class="alert alert-info">
                 <h6><i class="bi bi-envelope me-2"></i>Check Your Email</h6>
                 <p class="mb-0">A confirmation email has been sent to <strong>{{ $application->email }}</strong>. Please check your inbox (and spam folder) for further updates.</p>
             </div>
 
             <div class="d-grid gap-2 no-print">
-                <button onclick="window.print()" class="btn btn-primary-custom">
-                    <i class="bi bi-printer me-2"></i>Print Acknowledgement
-                </button>
-                <a href="{{ route('application.download', $application->id) }}" class="btn btn-outline-primary">
-                    <i class="bi bi-printer me-2"></i>Print / Save as PDF
-                </a>
-                <a href="{{ route('track') }}" class="btn btn-outline-secondary">
-                    <i class="bi bi-search me-2"></i>Track Application
+                <a href="{{ route('application.download', $application->id) }}" class="btn btn-primary-custom">
+                    <i class="bi bi-download me-2"></i>Download Application Form (PDF)
                 </a>
             </div>
         </div>

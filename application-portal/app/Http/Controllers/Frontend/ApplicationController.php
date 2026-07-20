@@ -266,7 +266,7 @@ class ApplicationController extends Controller
         require_once base_path('vendor/dompdf/dompdf/src/Dompdf.php');
 
         $dompdf = new \Dompdf\Dompdf();
-        $dompdf->loadHtml(view('frontend.acknowledge-pdf', compact('application'))->render());
+        $dompdf->loadHtml(view('frontend.application-form-pdf', compact('application'))->render());
         $dompdf->setPaper('A4', 'portrait');
         return $dompdf->stream('application-' . $application->application_number . '.pdf');
     }
