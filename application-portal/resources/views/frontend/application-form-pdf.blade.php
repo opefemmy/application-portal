@@ -362,7 +362,6 @@
             <div class="passport-section">
                 <div class="passport-photo">
                     @php
-                    @php
                     $passportDoc = $application->documents->filter(function($doc) {
                         return stripos($doc->document_type, 'passport') !== false;
                     })->first();
