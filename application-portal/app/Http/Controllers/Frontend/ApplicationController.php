@@ -264,13 +264,18 @@ class ApplicationController extends Controller
             }
         }
 
-        // Create notification for admin
-        Notification::createNotification(
-            'new_application',
-            'New Application Received',
-            "New application {$applicationNumber} from {$personalInfo['first_name']} {$personalInfo['last_name']}",
-            ['application_id' => $application->id, 'application_number' => $applicationNumber]
-        );
+        // Create notification for admin (wrapped in try-catch for database compatibility)
+        try {
+            Notification::createNotification(
+                'new_application',
+                'New Application Received',
+                "New application {$applicationNumber} from {$personalInfo['first_name']} {$personalInfo['last_name']}",
+                ['application_id' => $application->id, 'application_number' => $applicationNumber]
+            );
+        } catch (\Exception $e) {
+            // Log but don't fail - notification is not critical
+            \Log::warning('Failed to create notification: ' . $e->getMessage());
+        }
 
         // Send confirmation email
         try {
