@@ -12,6 +12,8 @@ class VerifyCsrfToken extends Middleware
         'admin/login',
         'admin/logout',
         'apply',
+        'apply/submit',
         'apply/*',
+        'test-app-number',
     ];
 }
