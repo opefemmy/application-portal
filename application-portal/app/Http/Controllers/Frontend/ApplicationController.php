@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Mail;
 use App\Mail\ApplicationReceived;
 use Illuminate\Support\Str;
 use App\Models\ApplicationType;
+use App\Models\FormField;
 use Carbon\Carbon;
 
 class ApplicationController extends Controller
@@ -26,11 +27,36 @@ class ApplicationController extends Controller
 
         $applicationTypes = ApplicationType::active()->with('formFields')->get();
 
+        // Get the first application type for field configuration
+        $selectedType = $applicationTypes->first();
+
+        // Get form fields with application type configuration
+        $formFields = [];
+        if ($selectedType) {
+            $typeFieldConfigs = $selectedType->formFields->keyBy('id');
+
+            $sections = ['personal', 'academic', 'employment', 'details'];
+            foreach ($sections as $section) {
+                $fields = FormField::where('section', $section)
+                    ->where('is_visible', true)
+                    ->orderBy('sort_order')
+                    ->get()
+                    ->map(function ($field) use ($typeFieldConfigs) {
+                        $config = $typeFieldConfigs->get($field->id);
+                        $field->is_enabled = $config ? $config->pivot->is_enabled : true;
+                        $field->is_required = $config ? $config->pivot->is_required : $field->is_required;
+                        return $field;
+                    })
+                    ->filter(fn($field) => $field->is_enabled);
+                $formFields[$section] = $fields;
+            }
+        }
+
         // Get active programmes
         $programmesData = json_decode(Setting::get('programmes', '[]'), true);
         $programmes = collect($programmesData)->where('is_active', true)->values()->all();
 
-        return view('frontend.apply', compact('applicationTypes', 'programmes'));
+        return view('frontend.apply', compact('applicationTypes', 'programmes', 'formFields'));
     }
 
     public function submit(Request $request)
@@ -39,50 +65,19 @@ class ApplicationController extends Controller
             return redirect()->route('home')->with('error', 'Application portal is closed.');
         }
 
-        // Validate basic fields
-        $validated = $request->validate([
+        // Get field configurations for validation
+        $applicationType = ApplicationType::with('formFields')->find($request->application_type_id);
+        $fieldConfigs = $applicationType ? $applicationType->formFields->keyBy('id') : collect();
+
+        // Build dynamic validation rules
+        $validationRules = [
             // Application Type
             'application_type_id' => 'required|exists:application_types,id',
-
-            // Personal Information
-            'first_name' => 'required|string|max:100',
-            'middle_name' => 'nullable|string|max:100',
-            'last_name' => 'required|string|max:100',
-            'gender' => 'required|in:male,female',
-            'date_of_birth' => 'required|date',
-            'marital_status' => 'required|in:single,married,divorced,widowed',
-            'nationality' => 'required|string|max:100',
-            'state_of_origin' => 'required|string|max:100',
-            'local_government' => 'required|string|max:100',
-            'residential_address' => 'required|string',
-            'postal_address' => 'nullable|string',
-            'phone_number' => 'required|string|max:20',
-            'alternative_phone' => 'nullable|string|max:20',
-            'email' => 'required|email|max:255',
-
-            // Academic Information
-            'highest_qualification' => 'required|string|max:200',
-            'institution_attended' => 'required|string|max:200',
-            'course_studied' => 'required|string|max:200',
-            'grade_class' => 'required|string|max:50',
-            'graduation_year' => 'required|digits:4|integer|min:1950|max:' . date('Y'),
-
-            // Employment Information
-            'employment' => 'nullable|array',
-            'employment.*.employer' => 'nullable|string|max:200',
-            'employment.*.position' => 'nullable|string|max:100',
-            'employment.*.years_experience' => 'nullable|integer|min:0',
-
-            // Application Details
-            'position_applying_for' => 'required|string|max:200',
-            'programme_applying_for' => 'nullable|string|max:200',
-            'department' => 'nullable|string|max:200',
-            'category' => 'nullable|string|max:100',
 
             // Declaration
             'declaration' => 'accepted',
 
-            // Documents
+            // Documents - keep these required for now
             'passport_photograph' => 'required|image|mimes:jpg,jpeg,png|max:2048',
             'birth_certificate' => 'required|mimes:pdf,jpg,jpeg,png|max:5120',
             'lg_certificate' => 'required|mimes:pdf,jpg,jpeg,png|max:5120',
@@ -94,7 +89,47 @@ class ApplicationController extends Controller
             'recommendation_letter' => 'nullable|mimes:pdf|max:5120',
             'other_documents' => 'nullable|array|max:5',
             'other_documents.*' => 'mimes:pdf,jpg,jpeg,png|max:5120',
-        ]);
+        ];
+
+        // Add employment validation
+        $validationRules['employment'] = 'nullable|array';
+        $validationRules['employment.*.employer'] = 'nullable|string|max:200';
+        $validationRules['employment.*.position'] = 'nullable|string|max:100';
+        $validationRules['employment.*.years_experience'] = 'nullable|integer|min:0';
+
+        // Get all visible form fields and add validation based on config
+        $allFields = FormField::where('is_visible', true)->get();
+        foreach ($allFields as $field) {
+            $config = $fieldConfigs->get($field->id);
+            $isRequired = $config ? $config->pivot->is_required : $field->is_required;
+
+            // Determine validation rule
+            $rule = $isRequired ? 'required' : 'nullable';
+
+            // Add field-specific validation rules
+            switch ($field->field_type) {
+                case 'email':
+                    $validationRules[$field->field_name] = $rule . '|email|max:255';
+                    break;
+                case 'number':
+                    $validationRules[$field->field_name] = $rule . '|numeric';
+                    break;
+                case 'date':
+                    $validationRules[$field->field_name] = $rule . '|date';
+                    break;
+                case 'select':
+                    $validationRules[$field->field_name] = $rule . '|string|max:200';
+                    break;
+                case 'textarea':
+                    $validationRules[$field->field_name] = $rule . '|string';
+                    break;
+                default:
+                    $validationRules[$field->field_name] = $rule . '|string|max:255';
+            }
+        }
+
+        // Validate fields
+        $validated = $request->validate($validationRules);
 
         // Check for duplicate email or phone (MariaDB compatible)
         $existingEmail = Application::whereRaw('JSON_UNQUOTE(JSON_EXTRACT(personal_info, "$.email")) = ?', [$validated['email']])->exists();

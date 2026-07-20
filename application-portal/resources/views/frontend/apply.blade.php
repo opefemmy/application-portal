@@ -153,11 +153,11 @@
                     <form id="applicationForm" method="POST" action="{{ route('apply.submit') }}" enctype="multipart/form-data">
                         @csrf
 
-                        <input type="hidden" name="application_type_id" id="application_type_id" value="">
+                        <input type="hidden" name="application_type_id" id="application_type_id" value="{{ $applicationTypes->first()->id ?? '' }}">
 
-                        <!-- Application Type Selection -->
-                        @if($applicationTypes->count() > 0)
-                        <div class="wizard-step active" data-step="0">
+                        <!-- Application Type Selection - Hidden when only one type -->
+                        @if($applicationTypes->count() > 1)
+                        <div class="wizard-step" data-step="0">
                             <h4 class="mb-4"><i class="bi bi-files-alt me-2"></i>Select Application Type</h4>
                             <div class="row g-3 mb-4">
                                 @foreach($applicationTypes as $type)
@@ -182,6 +182,17 @@
                                 </button>
                             </div>
                         </div>
+                        @else
+                        <script>
+                            // Auto-select the only application type
+                            document.addEventListener('DOMContentLoaded', function() {
+                                const typeId = '{{ $applicationTypes->first()->id ?? '' }}';
+                                if (typeId) {
+                                    selectedTypeId = typeId;
+                                    document.getElementById('application_type_id').value = typeId;
+                                }
+                            });
+                        </script>
                         @endif
 
                         <!-- Step 1: Personal Information -->
@@ -513,6 +524,70 @@
 
 @section('scripts')
 <script>
+    // Field configurations from database - for conditional rendering
+    const fieldConfigs = {
+        personal: @json($formFields['personal']->mapWithKeys(fn($f) => [$f->field_name => ['visible' => true, 'required' => $f->is_required]])),
+        academic: @json($formFields['academic']->mapWithKeys(fn($f) => [$f->field_name => ['visible' => true, 'required' => $f->is_required]])),
+        employment: @json($formFields['employment']->mapWithKeys(fn($f) => [$f->field_name => ['visible' => true, 'required' => $f->is_required]])),
+        details: @json($formFields['details']->mapWithKeys(fn($f) => [$f->field_name => ['visible' => true, 'required' => $f->is_required]])),
+    };
+
+    // Function to update field visibility based on config
+    function applyFieldConfigs() {
+        // Personal fields
+        Object.keys(fieldConfigs.personal).forEach(fieldName => {
+            const config = fieldConfigs.personal[fieldName];
+            const element = document.querySelector(`[name="${fieldName}"]`);
+            if (element) {
+                const container = element.closest('.col-md-4, .col-md-6, .col-md-12') || element.closest('.row, .mb-3');
+                if (container) {
+                    container.style.display = config.visible ? '' : 'none';
+                }
+            }
+        });
+
+        // Academic fields
+        Object.keys(fieldConfigs.academic).forEach(fieldName => {
+            const config = fieldConfigs.academic[fieldName];
+            const element = document.querySelector(`[name="${fieldName}"]`);
+            if (element) {
+                const container = element.closest('.col-md-4, .col-md-6, .col-md-3');
+                if (container) {
+                    container.style.display = config.visible ? '' : 'none';
+                }
+            }
+        });
+
+        // Employment fields - handle the dynamic employment entries
+        const employmentEntries = document.querySelectorAll('.employment-entry');
+        employmentEntries.forEach(entry => {
+            Object.keys(fieldConfigs.employment).forEach(fieldName => {
+                const element = entry.querySelector(`[name*="${fieldName}"]`);
+                if (element) {
+                    const container = element.closest('.col-md-4, .col-md-3, .col-md-1');
+                    if (container) {
+                        container.style.display = fieldConfigs.employment[fieldName]?.visible ? '' : 'none';
+                    }
+                }
+            });
+        });
+
+        // Details fields
+        Object.keys(fieldConfigs.details).forEach(fieldName => {
+            const config = fieldConfigs.details[fieldName];
+            const element = document.querySelector(`[name="${fieldName}"]`);
+            if (element) {
+                const container = element.closest('.col-md-6, .col-md-4');
+                if (container) {
+                    container.style.display = config.visible ? '' : 'none';
+                }
+            }
+        });
+    }
+
+    // Apply configs on page load
+    document.addEventListener('DOMContentLoaded', applyFieldConfigs);
+
     // Form Wizard
     let currentStep = 1;
     const totalSteps = 6;
@@ -702,12 +777,20 @@
         return true;
     }
 
+    // Initialize - hide step 0 if only one type
+    @if($applicationTypes->count() <= 1)
+    $(document).ready(function() {
+        currentStep = 1;
+        updateProgress();
+    });
+    @else
     // Initialize first type as selected if only one type
     @if($applicationTypes->count() === 1)
     $(document).ready(function() {
         const type = $applicationTypes.values()[0];
         selectApplicationType(type.id, { target: $('.application-type-card').first() });
     });
+    @endif
     @endif
 
     // Remove file function
