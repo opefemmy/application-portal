@@ -5,7 +5,7 @@
 @section('styles')
 <style>
     .acknowledge-card {
-        max-width: 650px;
+        max-width: 700px;
         margin: 0 auto;
         background: white;
         border-radius: 20px;
@@ -42,21 +42,66 @@
     .detail-row:last-child {
         border-bottom: none;
     }
-    /* QR Code in top right corner */
-    .qr-code-container {
+    /* Passport Photo in top right corner */
+    .passport-container {
         position: absolute;
         top: 15px;
         right: 15px;
     }
-    .qr-code {
+    .passport-photo-box {
+        width: 100px;
+        height: 120px;
         background: white;
-        padding: 10px;
+        padding: 5px;
         border-radius: 8px;
         border: 2px solid var(--primary);
     }
-    .qr-code img {
-        width: 80px;
-        height: 80px;
+    .passport-photo-box img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    /* QR Code in top left corner */
+    .qr-code-container {
+        position: absolute;
+        top: 15px;
+        left: 15px;
+    }
+    .qr-code-box {
+        width: 90px;
+        height: 90px;
+        background: white;
+        padding: 5px;
+        border-radius: 8px;
+        border: 2px solid var(--primary);
+    }
+    .qr-code-box img {
+        width: 100%;
+        height: 100%;
+    }
+    /* Institution Header */
+    .institution-header {
+        text-align: center;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+        border-bottom: 2px solid var(--primary);
+    }
+    .institution-logo {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 10px;
+        display: block;
+        object-fit: contain;
+    }
+    .institution-name {
+        font-size: 22px;
+        font-weight: bold;
+        color: var(--primary);
+        margin-bottom: 3px;
+    }
+    .portal-title {
+        font-size: 14px;
+        color: #666;
     }
     /* Watermark background - behind content */
     .watermark-container {
@@ -118,33 +163,73 @@
 @section('content')
 <!-- Watermark Background - Behind Content -->
 <div class="watermark-container">
-    @if(!empty($settings['logo']))
-    <img src="{{ asset($settings['logo']) }}" alt="Watermark" class="watermark-image">
-    @elseif(file_exists(public_path('images/logo.png')))
-    <img src="{{ asset('images/logo.png') }}" alt="Watermark" class="watermark-image">
+    @php
+    $watermarkPath = null;
+    if (!empty($settings['logo'])) {
+        $watermarkPath = asset($settings['logo']);
+    } elseif (file_exists(public_path('images/logo.png'))) {
+        $watermarkPath = asset('images/logo.png');
+    } elseif (file_exists(public_path('images/logo.jpg'))) {
+        $watermarkPath = asset('images/logo.jpg');
+    }
+    @endphp
+    @if($watermarkPath)
+    <img src="{{ $watermarkPath }}" alt="Watermark" class="watermark-image">
     @endif
 </div>
 
 <div class="section py-5">
     <div class="container">
         <div class="acknowledge-card p-5">
-            <!-- Applicant Passport - Top Right -->
+            <!-- Institution Header -->
+            <div class="institution-header">
+                @php
+                $logoPath = null;
+                if (!empty($settings['logo'])) {
+                    $logoPath = asset($settings['logo']);
+                } elseif (file_exists(public_path('images/logo.png'))) {
+                    $logoPath = asset('images/logo.png');
+                } elseif (file_exists(public_path('images/logo.jpg'))) {
+                    $logoPath = asset('images/logo.jpg');
+                }
+                @endphp
+                @if($logoPath)
+                <img src="{{ $logoPath }}" alt="Institution Logo" class="institution-logo">
+                @endif
+                <div class="institution-name">{{ $settings['institution_name'] ?? 'EKSCOTECH' }}</div>
+                <div class="portal-title">{{ $settings['portal_name'] ?? 'Application Portal' }}</div>
+            </div>
+
+            <!-- QR Code - Top Left -->
             <div class="qr-code-container no-print">
-                <div class="qr-code" style="width:100px;height:120px;">
+                <div class="qr-code-box">
                     @php
-                    $passportDoc = $application->documents->where('document_type', 'Passport Photograph')->first();
+                    $qrData = 'APP:' . $application->application_number . '|' . $application->full_name . '|' . ($application->email ?? '');
+                    $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=80x80&data=' . urlencode($qrData);
+                    @endphp
+                    <img src="{{ $qrCodeUrl }}" alt="QR Code">
+                </div>
+            </div>
+
+            <!-- Applicant Passport - Top Right -->
+            <div class="passport-container no-print">
+                <div class="passport-photo-box">
+                    @php
+                    $passportDoc = $application->documents->filter(function($doc) {
+                        return stripos($doc->document_type, 'passport') !== false;
+                    })->first();
                     @endphp
                     @if($passportDoc)
-                    <img src="{{ asset('storage/' . $passportDoc->file_path) }}" alt="Passport Photo" style="width:100%;height:100%;object-fit:cover;">
+                    <img src="{{ asset('storage/' . $passportDoc->file_path) }}" alt="Passport Photo">
                     @else
-                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;border:1px solid #ddd;">
-                        <span class="text-muted">No Photo</span>
+                    <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;">
+                        <span class="text-muted small">No Photo</span>
                     </div>
                     @endif
                 </div>
             </div>
 
-            <div class="text-center mb-4">
+            <div class="text-center mb-4 mt-4">
                 <div class="success-icon mb-4">
                     <i class="bi bi-check-lg text-white fs-1"></i>
                 </div>

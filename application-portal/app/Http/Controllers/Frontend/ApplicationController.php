@@ -259,7 +259,8 @@ class ApplicationController extends Controller
 
     public function acknowledge(Application $application)
     {
-        return view('frontend.acknowledge', compact('application'));
+        $settings = \App\Models\Setting::getSettings();
+        return view('frontend.acknowledge', compact('application', 'settings'));
     }
 
     public function downloadAcknowledge(Application $application)

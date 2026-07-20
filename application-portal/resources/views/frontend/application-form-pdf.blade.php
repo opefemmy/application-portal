@@ -23,33 +23,87 @@
             margin: 0 auto;
             background: #fff;
         }
-        .form-title {
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            opacity: 0.08;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .watermark img {
+            width: 100%;
+            height: auto;
+        }
+        .form-header {
             text-align: center;
-            font-size: 16px;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 2px solid #2c3e50;
+        }
+        .header-logo {
+            width: 70px;
+            height: 70px;
+            margin: 0 auto 10px;
+            object-fit: contain;
+        }
+        .institution-name {
+            font-size: 20px;
             font-weight: bold;
-            margin-bottom: 5px;
+            color: #2c3e50;
             text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+        .portal-name {
+            font-size: 12px;
+            color: #555;
         }
         .app-number {
             text-align: center;
             background: #f0f0f0;
-            padding: 8px;
+            padding: 10px;
             margin-bottom: 15px;
             font-weight: bold;
             border: 1px solid #ccc;
         }
+        .app-number strong {
+            font-size: 14px;
+        }
+        .content-wrapper {
+            display: flex;
+            gap: 20px;
+        }
+        .main-content {
+            flex: 1;
+        }
         .passport-section {
-            float: right;
-            margin-left: 15px;
-            margin-bottom: 15px;
-            width: 120px;
+            width: 130px;
+            flex-shrink: 0;
             text-align: center;
         }
-        .passport-section img {
-            width: 100px;
-            height: 120px;
+        .passport-photo {
+            width: 120px;
+            height: 150px;
+            border: 2px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #f9f9f9;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+        .passport-photo img {
+            width: 100%;
+            height: 100%;
             object-fit: cover;
-            border: 1px solid #ccc;
+        }
+        .passport-label {
+            font-size: 10px;
+            color: #666;
+            text-transform: uppercase;
         }
         .section {
             margin-bottom: 15px;
@@ -62,6 +116,7 @@
             padding-bottom: 3px;
             margin-bottom: 8px;
             text-transform: uppercase;
+            color: #2c3e50;
         }
         .info-grid {
             display: table;
@@ -76,6 +131,7 @@
             padding: 3px 5px 3px 0;
             font-weight: 600;
             color: #444;
+            background: #f8f8f8;
         }
         .info-value {
             display: table-cell;
@@ -83,19 +139,19 @@
             border-bottom: 1px dotted #ccc;
         }
         .signature-section {
-            margin-top: 40px;
+            margin-top: 30px;
             display: table;
             width: 100%;
         }
         .signature-box {
             display: table-cell;
             width: 50%;
-            padding: 20px;
+            padding: 15px;
             vertical-align: bottom;
         }
         .signature-line {
             border-top: 1px solid #333;
-            margin-top: 30px;
+            margin-top: 25px;
             padding-top: 5px;
             font-size: 10px;
         }
@@ -107,176 +163,215 @@
 </head>
 <body>
     <div class="page">
-        <!-- Applicant Passport -->
-        <div class="passport-section">
+        <!-- Watermark Background -->
+        <div class="watermark">
             @php
-            $passportDoc = $application->documents->where('document_type', 'Passport Photograph')->first();
-            $passportUrl = $passportDoc ? asset('storage/' . $passportDoc->file_path) : null;
+            $watermarkPath = null;
+            if (!empty($settings['logo'])) {
+                $watermarkPath = public_path($settings['logo']);
+            } elseif (file_exists(public_path('images/logo.png'))) {
+                $watermarkPath = public_path('images/logo.png');
+            } elseif (file_exists(public_path('images/logo.jpg'))) {
+                $watermarkPath = public_path('images/logo.jpg');
+            }
             @endphp
-            @if($passportUrl)
-            <img src="{{ $passportUrl }}" alt="Passport Photo">
-            @else
-            <div style="width:100px;height:120px;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;background:#f9f9f9;">
-                <span style="font-size:10px;color:#999;">Photo</span>
-            </div>
+            @if($watermarkPath)
+            <img src="{{ $watermarkPath }}" alt="Watermark">
             @endif
-            <div style="font-size:9px;margin-top:5px;">Applicant Photo</div>
         </div>
 
-        <div class="form-title">Application Form</div>
+        <!-- Header with Logo and Institution Name -->
+        <div class="form-header">
+            @php
+            $logoPath = null;
+            if (!empty($settings['logo'])) {
+                $logoPath = public_path($settings['logo']);
+            } elseif (file_exists(public_path('images/logo.png'))) {
+                $logoPath = public_path('images/logo.png');
+            } elseif (file_exists(public_path('images/logo.jpg'))) {
+                $logoPath = public_path('images/logo.jpg');
+            }
+            @endphp
+            @if($logoPath)
+            <img src="{{ $logoPath }}" alt="Institution Logo" class="header-logo">
+            @endif
+            <div class="institution-name">{{ $settings['institution_name'] ?? 'EKSCOTECH' }}</div>
+            <div class="portal-name">{{ $settings['portal_name'] ?? 'Application Portal' }}</div>
+        </div>
 
         <div class="app-number">
             Application Number: {{ $application->application_number }}<br>
             <span style="font-size:10px;text-transform:uppercase;">Status: {{ $application->status }}</span>
         </div>
 
-        <!-- Personal Information -->
-        <div class="section">
-            <div class="section-title">Personal Information</div>
-            <div class="info-grid">
-                <div class="info-row">
-                    <div class="info-label">Full Name:</div>
-                    <div class="info-value">{{ $application->full_name }}</div>
+        <div class="content-wrapper">
+            <div class="main-content">
+                <!-- Personal Information -->
+                <div class="section">
+                    <div class="section-title">Personal Information</div>
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <div class="info-label">Full Name:</div>
+                            <div class="info-value">{{ $application->full_name }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Gender:</div>
+                            <div class="info-value">{{ ucfirst($application->gender) }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Date of Birth:</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth', 'N/A') }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Marital Status:</div>
+                            <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status', 'N/A')) }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Nationality:</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'nationality', 'N/A') }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">State of Origin:</div>
+                            <div class="info-value">{{ $application->state }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Local Government Area:</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'local_government', 'N/A') }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Residential Address:</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'residential_address', 'N/A') }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Email Address:</div>
+                            <div class="info-value">{{ $application->email }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Phone Number:</div>
+                            <div class="info-value">{{ $application->phone }}</div>
+                        </div>
+                        @if(data_get($application->personal_info, 'alternative_phone'))
+                        <div class="info-row">
+                            <div class="info-label">Alternative Phone:</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'alternative_phone') }}</div>
+                        </div>
+                        @endif
+                    </div>
                 </div>
-                <div class="info-row">
-                    <div class="info-label">Gender:</div>
-                    <div class="info-value">{{ ucfirst($application->gender) }}</div>
+
+                <!-- Academic Information -->
+                <div class="section">
+                    <div class="section-title">Academic Information</div>
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <div class="info-label">Highest Qualification:</div>
+                            <div class="info-value">{{ $application->qualification }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Institution Attended:</div>
+                            <div class="info-value">{{ $application->academic_info['institution_attended'] ?? 'N/A' }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Course Studied:</div>
+                            <div class="info-value">{{ $application->academic_info['course_studied'] ?? 'N/A' }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Grade/Class:</div>
+                            <div class="info-value">{{ $application->academic_info['grade_class'] ?? 'N/A' }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Year of Graduation:</div>
+                            <div class="info-value">{{ $application->academic_info['graduation_year'] ?? 'N/A' }}</div>
+                        </div>
+                    </div>
                 </div>
-                <div class="info-row">
-                    <div class="info-label">Date of Birth:</div>
-                    <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth', 'N/A') }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Marital Status:</div>
-                    <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status', 'N/A')) }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Nationality:</div>
-                    <div class="info-value">{{ data_get($application->personal_info, 'nationality', 'N/A') }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">State of Origin:</div>
-                    <div class="info-value">{{ $application->state }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Local Government Area:</div>
-                    <div class="info-value">{{ data_get($application->personal_info, 'local_government', 'N/A') }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Residential Address:</div>
-                    <div class="info-value">{{ data_get($application->personal_info, 'residential_address', 'N/A') }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Email Address:</div>
-                    <div class="info-value">{{ $application->email }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Phone Number:</div>
-                    <div class="info-value">{{ $application->phone }}</div>
-                </div>
-                @if(data_get($application->personal_info, 'alternative_phone'))
-                <div class="info-row">
-                    <div class="info-label">Alternative Phone:</div>
-                    <div class="info-value">{{ data_get($application->personal_info, 'alternative_phone') }}</div>
+
+                <!-- Employment Information -->
+                @if($application->employment_info && count($application->employment_info) > 0)
+                <div class="section">
+                    <div class="section-title">Employment History</div>
+                    <div class="info-grid">
+                        @foreach($application->employment_info as $emp)
+                        <div class="info-row">
+                            <div class="info-label">Employer:</div>
+                            <div class="info-value">{{ $emp['employer'] ?? 'N/A' }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Position:</div>
+                            <div class="info-value">{{ $emp['position'] ?? 'N/A' }}</div>
+                        </div>
+                        <div class="info-row">
+                            <div class="info-label">Years of Experience:</div>
+                            <div class="info-value">{{ $emp['years_experience'] ?? '0' }}</div>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
                 @endif
-            </div>
-        </div>
 
-        <!-- Academic Information -->
-        <div class="section">
-            <div class="section-title">Academic Information</div>
-            <div class="info-grid">
-                <div class="info-row">
-                    <div class="info-label">Highest Qualification:</div>
-                    <div class="info-value">{{ $application->qualification }}</div>
+                <!-- Application Details -->
+                <div class="section">
+                    <div class="section-title">Application Details</div>
+                    <div class="info-grid">
+                        <div class="info-row">
+                            <div class="info-label">Position/Programme Applied:</div>
+                            <div class="info-value">
+                                @php
+                                $details = $application->application_details ?? [];
+                                $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
+                                echo !empty($position) ? $position : 'N/A';
+                                @endphp
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="info-row">
-                    <div class="info-label">Institution Attended:</div>
-                    <div class="info-value">{{ $application->academic_info['institution_attended'] ?? 'N/A' }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Course Studied:</div>
-                    <div class="info-value">{{ $application->academic_info['course_studied'] ?? 'N/A' }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Grade/Class:</div>
-                    <div class="info-value">{{ $application->academic_info['grade_class'] ?? 'N/A' }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Year of Graduation:</div>
-                    <div class="info-value">{{ $application->academic_info['graduation_year'] ?? 'N/A' }}</div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Employment Information -->
-        @if($application->employment_info && count($application->employment_info) > 0)
-        <div class="section">
-            <div class="section-title">Employment History</div>
-            <div class="info-grid">
-                @foreach($application->employment_info as $emp)
-                <div class="info-row">
-                    <div class="info-label">Employer:</div>
-                    <div class="info-value">{{ $emp['employer'] ?? 'N/A' }}</div>
+                <!-- Uploaded Documents -->
+                @if($application->documents->count() > 0)
+                <div class="section">
+                    <div class="section-title">Uploaded Documents</div>
+                    <div class="info-grid">
+                        @foreach($application->documents as $doc)
+                        <div class="info-row">
+                            <div class="info-label">{{ $doc->document_type }}:</div>
+                            <div class="info-value">{{ $doc->file_name }}</div>
+                        </div>
+                        @endforeach
+                    </div>
                 </div>
-                <div class="info-row">
-                    <div class="info-label">Position:</div>
-                    <div class="info-value">{{ $emp['position'] ?? 'N/A' }}</div>
-                </div>
-                <div class="info-row">
-                    <div class="info-label">Years of Experience:</div>
-                    <div class="info-value">{{ $emp['years_experience'] ?? '0' }}</div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
+                @endif
 
-        <!-- Application Details -->
-        <div class="section">
-            <div class="section-title">Application Details</div>
-            <div class="info-grid">
-                <div class="info-row">
-                    <div class="info-label">Position/Programme Applied:</div>
-                    <div class="info-value">
-                        @php
-                        $details = $application->application_details ?? [];
-                        $position = $details['position_applying_for'] ?? '';
-                        echo !empty($position) ? $position : 'N/A';
-                        @endphp
+                <!-- Declaration & Signature -->
+                <div class="signature-section">
+                    <div class="signature-box">
+                        <div class="signature-line">Applicant's Signature</div>
+                    </div>
+                    <div class="signature-box">
+                        <div class="signature-line">Date</div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <!-- Uploaded Documents -->
-        @if($application->documents->count() > 0)
-        <div class="section">
-            <div class="section-title">Uploaded Documents</div>
-            <div class="info-grid">
-                @foreach($application->documents as $doc)
-                <div class="info-row">
-                    <div class="info-label">{{ $doc->document_type }}:</div>
-                    <div class="info-value">{{ $doc->file_name }}</div>
+            <!-- Passport Photo -->
+            <div class="passport-section">
+                <div class="passport-photo">
+                    @php
+                    $passportDoc = $application->documents->filter(function($doc) {
+                        return stripos($doc->document_type, 'passport') !== false;
+                    })->first();
+                    @endphp
+                    @if($passportDoc)
+                    <img src="{{ public_path('storage/' . $passportDoc->file_path) }}" alt="Passport Photo">
+                    @else
+                    <span style="font-size:10px;color:#999;">No Photo</span>
+                    @endif
                 </div>
-                @endforeach
-            </div>
-        </div>
-        @endif
-
-        <!-- Declaration & Signature -->
-        <div class="signature-section">
-            <div class="signature-box">
-                <div class="signature-line">Applicant's Signature</div>
-            </div>
-            <div class="signature-box">
-                <div class="signature-line">Date</div>
+                <div class="passport-label">Passport Photo</div>
             </div>
         </div>
 
         <div style="text-align:center;font-size:9px;color:#888;margin-top:20px;">
-            Generated on {{ now()->format('F j, Y') }} | Application Portal
+            Generated on {{ now()->format('F j, Y') }} | {{ $settings['portal_name'] ?? 'Application Portal' }}
         </div>
     </div>
 </body>
