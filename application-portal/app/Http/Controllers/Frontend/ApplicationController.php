@@ -210,8 +210,8 @@ class ApplicationController extends Controller
         }
 
         if (!$created) {
-            \Log::error("Failed to create application after {$maxRetries} retries. Last error: {$lastError}");
-            return back()->with('error', 'Unable to create application. Please try again.')->withInput();
+            \Log::error("Failed to create application after {$maxRetries} retries. Last error: {$lastError}. Application number: {$applicationNumber}");
+            return back()->with('error', 'Unable to create application. Please try again. Error: ' . substr($lastError, 0, 100))->withInput();
         }
 
         // Upload documents
