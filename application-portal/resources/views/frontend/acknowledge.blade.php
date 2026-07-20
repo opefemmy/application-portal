@@ -259,8 +259,20 @@
                     <span class="text-muted">Position/Programme Applied</span>
                     <span class="fw-bold">
                         @php
+                        // Try multiple sources for position
+                        $position = '';
+
+                        // From application_details
                         $details = $application->application_details ?? [];
                         $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? $details['position'] ?? '';
+
+                        // From personal_info (fallback)
+                        if (empty($position)) {
+                            $position = data_get($application->personal_info, 'position_applying_for')
+                                ?? data_get($application->personal_info, 'position')
+                                ?? data_get($application->personal_info, 'programme');
+                        }
+
                         echo !empty($position) ? e($position) : 'N/A';
                         @endphp
                     </span>

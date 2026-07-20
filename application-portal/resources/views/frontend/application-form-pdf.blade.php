@@ -317,8 +317,14 @@
                             <div class="info-label">Position/Programme Applied:</div>
                             <div class="info-value">
                                 @php
+                                $position = '';
                                 $details = $application->application_details ?? [];
-                                $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
+                                $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? $details['position'] ?? '';
+                                if (empty($position)) {
+                                    $position = data_get($application->personal_info, 'position_applying_for')
+                                        ?? data_get($application->personal_info, 'position')
+                                        ?? data_get($application->personal_info, 'programme');
+                                }
                                 echo !empty($position) ? $position : 'N/A';
                                 @endphp
                             </div>
