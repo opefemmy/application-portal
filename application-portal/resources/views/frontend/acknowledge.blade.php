@@ -204,7 +204,7 @@
                     <i class="bi bi-printer me-2"></i>Print Acknowledgement
                 </button>
                 <a href="{{ route('application.download', $application->id) }}" class="btn btn-outline-primary">
-                    <i class="bi bi-download me-2"></i>Download PDF
+                    <i class="bi bi-printer me-2"></i>Print / Save as PDF
                 </a>
                 <a href="{{ route('track') }}" class="btn btn-outline-secondary">
                     <i class="bi bi-search me-2"></i>Track Application

@@ -15,7 +15,6 @@ use Illuminate\Support\Str;
 use App\Models\ApplicationType;
 use App\Models\FormField;
 use Carbon\Carbon;
-use Dompdf\Dompdf;
 
 class ApplicationController extends Controller
 {
@@ -263,8 +262,7 @@ class ApplicationController extends Controller
 
     public function downloadAcknowledge(Application $application)
     {
-        $dompdf = new Dompdf();
-        $dompdf->loadHtml(view('frontend.acknowledge-pdf', compact('application'))->render());
-        return $dompdf->stream('acknowledgement-' . $application->application_number . '.pdf');
+        // Redirect to acknowledge page with print parameter
+        return redirect()->route('application.acknowledge', $application->id)->with('print_mode', true);
     }
 }
