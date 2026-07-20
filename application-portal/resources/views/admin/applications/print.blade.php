@@ -399,19 +399,18 @@
                 @php
                 // Search for passport photo - case insensitive
                 $passportDoc = $application->documents->filter(function($doc) {
-                    return stripos($doc->document_type, 'passport') !== false && stripos($doc->document_type, 'photo') !== false;
+                    return stripos($doc->document_type, 'passport') !== false;
                 })->first();
-
-                $passportUrl = null;
+                $passportImg = null;
                 if ($passportDoc) {
-                    // Check if file exists in storage
-                    if (\Illuminate\Support\Facades\Storage::exists($passportDoc->file_path)) {
-                        $passportUrl = asset('storage/' . $passportDoc->file_path);
+                    $storagePath = storage_path('app/' . $passportDoc->file_path);
+                    if (file_exists($storagePath)) {
+                        $passportImg = 'data:' . ($passportDoc->mime_type ?? 'image/jpeg') . ';base64,' . base64_encode(file_get_contents($storagePath));
                     }
                 }
                 @endphp
-                @if($passportUrl)
-                <img src="{{ $passportUrl }}" alt="Passport Photo">
+                @if($passportImg)
+                <img src="{{ $passportImg }}" alt="Passport Photo">
                 @else
                 <span style="color: #999; font-size: 11px;">No Photo</span>
                 @endif

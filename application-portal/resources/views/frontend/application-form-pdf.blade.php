@@ -362,12 +362,20 @@
             <div class="passport-section">
                 <div class="passport-photo">
                     @php
+                    @php
                     $passportDoc = $application->documents->filter(function($doc) {
                         return stripos($doc->document_type, 'passport') !== false;
                     })->first();
+                    $passportImg = null;
+                    if ($passportDoc) {
+                        $storagePath = storage_path('app/' . $passportDoc->file_path);
+                        if (file_exists($storagePath)) {
+                            $passportImg = 'data:' . ($passportDoc->mime_type ?? 'image/jpeg') . ';base64,' . base64_encode(file_get_contents($storagePath));
+                        }
+                    }
                     @endphp
-                    @if($passportDoc)
-                    <img src="{{ public_path('storage/' . $passportDoc->file_path) }}" alt="Passport Photo">
+                    @if($passportImg)
+                    <img src="{{ $passportImg }}" alt="Passport Photo">
                     @else
                     <span style="font-size:10px;color:#999;">No Photo</span>
                     @endif
