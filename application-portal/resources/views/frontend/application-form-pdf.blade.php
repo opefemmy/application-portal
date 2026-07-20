@@ -12,25 +12,35 @@
         }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 11px;
-            line-height: 1.4;
+            font-size: 10px;
+            line-height: 1.3;
             color: #333;
-            padding: 15px;
+            padding: 10px;
             background: #fff;
         }
         .page {
             max-width: 210mm;
             margin: 0 auto;
             background: #fff;
+            position: relative;
         }
+
+        /* Project Colors */
+        :root {
+            --primary: #82103c;
+            --secondary: #247d57;
+            --accent: #a48613;
+        }
+
+        /* Watermark Background */
         .watermark {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 400px;
-            height: 400px;
-            opacity: 0.08;
+            width: 350px;
+            height: 350px;
+            opacity: 0.06;
             z-index: -1;
             pointer-events: none;
         }
@@ -38,62 +48,98 @@
             width: 100%;
             height: auto;
         }
+
+        /* Header */
         .form-header {
-            text-align: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid #2c3e50;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
         }
         .header-logo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            background: white;
+            border-radius: 50%;
+            padding: 3px;
+        }
+        .header-text h1 {
+            font-size: 16px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 2px;
+        }
+        .header-text p {
+            font-size: 9px;
+            opacity: 0.9;
+        }
+
+        /* QR Code Section */
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        .qr-code {
             width: 70px;
             height: 70px;
-            margin: 0 auto 10px;
-            object-fit: contain;
+            background: white;
+            padding: 3px;
+            border-radius: 5px;
         }
-        .institution-name {
-            font-size: 20px;
+        .qr-code img {
+            width: 100%;
+            height: 100%;
+        }
+        .app-number-badge {
+            background: var(--accent);
+            color: #fff;
+            padding: 4px 10px;
+            border-radius: 3px;
+            font-size: 11px;
             font-weight: bold;
-            color: #2c3e50;
-            text-transform: uppercase;
-            margin-bottom: 3px;
-        }
-        .portal-name {
-            font-size: 12px;
-            color: #555;
-        }
-        .app-number {
             text-align: center;
-            background: #f0f0f0;
-            padding: 10px;
-            margin-bottom: 15px;
-            font-weight: bold;
-            border: 1px solid #ccc;
         }
-        .app-number strong {
-            font-size: 14px;
-        }
+
+        /* Main Content Layout */
         .content-wrapper {
             display: flex;
-            gap: 20px;
+            gap: 15px;
         }
         .main-content {
             flex: 1;
         }
+
+        /* Passport Section - Top Right */
         .passport-section {
-            width: 130px;
+            width: 110px;
             flex-shrink: 0;
             text-align: center;
+            position: absolute;
+            top: 80px;
+            right: 15px;
         }
         .passport-photo {
-            width: 120px;
-            height: 150px;
-            border: 2px solid #ccc;
+            width: 100px;
+            height: 120px;
+            border: 3px solid var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
             background: #f9f9f9;
             overflow: hidden;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
         }
         .passport-photo img {
             width: 100%;
@@ -101,63 +147,84 @@
             object-fit: cover;
         }
         .passport-label {
-            font-size: 10px;
-            color: #666;
+            font-size: 9px;
+            color: var(--primary);
             text-transform: uppercase;
+            font-weight: bold;
         }
+
+        /* Info Grid */
         .section {
-            margin-bottom: 15px;
+            margin-bottom: 12px;
             clear: both;
         }
         .section-title {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
-            border-bottom: 1px solid #333;
-            padding-bottom: 3px;
-            margin-bottom: 8px;
+            background: var(--primary);
+            color: white;
+            padding: 4px 8px;
+            margin-bottom: 6px;
             text-transform: uppercase;
-            color: #2c3e50;
+            border-radius: 3px;
         }
         .info-grid {
             display: table;
             width: 100%;
+            border-collapse: collapse;
         }
         .info-row {
             display: table-row;
         }
         .info-label {
             display: table-cell;
-            width: 35%;
+            width: 32%;
             padding: 3px 5px 3px 0;
             font-weight: 600;
-            color: #444;
+            color: var(--primary);
             background: #f8f8f8;
+            border-bottom: 1px solid #eee;
         }
         .info-value {
             display: table-cell;
             padding: 3px 0;
-            border-bottom: 1px dotted #ccc;
+            border-bottom: 1px solid #eee;
         }
+
+        /* Signature */
         .signature-section {
-            margin-top: 30px;
+            margin-top: 25px;
             display: table;
             width: 100%;
+            border-top: 2px solid var(--secondary);
+            padding-top: 10px;
         }
         .signature-box {
             display: table-cell;
             width: 50%;
-            padding: 15px;
+            padding: 10px;
             vertical-align: bottom;
         }
         .signature-line {
             border-top: 1px solid #333;
-            margin-top: 25px;
+            margin-top: 20px;
             padding-top: 5px;
-            font-size: 10px;
+            font-size: 9px;
         }
+
+        /* Footer */
+        .form-footer {
+            text-align: center;
+            font-size: 8px;
+            color: #888;
+            margin-top: 15px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
+        }
+
         @page {
             size: A4;
-            margin: 10mm;
+            margin: 8mm;
         }
     </style>
 </head>
@@ -180,28 +247,66 @@
             @endif
         </div>
 
-        <!-- Header with Logo and Institution Name -->
+        <!-- Header with Logo, Institution Name & QR Code -->
         <div class="form-header">
-            @php
-            $logoPath = null;
-            if (!empty($settings['logo'])) {
-                $logoPath = public_path($settings['logo']);
-            } elseif (file_exists(public_path('images/logo.png'))) {
-                $logoPath = public_path('images/logo.png');
-            } elseif (file_exists(public_path('images/logo.jpg'))) {
-                $logoPath = public_path('images/logo.jpg');
-            }
-            @endphp
-            @if($logoPath)
-            <img src="{{ $logoPath }}" alt="Institution Logo" class="header-logo">
-            @endif
-            <div class="institution-name">{{ $settings['institution_name'] ?? 'EKSCOTECH' }}</div>
-            <div class="portal-name">{{ $settings['portal_name'] ?? 'Application Portal' }}</div>
+            <div class="header-left">
+                @php
+                $logoPath = null;
+                if (!empty($settings['logo'])) {
+                    $logoPath = public_path($settings['logo']);
+                } elseif (file_exists(public_path('images/logo.png'))) {
+                    $logoPath = public_path('images/logo.png');
+                } elseif (file_exists(public_path('images/logo.jpg'))) {
+                    $logoPath = public_path('images/logo.jpg');
+                }
+                @endphp
+                @if($logoPath)
+                <img src="{{ $logoPath }}" alt="Institution Logo" class="header-logo">
+                @endif
+                <div class="header-text">
+                    <h1>{{ $settings['institution_name'] ?? 'EKSCOTECH' }}</h1>
+                    <p>{{ $settings['portal_name'] ?? 'Online Application Portal' }}</p>
+                </div>
+            </div>
+            <div class="header-right">
+                @php
+                // Generate QR code data
+                $qrData = json_encode([
+                    'app' => $application->application_number,
+                    'name' => $application->full_name,
+                    'status' => $application->status
+                ]);
+                $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' . urlencode($qrData);
+                @endphp
+                <div class="qr-code">
+                    <img src="{{ $qrCodeUrl }}" alt="QR Code">
+                </div>
+                <div class="app-number-badge">{{ $application->application_number }}</div>
+            </div>
         </div>
 
-        <div class="app-number">
-            Application Number: {{ $application->application_number }}<br>
-            <span style="font-size:10px;text-transform:uppercase;">Status: {{ $application->status }}</span>
+        <!-- Passport Photo - Top Right -->
+        <div class="passport-section">
+            <div class="passport-photo">
+                @php
+                $passportDoc = $application->documents->filter(function($doc) {
+                    return stripos($doc->document_type, 'passport') !== false;
+                })->first();
+                $passportImg = null;
+                if ($passportDoc) {
+                    $storagePath = storage_path('app/' . $passportDoc->file_path);
+                    if (file_exists($storagePath)) {
+                        $passportImg = 'data:' . ($passportDoc->mime_type ?? 'image/jpeg') . ';base64,' . base64_encode(file_get_contents($storagePath));
+                    }
+                }
+                @endphp
+                @if($passportImg)
+                <img src="{{ $passportImg }}" alt="Passport Photo">
+                @else
+                <span style="font-size:9px;color:#999;">No Photo</span>
+                @endif
+            </div>
+            <div class="passport-label">Passport Photo</div>
         </div>
 
         <div class="content-wrapper">
@@ -329,6 +434,10 @@
                                 @endphp
                             </div>
                         </div>
+                        <div class="info-row">
+                            <div class="info-label">Application Status:</div>
+                            <div class="info-value" style="text-transform: uppercase; font-weight: bold; color: #247d57;">{{ $application->status }}</div>
+                        </div>
                     </div>
                 </div>
 
@@ -357,34 +466,10 @@
                     </div>
                 </div>
             </div>
-
-            <!-- Passport Photo -->
-            <div class="passport-section">
-                <div class="passport-photo">
-                    @php
-                    $passportDoc = $application->documents->filter(function($doc) {
-                        return stripos($doc->document_type, 'passport') !== false;
-                    })->first();
-                    $passportImg = null;
-                    if ($passportDoc) {
-                        $storagePath = storage_path('app/' . $passportDoc->file_path);
-                        if (file_exists($storagePath)) {
-                            $passportImg = 'data:' . ($passportDoc->mime_type ?? 'image/jpeg') . ';base64,' . base64_encode(file_get_contents($storagePath));
-                        }
-                    }
-                    @endphp
-                    @if($passportImg)
-                    <img src="{{ $passportImg }}" alt="Passport Photo">
-                    @else
-                    <span style="font-size:10px;color:#999;">No Photo</span>
-                    @endif
-                </div>
-                <div class="passport-label">Passport Photo</div>
-            </div>
         </div>
 
-        <div style="text-align:center;font-size:9px;color:#888;margin-top:20px;">
-            Generated on {{ now()->format('F j, Y') }} | {{ $settings['portal_name'] ?? 'Application Portal' }}
+        <div class="form-footer">
+            Generated on {{ now()->format('F j, Y') }} | {{ $settings['portal_name'] ?? 'Application Portal' }} | {{ $settings['institution_name'] ?? 'EKSCOTECH' }}
         </div>
     </div>
 </body>
