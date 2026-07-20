@@ -107,19 +107,19 @@
                     <strong>Gender:</strong> {{ ucfirst($application->gender) }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Date of Birth:</strong> {{ $application->personal_info['date_of_birth'] ?? 'N/A' }}
+                    <strong>Date of Birth:</strong> {{ data_get($application->personal_info, 'date_of_birth', 'N/A') }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Marital Status:</strong> {{ ucfirst($application->personal_info['marital_status'] ?? 'N/A') }}
+                    <strong>Marital Status:</strong> {{ ucfirst(data_get($application->personal_info, 'marital_status', 'N/A')) }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Nationality:</strong> {{ $application->personal_info['nationality'] ?? 'N/A' }}
+                    <strong>Nationality:</strong> {{ data_get($application->personal_info, 'nationality', 'N/A') }}
                 </div>
                 <div class="col-md-6 mb-2">
                     <strong>State of Origin:</strong> {{ $application->state }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Local Government:</strong> {{ $application->personal_info['local_government'] ?? 'N/A' }}
+                    <strong>Local Government:</strong> {{ data_get($application->personal_info, 'local_government', 'N/A') }}
                 </div>
                 <div class="col-md-6 mb-2">
                     <strong>Email:</strong> {{ $application->email }}
@@ -128,7 +128,7 @@
                     <strong>Phone:</strong> {{ $application->phone }}
                 </div>
                 <div class="col-12 mb-2">
-                    <strong>Address:</strong> {{ $application->personal_info['residential_address'] ?? 'N/A' }}
+                    <strong>Address:</strong> {{ data_get($application->personal_info, 'residential_address', 'N/A') }}
                 </div>
             </div>
         </div>

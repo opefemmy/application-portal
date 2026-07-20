@@ -139,15 +139,15 @@
             </div>
             <div class="info-row">
                 <div class="info-label">Date of Birth:</div>
-                <div class="info-value">{{ $application->personal_info['date_of_birth'] ?? 'N/A' }}</div>
+                <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth', 'N/A') }}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">Marital Status:</div>
-                <div class="info-value">{{ ucfirst($application->personal_info['marital_status'] ?? 'N/A') }}</div>
+                <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status', 'N/A')) }}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">Nationality:</div>
-                <div class="info-value">{{ $application->personal_info['nationality'] ?? 'N/A' }}</div>
+                <div class="info-value">{{ data_get($application->personal_info, 'nationality', 'N/A') }}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">State of Origin:</div>
@@ -155,7 +155,7 @@
             </div>
             <div class="info-row">
                 <div class="info-label">Local Government:</div>
-                <div class="info-value">{{ $application->personal_info['local_government'] ?? 'N/A' }}</div>
+                <div class="info-value">{{ data_get($application->personal_info, 'local_government', 'N/A') }}</div>
             </div>
             <div class="info-row">
                 <div class="info-label">Email:</div>
@@ -167,12 +167,12 @@
             </div>
             <div class="info-row">
                 <div class="info-label">Residential Address:</div>
-                <div class="info-value">{{ $application->personal_info['residential_address'] ?? 'N/A' }}</div>
+                <div class="info-value">{{ data_get($application->personal_info, 'residential_address', 'N/A') }}</div>
             </div>
-            @if(isset($application->personal_info['postal_address']))
+            @if(data_get($application->personal_info, 'postal_address'))
             <div class="info-row">
                 <div class="info-label">Postal Address:</div>
-                <div class="info-value">{{ $application->personal_info['postal_address'] }}</div>
+                <div class="info-value">{{ data_get($application->personal_info, 'postal_address') }}</div>
             </div>
             @endif
         </div>

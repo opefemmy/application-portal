@@ -145,39 +145,39 @@ class ApplicationController extends Controller
         // Generate application number
         $applicationNumber = Application::generateApplicationNumber();
 
-        // Prepare data
+        // Prepare data - use data_get to safely access validated fields
         $personalInfo = [
-            'first_name' => $validated['first_name'],
-            'middle_name' => $validated['middle_name'],
-            'last_name' => $validated['last_name'],
-            'gender' => $validated['gender'],
-            'date_of_birth' => $validated['date_of_birth'],
-            'marital_status' => $validated['marital_status'],
-            'nationality' => $validated['nationality'],
-            'state_of_origin' => $validated['state_of_origin'],
-            'local_government' => $validated['local_government'],
-            'residential_address' => $validated['residential_address'],
-            'postal_address' => $validated['postal_address'] ?? $validated['residential_address'],
-            'phone_number' => $validated['phone_number'],
-            'alternative_phone' => $validated['alternative_phone'],
-            'email' => $validated['email'],
+            'first_name' => data_get($validated, 'first_name'),
+            'middle_name' => data_get($validated, 'middle_name'),
+            'last_name' => data_get($validated, 'last_name'),
+            'gender' => data_get($validated, 'gender'),
+            'date_of_birth' => data_get($validated, 'date_of_birth'),
+            'marital_status' => data_get($validated, 'marital_status'),
+            'nationality' => data_get($validated, 'nationality'),
+            'state_of_origin' => data_get($validated, 'state_of_origin'),
+            'local_government' => data_get($validated, 'local_government'),
+            'residential_address' => data_get($validated, 'residential_address'),
+            'postal_address' => data_get($validated, 'postal_address') ?? data_get($validated, 'residential_address'),
+            'phone_number' => data_get($validated, 'phone_number'),
+            'alternative_phone' => data_get($validated, 'alternative_phone'),
+            'email' => data_get($validated, 'email'),
         ];
 
         $academicInfo = [
-            'highest_qualification' => $validated['highest_qualification'],
-            'institution_attended' => $validated['institution_attended'],
-            'course_studied' => $validated['course_studied'],
-            'grade_class' => $validated['grade_class'],
-            'graduation_year' => $validated['graduation_year'],
+            'highest_qualification' => data_get($validated, 'highest_qualification'),
+            'institution_attended' => data_get($validated, 'institution_attended'),
+            'course_studied' => data_get($validated, 'course_studied'),
+            'grade_class' => data_get($validated, 'grade_class'),
+            'graduation_year' => data_get($validated, 'graduation_year'),
         ];
 
-        $employmentInfo = $validated['employment'] ?? [];
+        $employmentInfo = data_get($validated, 'employment', []);
 
         $applicationDetails = [
-            'position_applying_for' => $validated['position_applying_for'],
-            'programme_applying_for' => $validated['programme_applying_for'] ?? null,
-            'department' => $validated['department'] ?? null,
-            'category' => $validated['category'] ?? null,
+            'position_applying_for' => data_get($validated, 'position_applying_for'),
+            'programme_applying_for' => data_get($validated, 'programme_applying_for'),
+            'department' => data_get($validated, 'department'),
+            'category' => data_get($validated, 'category'),
         ];
 
         // Create application
