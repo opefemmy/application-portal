@@ -385,14 +385,6 @@
                                     </select>
                                 </div>
                                 <div class="col-md-6">
-                                    <label class="form-label">Programme Applying For</label>
-                                    <input type="text" name="programme_applying_for" class="form-control">
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Department</label>
-                                    <input type="text" name="department" class="form-control">
-                                </div>
-                                <div class="col-md-6">
                                     <label class="form-label">Category</label>
                                     <input type="text" name="category" class="form-control">
                                 </div>
@@ -803,6 +795,57 @@
         const originalHtml = col.querySelector('.file-upload-zone').innerHTML;
         col.querySelector('.file-upload-zone').classList.remove('has-file');
     }
+
+    // Form submission handler
+    $('#applicationForm').on('submit', function(e) {
+        // Validate all required fields before submission
+        const form = $(this)[0];
+        const requiredFields = form.querySelectorAll('[required]');
+        let valid = true;
+        let firstInvalid = null;
+
+        requiredFields.forEach(function(field) {
+            if (!field.value) {
+                field.classList.add('is-invalid');
+                valid = false;
+                if (!firstInvalid) firstInvalid = field;
+            } else {
+                field.classList.remove('is-invalid');
+            }
+        });
+
+        // Check declaration checkbox
+        const declaration = document.getElementById('declaration');
+        if (!declaration.checked) {
+            declaration.classList.add('is-invalid');
+            valid = false;
+            if (!firstInvalid) firstInvalid = declaration;
+        } else {
+            declaration.classList.remove('is-invalid');
+        }
+
+        if (!valid) {
+            e.preventDefault();
+            if (firstInvalid) {
+                // Find which step has the invalid field and navigate to it
+                const invalidStep = firstInvalid.closest('.wizard-step');
+                if (invalidStep) {
+                    const stepNum = parseInt(invalidStep.dataset.step);
+                    currentStep = stepNum;
+                    updateProgress();
+                }
+            }
+            // Show error message
+            if (!$('.alert-danger').length) {
+                $('.card-custom').prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="bi bi-exclamation-circle me-2"></i>Please fill in all required fields.<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
+            }
+            return false;
+        }
+
+        // Show loading state on submit button
+        const submitBtn = $(this).find('button[type="submit"]');
+        submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Submitting...');
+    });
 </script>
 <script src="{{ asset('js/nigerian-lgas.js') }}"></script>
 @endsection
