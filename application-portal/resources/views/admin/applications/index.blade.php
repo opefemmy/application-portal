@@ -118,8 +118,53 @@
                         });
                         @endphp
                         @if($otherDocs->count() > 0)
-                            <span class="badge bg-secondary">{{ $otherDocs->count() }}</span>
-                            <span class="text-muted small">{{ $otherDocs->pluck('document_type')->implode(', ') }}</span>
+                            <div class="d-flex flex-wrap gap-1">
+                                @foreach($otherDocs as $doc)
+                                    @php
+                                    $mime = $doc->mime_type ?? '';
+                                    $icon = 'bi-file-earmark';
+                                    $color = 'text-secondary';
+
+                                    if (str_starts_with($mime, 'image/')) {
+                                        $icon = 'bi-file-earmark-image';
+                                        $color = 'text-success';
+                                    } elseif ($mime === 'application/pdf') {
+                                        $icon = 'bi-file-earmark-pdf';
+                                        $color = 'text-danger';
+                                    } elseif (str_contains($mime, 'word') || str_contains($mime, 'document')) {
+                                        $icon = 'bi-file-earmark-word';
+                                        $color = 'text-primary';
+                                    } elseif (str_contains($mime, 'excel') || str_contains($mime, 'sheet')) {
+                                        $icon = 'bi-file-earmark-excel';
+                                        $color = 'text-success';
+                                    }
+
+                                    // Check document type for specific icons
+                                    $type = strtolower($doc->document_type ?? '');
+                                    if (str_contains($type, 'birth')) {
+                                        $icon = 'bi-file-earmark-person';
+                                    } elseif (str_contains($type, 'certificate') || str_contains($type, 'degree')) {
+                                        $icon = 'bi-file-earmark-award';
+                                    } elseif (str_contains($type, 'result')) {
+                                        $icon = 'bi-file-earmark-bar-chart';
+                                    } elseif (str_contains($type, 'cv') || str_contains($type, 'resume')) {
+                                        $icon = 'bi-file-earmark-text';
+                                    } elseif (str_contains($type, 'transcript')) {
+                                        $icon = 'bi-file-earmark-ruled';
+                                    } elseif (str_contains($type, 'letter')) {
+                                        $icon = 'bi-file-earmark-letter';
+                                    } elseif (str_contains($type, 'nysc')) {
+                                        $icon = 'bi-file-earmark-post';
+                                    }
+                                    @endphp
+                                    <a href="{{ route('documents.download', $doc->id) }}"
+                                       class="{{ $color }}"
+                                       title="{{ $doc->document_type }}: {{ $doc->file_name }}"
+                                       target="_blank">
+                                        <i class="bi {{ $icon }}"></i>
+                                    </a>
+                                @endforeach
+                            </div>
                         @else
                             <span class="text-muted">-</span>
                         @endif
