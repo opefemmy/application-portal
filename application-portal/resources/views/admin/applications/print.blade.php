@@ -26,8 +26,8 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 350px;
-            height: 350px;
+            width: 400px;
+            height: 400px;
             opacity: 0.08;
             z-index: -1;
             pointer-events: none;
@@ -109,7 +109,7 @@
         /* Main content layout with passport */
         .content-wrapper {
             display: flex;
-            gap: 20px;
+            gap: 25px;
         }
 
         .main-content {
@@ -118,14 +118,14 @@
 
         /* Passport photo section */
         .passport-section {
-            width: 140px;
+            width: 150px;
             flex-shrink: 0;
             text-align: center;
         }
         .passport-photo {
-            width: 130px;
-            height: 160px;
-            border: 1px solid #dee2e6;
+            width: 140px;
+            height: 170px;
+            border: 2px solid #dee2e6;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -213,22 +213,36 @@
 <body>
     <!-- Watermark Background -->
     <div class="watermark">
-        @if(!empty($settings['logo']))
-        <img src="{{ asset($settings['logo']) }}" alt="Watermark">
-        @elseif(file_exists(public_path('images/logo.png')))
-        <img src="{{ asset('images/logo.png') }}" alt="Watermark">
+        @php
+        $watermarkPath = null;
+        if (!empty($settings['logo'])) {
+            $watermarkPath = asset($settings['logo']);
+        } elseif (file_exists(public_path('images/logo.png'))) {
+            $watermarkPath = asset('images/logo.png');
+        } elseif (file_exists(public_path('images/logo.jpg'))) {
+            $watermarkPath = asset('images/logo.jpg');
+        }
+        @endphp
+        @if($watermarkPath)
+        <img src="{{ $watermarkPath }}" alt="Watermark">
         @endif
     </div>
 
     <!-- Header with Logo and Institution Name -->
     <div class="print-header">
-        @if(!empty($settings['logo']))
+        @php
+        $logoPath = null;
+        if (!empty($settings['logo'])) {
+            $logoPath = asset($settings['logo']);
+        } elseif (file_exists(public_path('images/logo.png'))) {
+            $logoPath = asset('images/logo.png');
+        } elseif (file_exists(public_path('images/logo.jpg'))) {
+            $logoPath = asset('images/logo.jpg');
+        }
+        @endphp
+        @if($logoPath)
         <div class="institution-logo">
-            <img src="{{ asset($settings['logo']) }}" alt="Institution Logo">
-        </div>
-        @elseif(file_exists(public_path('images/logo.png')))
-        <div class="institution-logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Institution Logo">
+            <img src="{{ $logoPath }}" alt="Institution Logo">
         </div>
         @endif
         <div class="institution-name">{{ $settings['institution_name'] ?? 'Institution Name' }}</div>
@@ -377,13 +391,23 @@
         <div class="passport-section">
             <div class="passport-photo">
                 @php
-                $passportDoc = $application->documents->where('document_type', 'Passport Photograph')->first();
-                $passportUrl = $passportDoc ? asset('storage/' . $passportDoc->file_path) : null;
+                // Search for passport photo - case insensitive
+                $passportDoc = $application->documents->filter(function($doc) {
+                    return stripos($doc->document_type, 'passport') !== false && stripos($doc->document_type, 'photo') !== false;
+                })->first();
+
+                $passportUrl = null;
+                if ($passportDoc) {
+                    // Check if file exists in storage
+                    if (\Illuminate\Support\Facades\Storage::exists($passportDoc->file_path)) {
+                        $passportUrl = asset('storage/' . $passportDoc->file_path);
+                    }
+                }
                 @endphp
                 @if($passportUrl)
                 <img src="{{ $passportUrl }}" alt="Passport Photo">
                 @else
-                <span style="color: #999; font-size: 10px;">No Photo</span>
+                <span style="color: #999; font-size: 11px;">No Photo</span>
                 @endif
             </div>
             <div class="passport-label">Passport Photo</div>
