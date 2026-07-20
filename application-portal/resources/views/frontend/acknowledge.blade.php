@@ -58,23 +58,26 @@
         width: 80px;
         height: 80px;
     }
-    /* Watermark background */
-    .watermark-bg {
+    /* Watermark background - behind content */
+    .watermark-container {
         position: fixed;
         top: 0;
         left: 0;
         width: 100%;
         height: 100%;
         pointer-events: none;
-        opacity: 0.08;
-        z-index: 0;
+        z-index: -1;
         display: flex;
         align-items: center;
         justify-content: center;
+        overflow: hidden;
     }
-    .watermark-bg img {
-        max-width: 400px;
-        max-height: 400px;
+    .watermark-image {
+        opacity: 0.06;
+        max-width: 500px;
+        max-height: 500px;
+        width: 100%;
+        height: auto;
     }
     .print-header {
         display: none;
@@ -87,8 +90,16 @@
     }
 
     @media print {
-        .watermark-bg {
+        .watermark-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
             opacity: 0.15;
+        }
+        .watermark-image {
+            max-width: 400px;
+            max-height: 400px;
         }
         .acknowledge-card {
             box-shadow: none;
@@ -105,28 +116,28 @@
 @endsection
 
 @section('content')
-<!-- Watermark Background -->
-<div class="watermark-bg">
-    @if($settings['logo'] ?? false)
-    <img src="{{ asset($settings['logo']) }}" alt="Watermark">
-    @else
-    <img src="{{ asset('images/logo.png') }}" alt="Watermark">
+<!-- Watermark Background - Behind Content -->
+<div class="watermark-container">
+    @if(!empty($settings['logo']))
+    <img src="{{ asset($settings['logo']) }}" alt="Watermark" class="watermark-image">
+    @elseif(file_exists(public_path('images/logo.png')))
+    <img src="{{ asset('images/logo.png') }}" alt="Watermark" class="watermark-image">
     @endif
 </div>
 
 <div class="section py-5">
     <div class="container">
         <div class="acknowledge-card p-5">
-            <!-- QR Code - Top Right (using API to generate) -->
+            <!-- QR Code - Top Right -->
             <div class="qr-code-container no-print">
                 <div class="qr-code">
-                    <img src="https://api.qrserver.online/v1/create-qr-code/?size=80x80&data={{ urlencode($application->application_number) }}" alt="QR Code">
+                    <img src="https://api.qrserver.online/v1/create-qr-code/?size=100x100&data={{ urlencode(route('track') . '?app=' . $application->application_number) }}& bgcolor=FFFFFF& color=000000" alt="QR Code" onerror="this.style.display='none'">
                 </div>
             </div>
 
             <!-- Print Header - Shows only when printing -->
             <div class="print-header">
-                @if($settings['logo'] ?? false)
+                @if(!empty($settings['logo']))
                 <img src="{{ asset($settings['logo']) }}" alt="Institution Logo">
                 @endif
                 <h4>{{ $settings['institution_name'] ?? 'Institution Name' }}</h4>
@@ -161,7 +172,13 @@
                 </div>
                 <div class="detail-row">
                     <span class="text-muted">Position/Programme Applied</span>
-                    <span>{{ $application->application_details['position_applying_for'] ?? 'N/A' }}</span>
+                    <span class="fw-bold">
+                        @php
+                        $details = $application->application_details ?? [];
+                        $position = $details['position_applying_for'] ?? '';
+                        echo !empty($position) ? $position : 'N/A';
+                        @endphp
+                    </span>
                 </div>
                 <div class="detail-row">
                     <span class="text-muted">Date Submitted</span>

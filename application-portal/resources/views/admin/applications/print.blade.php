@@ -16,6 +16,23 @@
             line-height: 1.4;
             color: #333;
             padding: 20px;
+            position: relative;
+        }
+        /* Watermark background */
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 400px;
+            opacity: 0.08;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .watermark img {
+            width: 100%;
+            height: auto;
         }
         .print-header {
             text-align: center;
@@ -109,10 +126,20 @@
         @media print {
             body { padding: 0; }
             .no-print { display: none; }
+            .watermark { opacity: 0.12; }
         }
     </style>
 </head>
 <body>
+    <!-- Watermark Background -->
+    <div class="watermark">
+        @if(!empty($settings['logo']))
+        <img src="{{ asset($settings['logo']) }}" alt="Watermark">
+        @elseif(file_exists(public_path('images/logo.png')))
+        <img src="{{ asset('images/logo.png') }}" alt="Watermark">
+        @endif
+    </div>
+
     <div class="print-header">
         <h1>Application Form</h1>
         <p>Generated on {{ now()->format('F j, Y g:i A') }}</p>
@@ -229,19 +256,13 @@
         <div class="info-grid">
             <div class="info-row">
                 <div class="info-label">Position Applying For:</div>
-                <div class="info-value">{{ $application->application_details['position_applying_for'] ?? 'N/A' }}</div>
-            </div>
-            <div class="info-row">
-                <div class="info-label">Programme:</div>
-                <div class="info-value">{{ $application->application_details['programme_applying_for'] ?? 'N/A' }}</div>
-            </div>
-            <div class="info-row">
-                <div class="info-label">Department:</div>
-                <div class="info-value">{{ $application->application_details['department'] ?? 'N/A' }}</div>
-            </div>
-            <div class="info-row">
-                <div class="info-label">Category:</div>
-                <div class="info-value">{{ $application->application_details['category'] ?? 'N/A' }}</div>
+                <div class="info-value">
+                    @php
+                    $details = $application->application_details ?? [];
+                    $position = $details['position_applying_for'] ?? '';
+                    echo !empty($position) ? $position : 'N/A';
+                    @endphp
+                </div>
             </div>
         </div>
     </div>
