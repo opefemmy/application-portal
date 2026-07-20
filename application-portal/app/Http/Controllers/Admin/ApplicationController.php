@@ -307,7 +307,8 @@ class ApplicationController extends Controller
     public function print(Application $application)
     {
         $application->load('documents');
-        return view('admin.applications.print', compact('application'));
+        $settings = \App\Models\Setting::getSettings();
+        return view('admin.applications.print', compact('application', 'settings'));
     }
 
     public function destroy(Application $application)
