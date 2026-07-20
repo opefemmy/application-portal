@@ -262,7 +262,12 @@ class ApplicationController extends Controller
 
     public function downloadAcknowledge(Application $application)
     {
-        // Redirect to acknowledge page with print parameter
-        return redirect()->route('application.acknowledge', $application->id)->with('print_mode', true);
+        // Load dompdf directly
+        require_once base_path('vendor/dompdf/dompdf/src/Dompdf.php');
+
+        $dompdf = new \Dompdf\Dompdf();
+        $dompdf->loadHtml(view('frontend.acknowledge-pdf', compact('application'))->render());
+        $dompdf->setPaper('A4', 'portrait');
+        return $dompdf->download('application-' . $application->application_number . '.pdf');
     }
 }

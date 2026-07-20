@@ -131,7 +131,7 @@
             <!-- QR Code - Top Right -->
             <div class="qr-code-container no-print">
                 <div class="qr-code">
-                    <img src="https://api.qrserver.online/v1/create-qr-code/?size=100x100&data={{ urlencode(route('track') . '?app=' . $application->application_number) }}&bgcolor=FFFFFF&color=000000" alt="QR Code" onerror="this.style.display='none'">
+                    <img src="https://quickchart.io/qr?size=100x100&data={{ $application->application_number }}" alt="QR Code" onerror="this.style.display='none'">
                 </div>
             </div>
 
@@ -175,8 +175,8 @@
                     <span class="fw-bold">
                         @php
                         $details = $application->application_details ?? [];
-                        $position = $details['position_applying_for'] ?? '';
-                        echo !empty($position) ? $position : 'N/A';
+                        $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? $details['position'] ?? '';
+                        echo !empty($position) ? e($position) : 'N/A';
                         @endphp
                     </span>
                 </div>

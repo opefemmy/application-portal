@@ -116,11 +116,7 @@
 <body>
     <!-- Watermark Background -->
     <div class="watermark">
-        @if(!empty($settings['logo']))
-        <img src="{{ public_path($settings['logo']) }}" alt="Watermark">
-        @elseif(file_exists(public_path('images/logo.png')))
-        <img src="{{ public_path('images/logo.png') }}" alt="Watermark">
-        @endif
+        <img src="{{ public_path('images/logo.png') }}" alt="Watermark" style="width:100%;">
     </div>
 
     <div class="header">
