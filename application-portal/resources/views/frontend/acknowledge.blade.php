@@ -190,10 +190,17 @@
                 </div>
             </div>
 
+            @if(session('email_warning'))
+            <div class="alert alert-warning">
+                <h6><i class="bi bi-exclamation-triangle me-2"></i>Email Notice</h6>
+                <p class="mb-0">{{ session('email_warning') }}</p>
+            </div>
+            @else
             <div class="alert alert-info">
                 <h6><i class="bi bi-envelope me-2"></i>Check Your Email</h6>
                 <p class="mb-0">A confirmation email has been sent to <strong>{{ $application->email }}</strong>. Please check your inbox (and spam folder) for further updates.</p>
             </div>
+            @endif
 
             <div class="d-grid gap-2 no-print">
                 <a href="{{ route('application.download', $application->id) }}" class="btn btn-primary-custom">

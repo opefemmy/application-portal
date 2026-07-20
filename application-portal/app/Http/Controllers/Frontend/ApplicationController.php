@@ -249,6 +249,8 @@ class ApplicationController extends Controller
         } catch (\Exception $e) {
             // Log error but don't fail the submission
             \Log::error('Failed to send confirmation email: ' . $e->getMessage());
+            // Store warning in session to display
+            session()->flash('email_warning', 'Note: Confirmation email could not be sent. Please contact support if you did not receive one.');
         }
 
         return redirect()->route('application.acknowledge', $application->id)
