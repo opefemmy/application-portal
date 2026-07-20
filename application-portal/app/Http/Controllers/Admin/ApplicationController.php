@@ -152,8 +152,12 @@ class ApplicationController extends Controller
 
         // Send email
         try {
-            Mail::to($application->email)->send(new ShortlistEmail($application, $request->all()));
-            ActivityLog::log('email_sent', "Shortlist email sent to {$application->email}");
+            $email = $application->email;
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return back()->with('error', 'Invalid or missing email address for this applicant.');
+            }
+            Mail::to($email)->send(new ShortlistEmail($application, $request->all()));
+            ActivityLog::log('email_sent', "Shortlist email sent to {$email}");
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to send email: ' . $e->getMessage());
         }
@@ -168,9 +172,13 @@ class ApplicationController extends Controller
         ]);
 
         try {
-            Mail::to($application->email)->send(new RejectionEmail($application, $request->message));
+            $email = $application->email;
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return back()->with('error', 'Invalid or missing email address for this applicant.');
+            }
+            Mail::to($email)->send(new RejectionEmail($application, $request->message));
             $application->update(['status' => 'rejected']);
-            ActivityLog::log('email_sent', "Rejection email sent to {$application->email}");
+            ActivityLog::log('email_sent', "Rejection email sent to {$email}");
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to send email: ' . $e->getMessage());
         }
@@ -192,9 +200,13 @@ class ApplicationController extends Controller
         ]);
 
         try {
-            Mail::to($application->email)->send(new AcceptanceEmail($application, $request->all()));
+            $email = $application->email;
+            if (empty($email) || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                return back()->with('error', 'Invalid or missing email address for this applicant.');
+            }
+            Mail::to($email)->send(new AcceptanceEmail($application, $request->all()));
             $application->update(['status' => 'accepted']);
-            ActivityLog::log('email_sent', "Acceptance email sent to {$application->email}");
+            ActivityLog::log('email_sent', "Acceptance email sent to {$email}");
         } catch (\Exception $e) {
             return back()->with('error', 'Failed to send email: ' . $e->getMessage());
         }
