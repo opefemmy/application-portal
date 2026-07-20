@@ -268,6 +268,6 @@ class ApplicationController extends Controller
         $dompdf = new \Dompdf\Dompdf();
         $dompdf->loadHtml(view('frontend.acknowledge-pdf', compact('application'))->render());
         $dompdf->setPaper('A4', 'portrait');
-        return $dompdf->download('application-' . $application->application_number . '.pdf');
+        return $dompdf->stream('application-' . $application->application_number . '.pdf');
     }
 }
