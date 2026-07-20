@@ -222,6 +222,17 @@
             filter: invert(1);
         }
 
+        /* Fix button focus state to prevent blinking */
+        .btn:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        .btn:focus-visible {
+            outline: 2px solid var(--primary);
+            outline-offset: 2px;
+        }
+
         /* Responsive */
         @media (max-width: 992px) {
             .sidebar {

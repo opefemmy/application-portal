@@ -87,13 +87,14 @@ class DatabaseSeeder extends Seeder
             ['key' => 'maintenance_mode', 'value' => '0'],
             ['key' => 'maintenance_message', 'value' => ''],
             ['key' => 'programmes', 'value' => json_encode([
-                ['code' => 'NCE', 'name' => 'Nigeria Certificate in Education', 'is_active' => true, 'sort_order' => 1],
-                ['code' => 'ND', 'name' => 'National Diploma', 'is_active' => true, 'sort_order' => 2],
-                ['code' => 'HND', 'name' => 'Higher National Diploma', 'is_active' => true, 'sort_order' => 3],
-                ['code' => 'PGDE', 'name' => 'Postgraduate Diploma in Education', 'is_active' => true, 'sort_order' => 4],
-                ['code' => 'BACHELOR', 'name' => 'Bachelor Degree', 'is_active' => true, 'sort_order' => 5],
-                ['code' => 'MASTERS', 'name' => "Master's Degree", 'is_active' => true, 'sort_order' => 6],
-                ['code' => 'PHD', 'name' => 'Doctor of Philosophy', 'is_active' => true, 'sort_order' => 7],
+                ['code' => 'LO', 'name' => 'Legal Officer', 'is_active' => true, 'sort_order' => 1, 'department' => 'Legal'],
+                ['code' => 'NCE', 'name' => 'Nigeria Certificate in Education', 'is_active' => true, 'sort_order' => 2],
+                ['code' => 'ND', 'name' => 'National Diploma', 'is_active' => true, 'sort_order' => 3],
+                ['code' => 'HND', 'name' => 'Higher National Diploma', 'is_active' => true, 'sort_order' => 4],
+                ['code' => 'PGDE', 'name' => 'Postgraduate Diploma in Education', 'is_active' => true, 'sort_order' => 5],
+                ['code' => 'BACHELOR', 'name' => 'Bachelor Degree', 'is_active' => true, 'sort_order' => 6],
+                ['code' => 'MASTERS', 'name' => "Master's Degree", 'is_active' => true, 'sort_order' => 7],
+                ['code' => 'PHD', 'name' => 'Doctor of Philosophy', 'is_active' => true, 'sort_order' => 8],
             ])],
         ];
 

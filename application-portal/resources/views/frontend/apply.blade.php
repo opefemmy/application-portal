@@ -374,6 +374,7 @@
                                             <option value="{{ $prog['name'] }}">{{ $prog['code'] }} - {{ $prog['name'] }}</option>
                                             @endforeach
                                         @else
+                                            <option value="Legal Officer">Legal Officer</option>
                                             <option value="NCE">NCE - Nigeria Certificate in Education</option>
                                             <option value="ND">ND - National Diploma</option>
                                             <option value="HND">HND - Higher National Diploma</option>
