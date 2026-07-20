@@ -157,7 +157,7 @@
                                         $icon = 'bi-file-earmark-post';
                                     }
                                     @endphp
-                                    <a href="{{ route('documents.download', $doc->id) }}"
+                                    <a href="{{ route('admin.documents.download', $doc->id) }}"
                                        class="{{ $color }}"
                                        title="{{ $doc->document_type }}: {{ $doc->file_name }}"
                                        target="_blank">

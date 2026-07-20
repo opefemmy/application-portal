@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Application;
 use App\Models\ApplicationDocument;
+use App\Models\ActivityLog;
 use App\Models\Interview;
 use App\Models\Notification;
 use Illuminate\Http\Request;

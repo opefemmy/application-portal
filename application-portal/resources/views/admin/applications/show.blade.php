@@ -74,10 +74,10 @@
             <div class="d-flex justify-content-between align-items-center mb-2 p-2 bg-light rounded">
                 <span><i class="bi bi-file-earmark me-2"></i>{{ $doc->document_type }}</span>
                 <div class="btn-group btn-group-sm">
-                    <a href="{{ route('documents.preview', $doc->id) }}" class="btn btn-outline-primary" target="_blank">
+                    <a href="{{ route('admin.documents.preview', $doc->id) }}" class="btn btn-outline-primary" target="_blank">
                         <i class="bi bi-eye"></i>
                     </a>
-                    <a href="{{ route('documents.download', $doc->id) }}" class="btn btn-outline-secondary">
+                    <a href="{{ route('admin.documents.download', $doc->id) }}" class="btn btn-outline-secondary">
                         <i class="bi bi-download"></i>
                     </a>
                 </div>
