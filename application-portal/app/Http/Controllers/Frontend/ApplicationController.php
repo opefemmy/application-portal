@@ -273,6 +273,9 @@ class ApplicationController extends Controller
             $dompdf = new \Dompdf\Dompdf();
             $dompdf->setOptions($options);
 
+            // Load application with documents
+            $application->load('documents');
+
             // Render the view to HTML
             $html = view('frontend.application-form-pdf', [
                 'application' => $application,
@@ -286,7 +289,12 @@ class ApplicationController extends Controller
             return $dompdf->stream('application-' . $application->application_number . '.pdf');
         } catch (\Exception $e) {
             \Log::error('PDF Generation Error: ' . $e->getMessage());
-            return back()->with('error', 'Failed to generate PDF: ' . $e->getMessage());
+            return response()->json([
+                'error' => 'PDF Generation Failed',
+                'message' => $e->getMessage(),
+                'file' => $e->getFile(),
+                'line' => $e->getLine()
+            ], 500);
         }
     }
 }
