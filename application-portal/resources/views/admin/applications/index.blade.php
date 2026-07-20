@@ -113,13 +113,11 @@
                     <td>{{ $application->application_details['position_applying_for'] ?? 'N/A' }}</td>
                     <td>
                         @php
-                        $otherDocs = $application->documents->filter(function($doc) {
-                            return $doc->document_type !== 'Passport Photograph';
-                        });
+                        $allDocs = $application->documents;
                         @endphp
-                        @if($otherDocs->count() > 0)
-                            <div class="d-flex flex-wrap gap-1">
-                                @foreach($otherDocs as $doc)
+                        @if($allDocs->count() > 0)
+                            <div class="d-flex flex-column gap-1">
+                                @foreach($allDocs as $doc)
                                     @php
                                     $mime = $doc->mime_type ?? '';
                                     $icon = 'bi-file-earmark';
@@ -155,13 +153,16 @@
                                         $icon = 'bi-file-earmark-letter';
                                     } elseif (str_contains($type, 'nysc')) {
                                         $icon = 'bi-file-earmark-post';
+                                    } elseif (str_contains($type, 'passport')) {
+                                        $icon = 'bi-person-square';
                                     }
                                     @endphp
                                     <a href="{{ route('admin.documents.download', $doc->id) }}"
-                                       class="{{ $color }}"
-                                       title="{{ $doc->document_type }}: {{ $doc->file_name }}"
+                                       class="{{ $color }} text-decoration-none d-flex align-items-center gap-1"
+                                       title="{{ $doc->file_name }}"
                                        target="_blank">
                                         <i class="bi {{ $icon }}"></i>
+                                        <span class="small">{{ $doc->document_type }}</span>
                                     </a>
                                 @endforeach
                             </div>
