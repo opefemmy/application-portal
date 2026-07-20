@@ -216,13 +216,21 @@ class ApplicationController extends Controller
 
     public function downloadDocument(ApplicationDocument $document)
     {
-        if (!Storage::exists($document->file_path)) {
-            abort(404, 'File not found');
+        // Check if file exists
+        $filePath = $document->file_path;
+
+        // Try both local storage paths
+        if (!Storage::exists($filePath)) {
+            // Try with 'applications/' prefix
+            if (!Storage::exists('applications/' . $filePath)) {
+                abort(404, 'File not found: ' . $filePath);
+            }
+            $filePath = 'applications/' . $filePath;
         }
 
         ActivityLog::log('download', "Downloaded document: {$document->file_name}");
 
-        return Storage::download($document->file_path, $document->file_name);
+        return Storage::download($filePath, $document->file_name);
     }
 
     public function previewDocument(ApplicationDocument $document)

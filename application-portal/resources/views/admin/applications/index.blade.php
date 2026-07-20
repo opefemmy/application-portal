@@ -116,7 +116,7 @@
                         $allDocs = $application->documents;
                         @endphp
                         @if($allDocs->count() > 0)
-                            <div class="d-flex flex-column gap-1">
+                            <div class="d-flex flex-wrap gap-1">
                                 @foreach($allDocs as $doc)
                                     @php
                                     $mime = $doc->mime_type ?? '';
@@ -158,11 +158,10 @@
                                     }
                                     @endphp
                                     <a href="{{ route('admin.documents.download', $doc->id) }}"
-                                       class="{{ $color }} text-decoration-none d-flex align-items-center gap-1"
-                                       title="{{ $doc->file_name }}"
+                                       class="{{ $color }}"
+                                       title="{{ $doc->document_type }}: {{ $doc->file_name }}"
                                        target="_blank">
-                                        <i class="bi {{ $icon }}"></i>
-                                        <span class="small">{{ $doc->document_type }}</span>
+                                        <i class="bi {{ $icon }} fs-6"></i>
                                     </a>
                                 @endforeach
                             </div>
