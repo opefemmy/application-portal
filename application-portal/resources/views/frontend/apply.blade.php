@@ -500,7 +500,7 @@
 
                             <div class="mt-4 d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary prev-step"><i class="bi bi-arrow-left me-2"></i>Previous</button>
-                                <button type="submit" class="btn btn-success btn-lg" onclick="this.disabled=true;this.innerHTML='<span class=\'spinner-border spinner-border-sm me-2\'></span>Submitting...';this.form.submit();"><i class="bi bi-send me-2"></i>Submit Application</button>
+                                <button type="submit" class="btn btn-success btn-lg" id="submitBtn"><i class="bi bi-send me-2"></i>Submit Application</button>
                             </div>
                         </div>
                     </form>
@@ -791,6 +791,20 @@
         const col = input.closest('.col-md-6');
         col.querySelector('.file-upload-zone').classList.remove('has-file');
     }
+
+    // Handle form submission properly
+    document.getElementById('applicationForm').addEventListener('submit', function(e) {
+        const submitBtn = document.getElementById('submitBtn');
+        if (submitBtn) {
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner-border spinner-border-sm me-2"></span>Submitting...';
+            // Re-enable after 30 seconds in case of error
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="bi bi-send me-2"></i>Submit Application';
+            }, 30000);
+        }
+    });
 </script>
 <script src="{{ asset('js/nigerian-lgas.js') }}"></script>
 @endsection
