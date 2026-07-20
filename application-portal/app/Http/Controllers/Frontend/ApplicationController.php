@@ -178,7 +178,7 @@ class ApplicationController extends Controller
         ];
 
         // Create application with retry on duplicate
-        $maxRetries = 5;
+        $maxRetries = 10;
         $created = false;
         $lastError = '';
 
@@ -201,6 +201,9 @@ class ApplicationController extends Controller
                     // Generate a new application number and retry
                     $applicationNumber = Application::generateApplicationNumber();
                     \Log::warning("Duplicate application number, retrying with: " . $applicationNumber);
+
+                    // Small delay to reduce collision chances on next attempt
+                    usleep(100000); // 100ms
                 } else {
                     // Log other errors and break
                     \Log::error("Application creation error: " . $e->getMessage());

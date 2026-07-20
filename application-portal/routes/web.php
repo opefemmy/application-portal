@@ -22,6 +22,19 @@ Route::get('/track', [HomeController::class, 'track'])->name('track');
 
 Route::get('/apply', [FrontendApplicationController::class, 'showForm'])->name('apply');
 Route::post('/apply', [FrontendApplicationController::class, 'submit'])->name('apply.submit');
+
+// Test route to verify application number generation
+Route::get('/test-app-number', function () {
+    $numbers = [];
+    for ($i = 0; $i < 3; $i++) {
+        $numbers[] = \App\Models\Application::generateApplicationNumber();
+    }
+    return response()->json([
+        'success' => true,
+        'numbers' => $numbers,
+        'unique' => count(array_unique($numbers)) === count($numbers)
+    ]);
+});
 Route::get('/application/acknowledge/{application}', [FrontendApplicationController::class, 'acknowledge'])->name('application.acknowledge');
 Route::get('/application/download/{application}', [FrontendApplicationController::class, 'downloadAcknowledge'])->name('application.download');
 

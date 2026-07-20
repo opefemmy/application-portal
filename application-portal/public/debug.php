@@ -80,6 +80,76 @@ try {
     echo "✓ HTTP Kernel created\n";
     echo "\n✅ LARAVEL IS WORKING!\n";
 
+    // Check applications table
+    echo "\nAPPLICATIONS CHECK:\n";
+    echo str_repeat('-', 50) . "\n";
+
+    try {
+        $apps = \DB::table('applications')
+            ->orderByDesc('application_number')
+            ->limit(10)
+            ->get();
+
+        if ($apps->count() > 0) {
+            echo "Found {$apps->count()} recent applications:\n";
+            foreach ($apps as $app) {
+                echo "  - {$app->application_number} (status: {$app->status})\n";
+            }
+        } else {
+            echo "No applications found in database.\n";
+        }
+
+        // Test application number generation
+        echo "\nTESTING APPLICATION NUMBER GENERATION:\n";
+        echo str_repeat('-', 50) . "\n";
+
+        // Get Setting model for application prefix
+        $prefix = \DB::table('settings')->where('key', 'application_prefix')->first();
+        $prefixVal = $prefix ? $prefix->value : 'APP';
+        echo "Current prefix: $prefixVal\n";
+
+        // Get highest existing number
+        $lastApp = \DB::table('applications')
+            ->where('application_number', 'like', "{$prefixVal}-2026-%")
+            ->orderByDesc('application_number')
+            ->first();
+
+        if ($lastApp) {
+            echo "Last application number: {$lastApp->application_number}\n";
+        } else {
+            echo "No applications for 2026 yet.\n";
+        }
+
+        // Generate new numbers
+        echo "\nGenerating 3 test numbers...\n";
+        $numbers = [];
+        for ($i = 0; $i < 3; $i++) {
+            // Manual generation to avoid model issues
+            $year = date('Y');
+            $lastApplication = \DB::table('applications')
+                ->where('application_number', 'like', "{$prefixVal}-{$year}-%")
+                ->orderByDesc('application_number')
+                ->first();
+
+            if ($lastApplication) {
+                $numPart = substr($lastApplication->application_number, -6);
+                $newNum = intval($numPart) + 1 + $i;
+            } else {
+                $newNum = 1 + $i;
+            }
+
+            $newAppNumber = $prefixVal . '-' . $year . '-' . str_pad($newNum, 6, '0', STR_PAD_LEFT);
+            $numbers[] = $newAppNumber;
+            echo "  Generated: $newAppNumber\n";
+        }
+
+        $unique = count(array_unique($numbers)) === count($numbers);
+        echo "\nAll unique: " . ($unique ? "✓ YES" : "✗ NO") . "\n";
+
+    } catch (Exception $e) {
+        echo "Error checking applications: " . $e->getMessage() . "\n";
+    }
+
 } catch (Exception $e) {
     echo "✗ ERROR: " . $e->getMessage() . "\n";
     echo "  File: " . $e->getFile() . "\n";

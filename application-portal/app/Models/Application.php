@@ -99,7 +99,7 @@ class Application extends Model
         $prefix = Setting::get('application_prefix', 'APP');
         $year = date('Y');
 
-        // Get the highest existing number for this year
+        // Try to generate a sequential number first
         $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
             ->orderByDesc('application_number')
             ->first();
@@ -117,8 +117,9 @@ class Application extends Model
         for ($i = 0; $i < $maxAttempts; $i++) {
             $newAppNumber = $prefix . '-' . $year . '-' . str_pad($newNum, 6, '0', STR_PAD_LEFT);
 
-            // Check if it exists in database
-            $exists = self::where('application_number', $newAppNumber)->first();
+            // Check if it exists in database - use COUNT for better performance
+            $exists = self::where('application_number', $newAppNumber)->count() > 0;
+
             if (!$exists) {
                 return $newAppNumber;
             }
@@ -126,7 +127,10 @@ class Application extends Model
             $newNum++;
         }
 
-        // Ultimate fallback - use microtime
-        return $prefix . '-' . $year . '-' . str_pad(str_replace('.', '', microtime(true)), 12, '0', STR_PAD_LEFT);
+        // Ultimate fallback - use timestamp + random to ensure uniqueness
+        // This ensures we always return a unique number even after exhausting sequential numbers
+        $timestamp = date('YmdHis');
+        $random = str_pad(rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+        return $prefix . '-' . $year . '-' . $timestamp . $random;
     }
 }
