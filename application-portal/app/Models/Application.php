@@ -99,34 +99,34 @@ class Application extends Model
         $prefix = Setting::get('application_prefix', 'APP');
         $year = date('Y');
 
-        // Try multiple times to get a unique number
-        for ($attempt = 1; $attempt <= 10; $attempt++) {
-            $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
-                ->orderBy('application_number', 'desc')
-                ->first();
+        // Get the highest existing number for this year
+        $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
+            ->orderByDesc('application_number')
+            ->first();
 
-            if ($lastApplication) {
-                $lastNumber = (int) substr($lastApplication->application_number, -6);
-                $newNumber = str_pad($lastNumber + 1, 6, '0', STR_PAD_LEFT);
-            } else {
-                $newNumber = '000001';
-            }
+        if ($lastApplication) {
+            // Extract the number part and increment
+            $numPart = substr($lastApplication->application_number, -6);
+            $newNum = intval($numPart) + 1;
+        } else {
+            $newNum = 1;
+        }
 
-            $newAppNumber = "{$prefix}-{$year}-{$newNumber}";
+        // Keep trying until we find a unique number
+        $maxAttempts = 100;
+        for ($i = 0; $i < $maxAttempts; $i++) {
+            $newAppNumber = $prefix . '-' . $year . '-' . str_pad($newNum, 6, '0', STR_PAD_LEFT);
 
-            // Check if this number already exists
-            $exists = self::where('application_number', $newAppNumber)->exists();
+            // Check if it exists in database
+            $exists = self::where('application_number', $newAppNumber)->first();
             if (!$exists) {
                 return $newAppNumber;
             }
 
-            // Small delay if colliding (unlikely)
-            if ($attempt < 10) {
-                usleep(1000); // 1ms delay
-            }
+            $newNum++;
         }
 
-        // Final fallback: use timestamp + random
-        return "{$prefix}-{$year}-" . str_pad(date('His') . rand(10, 99), 8, '0', STR_PAD_LEFT);
+        // Ultimate fallback - use microtime
+        return $prefix . '-' . $year . '-' . str_pad(str_replace('.', '', microtime(true)), 12, '0', STR_PAD_LEFT);
     }
 }
