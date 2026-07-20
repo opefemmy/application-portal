@@ -131,7 +131,7 @@
             <!-- QR Code - Top Right -->
             <div class="qr-code-container no-print">
                 <div class="qr-code">
-                    <img src="https://api.qrserver.online/v1/create-qr-code/?size=100x100&data={{ urlencode(route('track') . '?app=' . $application->application_number) }}& bgcolor=FFFFFF& color=000000" alt="QR Code" onerror="this.style.display='none'">
+                    <img src="https://api.qrserver.online/v1/create-qr-code/?size=100x100&data={{ urlencode(route('track') . '?app=' . $application->application_number) }}&bgcolor=FFFFFF&color=000000" alt="QR Code" onerror="this.style.display='none'">
                 </div>
             </div>
 
