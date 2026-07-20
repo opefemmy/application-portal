@@ -93,6 +93,7 @@
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Position</th>
+                    <th>Documents</th>
                     <th>Gender</th>
                     <th>Status</th>
                     <th>Date</th>
@@ -110,6 +111,19 @@
                     <td>{{ $application->email }}</td>
                     <td>{{ $application->phone }}</td>
                     <td>{{ $application->application_details['position_applying_for'] ?? 'N/A' }}</td>
+                    <td>
+                        @php
+                        $otherDocs = $application->documents->filter(function($doc) {
+                            return $doc->document_type !== 'Passport Photograph';
+                        });
+                        @endphp
+                        @if($otherDocs->count() > 0)
+                            <span class="badge bg-secondary">{{ $otherDocs->count() }}</span>
+                            <span class="text-muted small">{{ $otherDocs->pluck('document_type')->implode(', ') }}</span>
+                        @else
+                            <span class="text-muted">-</span>
+                        @endif
+                    </td>
                     <td>{{ ucfirst($application->gender) }}</td>
                     <td>
                         @switch($application->status)
@@ -157,7 +171,7 @@
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="10" class="text-center text-muted py-4">
+                    <td colspan="11" class="text-center text-muted py-4">
                         <i class="bi bi-inbox fs-1 d-block mb-2"></i>
                         No applications found
                     </td>
