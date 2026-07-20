@@ -178,8 +178,9 @@ class ApplicationController extends Controller
         ];
 
         // Create application with retry on duplicate
-        $maxRetries = 3;
+        $maxRetries = 5;
         $created = false;
+        $lastError = '';
 
         for ($retry = 0; $retry < $maxRetries && !$created; $retry++) {
             try {
@@ -194,18 +195,22 @@ class ApplicationController extends Controller
                 ]);
                 $created = true;
             } catch (\Illuminate\Database\QueryException $e) {
+                $lastError = $e->getMessage();
                 // Check for duplicate entry error
                 if ($e->getCode() == 23000 && str_contains($e->getMessage(), '1062')) {
                     // Generate a new application number and retry
                     $applicationNumber = Application::generateApplicationNumber();
                     \Log::warning("Duplicate application number, retrying with: " . $applicationNumber);
                 } else {
-                    throw $e;
+                    // Log other errors and break
+                    \Log::error("Application creation error: " . $e->getMessage());
+                    break;
                 }
             }
         }
 
         if (!$created) {
+            \Log::error("Failed to create application after {$maxRetries} retries. Last error: {$lastError}");
             return back()->with('error', 'Unable to create application. Please try again.')->withInput();
         }
 

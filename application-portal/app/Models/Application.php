@@ -99,12 +99,10 @@ class Application extends Model
         $prefix = Setting::get('application_prefix', 'APP');
         $year = date('Y');
 
-        // Use a lock to prevent duplicate numbers
-        $maxAttempts = 5;
-        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+        // Try multiple times to get a unique number
+        for ($attempt = 1; $attempt <= 10; $attempt++) {
             $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
                 ->orderBy('application_number', 'desc')
-                ->lockForUpdate()
                 ->first();
 
             if ($lastApplication) {
@@ -122,14 +120,13 @@ class Application extends Model
                 return $newAppNumber;
             }
 
-            // If exists, try again (should be rare)
-            if ($attempt >= $maxAttempts) {
-                // Fallback: use timestamp-based unique number
-                return "{$prefix}-{$year}-" . str_pad(date('His'), 6, '0', STR_PAD_LEFT);
+            // Small delay if colliding (unlikely)
+            if ($attempt < 10) {
+                usleep(1000); // 1ms delay
             }
         }
 
-        // Final fallback
-        return "{$prefix}-{$year}-" . str_pad(time() % 1000000, 6, '0', STR_PAD_LEFT);
+        // Final fallback: use timestamp + random
+        return "{$prefix}-{$year}-" . str_pad(date('His') . rand(10, 99), 8, '0', STR_PAD_LEFT);
     }
 }
