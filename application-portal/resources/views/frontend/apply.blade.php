@@ -365,7 +365,7 @@
                         <div class="wizard-step" data-step="4">
                             <h4 class="mb-4"><i class="bi bi-file-earmark-text me-2"></i>Application Details</h4>
                             <div class="row g-3">
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <label class="form-label required-label">Position Applying For</label>
                                     <select name="position_applying_for" class="form-select" required>
                                         <option value="">Select a position</option>
@@ -383,10 +383,6 @@
                                             <option value="PhD">Doctor of Philosophy (PhD)</option>
                                         @endif
                                     </select>
-                                </div>
-                                <div class="col-md-6">
-                                    <label class="form-label">Category</label>
-                                    <input type="text" name="category" class="form-control">
                                 </div>
                             </div>
                             <div class="mt-4 d-flex justify-content-between">
@@ -503,7 +499,7 @@
 
                             <div class="mt-4 d-flex justify-content-between">
                                 <button type="button" class="btn btn-secondary prev-step"><i class="bi bi-arrow-left me-2"></i>Previous</button>
-                                <button type="submit" class="btn btn-success btn-lg"><i class="bi bi-send me-2"></i>Submit Application</button>
+                                <button type="submit" class="btn btn-success btn-lg" onclick="this.disabled=true;this.innerHTML='<span class=\'spinner-border spinner-border-sm me-2\'></span>Submitting...';this.form.submit();"><i class="bi bi-send me-2"></i>Submit Application</button>
                             </div>
                         </div>
                     </form>
@@ -792,60 +788,8 @@
 
         // Reset the upload zone
         const col = input.closest('.col-md-6');
-        const originalHtml = col.querySelector('.file-upload-zone').innerHTML;
         col.querySelector('.file-upload-zone').classList.remove('has-file');
     }
-
-    // Form submission handler
-    $('#applicationForm').on('submit', function(e) {
-        // Validate all required fields before submission
-        const form = $(this)[0];
-        const requiredFields = form.querySelectorAll('[required]');
-        let valid = true;
-        let firstInvalid = null;
-
-        requiredFields.forEach(function(field) {
-            if (!field.value) {
-                field.classList.add('is-invalid');
-                valid = false;
-                if (!firstInvalid) firstInvalid = field;
-            } else {
-                field.classList.remove('is-invalid');
-            }
-        });
-
-        // Check declaration checkbox
-        const declaration = document.getElementById('declaration');
-        if (!declaration.checked) {
-            declaration.classList.add('is-invalid');
-            valid = false;
-            if (!firstInvalid) firstInvalid = declaration;
-        } else {
-            declaration.classList.remove('is-invalid');
-        }
-
-        if (!valid) {
-            e.preventDefault();
-            if (firstInvalid) {
-                // Find which step has the invalid field and navigate to it
-                const invalidStep = firstInvalid.closest('.wizard-step');
-                if (invalidStep) {
-                    const stepNum = parseInt(invalidStep.dataset.step);
-                    currentStep = stepNum;
-                    updateProgress();
-                }
-            }
-            // Show error message
-            if (!$('.alert-danger').length) {
-                $('.card-custom').prepend('<div class="alert alert-danger alert-dismissible fade show" role="alert"><i class="bi bi-exclamation-circle me-2"></i>Please fill in all required fields.<button type="button" class="btn-close" data-bs-dismiss="alert"></button></div>');
-            }
-            return false;
-        }
-
-        // Show loading state on submit button
-        const submitBtn = $(this).find('button[type="submit"]');
-        submitBtn.prop('disabled', true).html('<span class="spinner-border spinner-border-sm me-2"></span>Submitting...');
-    });
 </script>
 <script src="{{ asset('js/nigerian-lgas.js') }}"></script>
 @endsection

@@ -175,7 +175,6 @@ class ApplicationController extends Controller
 
         $applicationDetails = [
             'position_applying_for' => data_get($validated, 'position_applying_for'),
-            'category' => data_get($validated, 'category'),
         ];
 
         // Create application
