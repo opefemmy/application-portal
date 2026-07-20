@@ -177,16 +177,37 @@ class ApplicationController extends Controller
             'position_applying_for' => data_get($validated, 'position_applying_for'),
         ];
 
-        // Create application
-        $application = Application::create([
-            'application_number' => $applicationNumber,
-            'application_type_id' => $validated['application_type_id'],
-            'personal_info' => $personalInfo,
-            'academic_info' => $academicInfo,
-            'employment_info' => $employmentInfo,
-            'application_details' => $applicationDetails,
-            'status' => 'pending',
-        ]);
+        // Create application with retry on duplicate
+        $maxRetries = 3;
+        $created = false;
+
+        for ($retry = 0; $retry < $maxRetries && !$created; $retry++) {
+            try {
+                $application = Application::create([
+                    'application_number' => $applicationNumber,
+                    'application_type_id' => $validated['application_type_id'],
+                    'personal_info' => $personalInfo,
+                    'academic_info' => $academicInfo,
+                    'employment_info' => $employmentInfo,
+                    'application_details' => $applicationDetails,
+                    'status' => 'pending',
+                ]);
+                $created = true;
+            } catch (\Illuminate\Database\QueryException $e) {
+                // Check for duplicate entry error
+                if ($e->getCode() == 23000 && str_contains($e->getMessage(), '1062')) {
+                    // Generate a new application number and retry
+                    $applicationNumber = Application::generateApplicationNumber();
+                    \Log::warning("Duplicate application number, retrying with: " . $applicationNumber);
+                } else {
+                    throw $e;
+                }
+            }
+        }
+
+        if (!$created) {
+            return back()->with('error', 'Unable to create application. Please try again.')->withInput();
+        }
 
         // Upload documents
         $documents = [

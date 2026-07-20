@@ -98,17 +98,38 @@ class Application extends Model
     {
         $prefix = Setting::get('application_prefix', 'APP');
         $year = date('Y');
-        $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
-            ->orderBy('application_number', 'desc')
-            ->first();
 
-        if ($lastApplication) {
-            $lastNumber = (int) substr($lastApplication->application_number, -6);
-            $newNumber = str_pad($lastNumber + 1, 6, '0', STR_PAD_LEFT);
-        } else {
-            $newNumber = '000001';
+        // Use a lock to prevent duplicate numbers
+        $maxAttempts = 5;
+        for ($attempt = 1; $attempt <= $maxAttempts; $attempt++) {
+            $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
+                ->orderBy('application_number', 'desc')
+                ->lockForUpdate()
+                ->first();
+
+            if ($lastApplication) {
+                $lastNumber = (int) substr($lastApplication->application_number, -6);
+                $newNumber = str_pad($lastNumber + 1, 6, '0', STR_PAD_LEFT);
+            } else {
+                $newNumber = '000001';
+            }
+
+            $newAppNumber = "{$prefix}-{$year}-{$newNumber}";
+
+            // Check if this number already exists
+            $exists = self::where('application_number', $newAppNumber)->exists();
+            if (!$exists) {
+                return $newAppNumber;
+            }
+
+            // If exists, try again (should be rare)
+            if ($attempt >= $maxAttempts) {
+                // Fallback: use timestamp-based unique number
+                return "{$prefix}-{$year}-" . str_pad(date('His'), 6, '0', STR_PAD_LEFT);
+            }
         }
 
-        return "{$prefix}-{$year}-{$newNumber}";
+        // Final fallback
+        return "{$prefix}-{$year}-" . str_pad(time() % 1000000, 6, '0', STR_PAD_LEFT);
     }
 }
