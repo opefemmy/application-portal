@@ -111,10 +111,10 @@
         <div class="passport-section">
             @php
             $passportDoc = $application->documents->where('document_type', 'Passport Photograph')->first();
-            $passportPath = $passportDoc ? storage_path('app/' . $passportDoc->file_path) : null;
+            $passportUrl = $passportDoc ? asset('storage/' . $passportDoc->file_path) : null;
             @endphp
-            @if($passportPath && file_exists($passportPath))
-            <img src="{{ $passportPath }}" alt="Passport Photo">
+            @if($passportUrl)
+            <img src="{{ $passportUrl }}" alt="Passport Photo">
             @else
             <div style="width:100px;height:120px;border:1px solid #ccc;display:flex;align-items:center;justify-content:center;background:#f9f9f9;">
                 <span style="font-size:10px;color:#999;">Photo</span>

@@ -262,12 +262,27 @@ class ApplicationController extends Controller
 
     public function downloadAcknowledge(Application $application)
     {
-        // Load dompdf directly
-        require_once base_path('vendor/dompdf/dompdf/src/Dompdf.php');
+        try {
+            // Use dompdf directly
+            $options = new \Dompdf\Options();
+            $options->set('isRemoteEnabled', true);
 
-        $dompdf = new \Dompdf\Dompdf();
-        $dompdf->loadHtml(view('frontend.application-form-pdf', compact('application'))->render());
-        $dompdf->setPaper('A4', 'portrait');
-        return $dompdf->stream('application-' . $application->application_number . '.pdf');
+            $dompdf = new \Dompdf\Dompdf($options);
+
+            // Render the view to HTML
+            $html = view('frontend.application-form-pdf', [
+                'application' => $application,
+                'settings' => \App\Models\Setting::getSettings()
+            ])->render();
+
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->render();
+
+            return $dompdf->stream('application-' . $application->application_number . '.pdf');
+        } catch (\Exception $e) {
+            \Log::error('PDF Generation Error: ' . $e->getMessage());
+            return back()->with('error', 'Failed to generate PDF: ' . $e->getMessage());
+        }
     }
 }
