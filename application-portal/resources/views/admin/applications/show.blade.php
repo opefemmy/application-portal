@@ -8,6 +8,14 @@
 @endsection
 
 @section('content')
+<!-- Debug: Raw Data Storage Check - Remove after debugging -->
+<div class="alert alert-info mb-3" style="font-size:11px;">
+    <strong>Debug - Raw Data:</strong><br>
+    <pre style="font-size:10px;">{{ json_encode($application->personal_info, JSON_PRETTY_PRINT) }}</pre>
+    <pre style="font-size:10px;">{{ json_encode($application->academic_info, JSON_PRETTY_PRINT) }}</pre>
+    <pre style="font-size:10px;">{{ json_encode($application->application_details, JSON_PRETTY_PRINT) }}</pre>
+</div>
+
 <div class="d-flex justify-content-between align-items-center mb-4">
     <div>
         <h4 class="mb-1">Application: {{ $application->application_number }}</h4>
