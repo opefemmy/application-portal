@@ -324,7 +324,8 @@ class ApplicationController extends Controller
     public function publicPrint(Application $application)
     {
         $settings = \App\Models\Setting::getSettings();
-        return view('admin.applications.print', compact('application', 'settings'));
+        $showEmployment = false;
+        return view('admin.applications.print', compact('application', 'settings', 'showEmployment'));
     }
 
     public function downloadAcknowledge(Application $application)

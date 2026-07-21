@@ -6,13 +6,13 @@
     <title>Application Print - {{ $application->application_number }}</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        @page { size: A4; margin: 10mm; }
+        @page { size: A4; margin: 8mm; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 10px;
-            line-height: 1.3;
+            font-size: 9px;
+            line-height: 1.2;
             color: #333;
-            padding: 10mm;
+            padding: 8mm;
             background: #fff;
         }
 
@@ -104,12 +104,12 @@
         }
 
         /* Sections */
-        .section { margin-bottom: 10px; }
+        .section { margin-bottom: 6px; }
         .section-title {
-            font-size: 10px; font-weight: bold;
+            font-size: 9px; font-weight: bold;
             background: var(--primary); color: #fff;
-            padding: 3px 8px; text-transform: uppercase;
-            border-radius: 2px; margin-bottom: 6px;
+            padding: 2px 6px; text-transform: uppercase;
+            border-radius: 2px; margin-bottom: 4px;
         }
 
         /* Table */
@@ -118,7 +118,7 @@
         }
         .info-table tr { border-bottom: 1px solid #eee; }
         .info-table td {
-            padding: 3px 6px; vertical-align: top;
+            padding: 2px 4px; vertical-align: top;
         }
         .info-table .label {
             width: 32%; font-weight: 600;
@@ -247,7 +247,7 @@
     </div>
 
     <!-- Employment History -->
-    @if($application->employment_info && count($application->employment_info) > 0)
+    @if($showEmployment && $application->employment_info && count($application->employment_info) > 0)
     <div class="section">
         <div class="section-title">Employment History</div>
         <table class="info-table">

@@ -329,7 +329,8 @@ class ApplicationController extends Controller
     {
         $application->load('documents');
         $settings = \App\Models\Setting::getSettings();
-        return view('admin.applications.print', compact('application', 'settings'));
+        $showEmployment = true;
+        return view('admin.applications.print', compact('application', 'settings', 'showEmployment'));
     }
 
     public function destroy(Application $application)
