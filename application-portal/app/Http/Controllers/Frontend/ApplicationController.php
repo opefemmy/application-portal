@@ -74,6 +74,29 @@ class ApplicationController extends Controller
             // Application Type
             'application_type_id' => 'required|exists:application_types,id',
 
+            // Personal Information - always required
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'gender' => 'required|string|in:male,female',
+            'date_of_birth' => 'required|date',
+            'marital_status' => 'required|string|in:single,married,divorced,widowed',
+            'nationality' => 'required|string|max:100',
+            'state_of_origin' => 'required|string|max:100',
+            'local_government' => 'required|string|max:100',
+            'residential_address' => 'required|string',
+            'phone_number' => 'required|string|max:20',
+            'email' => 'required|email|max:255',
+
+            // Academic Information - always required
+            'highest_qualification' => 'required|string|max:100',
+            'institution_attended' => 'required|string|max:255',
+            'course_studied' => 'required|string|max:255',
+            'grade_class' => 'required|string|max:50',
+            'graduation_year' => 'required|numeric|min:1950|max:' . date('Y'),
+
+            // Application Details - always required
+            'position_applying_for' => 'required|string|max:255',
+
             // Declaration
             'declaration' => 'accepted',
 
