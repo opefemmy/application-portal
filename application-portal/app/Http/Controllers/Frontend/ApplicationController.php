@@ -324,7 +324,7 @@ class ApplicationController extends Controller
     public function publicPrint(Application $application)
     {
         $settings = \App\Models\Setting::getSettings();
-        return view('frontend.print', compact('application', 'settings'));
+        return view('admin.applications.print', compact('application', 'settings'));
     }
 
     public function downloadAcknowledge(Application $application)
