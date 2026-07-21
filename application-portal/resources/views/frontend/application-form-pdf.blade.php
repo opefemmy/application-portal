@@ -146,12 +146,6 @@
             height: 100%;
             object-fit: cover;
         }
-        .passport-label {
-            font-size: 9px;
-            color: var(--primary);
-            text-transform: uppercase;
-            font-weight: bold;
-        }
 
         /* Info Grid */
         .section {
@@ -234,16 +228,23 @@
         <div class="watermark">
             @php
             $watermarkPath = null;
+            // Check settings logo first
             if (!empty($settings['logo'])) {
-                $watermarkPath = public_path($settings['logo']);
-            } elseif (file_exists(public_path('images/logo.png'))) {
-                $watermarkPath = public_path('images/logo.png');
-            } elseif (file_exists(public_path('images/logo.jpg'))) {
-                $watermarkPath = public_path('images/logo.jpg');
+                $watermarkPath = $settings['logo'];
+            }
+            // Fallback to common logo locations
+            if (!$watermarkPath || !file_exists(public_path($watermarkPath))) {
+                if (file_exists(public_path('images/logo.png'))) {
+                    $watermarkPath = 'images/logo.png';
+                } elseif (file_exists(public_path('images/logo.jpg'))) {
+                    $watermarkPath = 'images/logo.jpg';
+                } elseif (file_exists(public_path('images/logo.jpeg'))) {
+                    $watermarkPath = 'images/logo.jpeg';
+                }
             }
             @endphp
-            @if($watermarkPath)
-            <img src="{{ $watermarkPath }}" alt="Watermark">
+            @if($watermarkPath && file_exists(public_path($watermarkPath)))
+            <img src="{{ asset($watermarkPath) }}" alt="Watermark">
             @endif
         </div>
 
@@ -252,16 +253,23 @@
             <div class="header-left">
                 @php
                 $logoPath = null;
+                // Check settings logo first
                 if (!empty($settings['logo'])) {
-                    $logoPath = public_path($settings['logo']);
-                } elseif (file_exists(public_path('images/logo.png'))) {
-                    $logoPath = public_path('images/logo.png');
-                } elseif (file_exists(public_path('images/logo.jpg'))) {
-                    $logoPath = public_path('images/logo.jpg');
+                    $logoPath = $settings['logo'];
+                }
+                // Fallback to common logo locations
+                if (!$logoPath || !file_exists(public_path($logoPath))) {
+                    if (file_exists(public_path('images/logo.png'))) {
+                        $logoPath = 'images/logo.png';
+                    } elseif (file_exists(public_path('images/logo.jpg'))) {
+                        $logoPath = 'images/logo.jpg';
+                    } elseif (file_exists(public_path('images/logo.jpeg'))) {
+                        $logoPath = 'images/logo.jpeg';
+                    }
                 }
                 @endphp
-                @if($logoPath)
-                <img src="{{ $logoPath }}" alt="Institution Logo" class="header-logo">
+                @if($logoPath && file_exists(public_path($logoPath)))
+                <img src="{{ asset($logoPath) }}" alt="Institution Logo" class="header-logo">
                 @endif
                 <div class="header-text">
                     <h1>{{ $settings['institution_name'] ?? 'EKSCOTECH' }}</h1>
@@ -306,7 +314,6 @@
                 <span style="font-size:9px;color:#999;">Not Uploaded</span>
                 @endif
             </div>
-            <div class="passport-label">Passport Photo</div>
         </div>
 
         <div class="content-wrapper">
