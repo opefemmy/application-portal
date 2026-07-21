@@ -9,8 +9,8 @@
         @page { size: A4; margin: 8mm; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            font-size: 9px;
-            line-height: 1.2;
+            font-size: 11px;
+            line-height: 1.4;
             color: #333;
             padding: 8mm;
             background: #fff;
@@ -54,7 +54,7 @@
             font-size: 14px; font-weight: bold;
             text-transform: uppercase; margin-bottom: 2px;
         }
-        .header-text p { font-size: 9px; opacity: 0.9; }
+        .header-text p { font-size: 10px; opacity: 0.9; }
 
         /* App Number */
         .header-right { text-align: right; }
@@ -97,19 +97,19 @@
             margin-top: 6px;
             background: var(--accent); color: #fff;
             padding: 5px 8px; border-radius: 3px;
-            font-size: 9px; font-weight: bold;
+            font-size: 11px; font-weight: bold;
             display: inline-block;
             text-align: center;
             width: 100%;
         }
 
         /* Sections */
-        .section { margin-bottom: 6px; }
+        .section { margin-bottom: 10px; }
         .section-title {
-            font-size: 9px; font-weight: bold;
+            font-size: 12px; font-weight: bold;
             background: var(--primary); color: #fff;
-            padding: 2px 6px; text-transform: uppercase;
-            border-radius: 2px; margin-bottom: 4px;
+            padding: 4px 10px; text-transform: uppercase;
+            border-radius: 2px; margin-bottom: 6px;
         }
 
         /* Table */
@@ -118,7 +118,7 @@
         }
         .info-table tr { border-bottom: 1px solid #eee; }
         .info-table td {
-            padding: 2px 4px; vertical-align: top;
+            padding: 4px 8px; vertical-align: top;
         }
         .info-table .label {
             width: 32%; font-weight: 600;
