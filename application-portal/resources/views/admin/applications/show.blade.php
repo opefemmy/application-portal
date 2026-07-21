@@ -184,13 +184,13 @@
                     <strong>Position:</strong> {{ $application->positionApplyingFor ?: 'N/A' }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Programme:</strong> {{ $application->application_details['programme_applying_for'] ?? 'N/A' }}
+                    <strong>Programme:</strong> {{ $application->programmeApplyingFor ?: 'N/A' }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Department:</strong> {{ $application->application_details['department'] ?? 'N/A' }}
+                    <strong>Department:</strong> {{ $application->department ?: 'N/A' }}
                 </div>
                 <div class="col-md-6 mb-2">
-                    <strong>Category:</strong> {{ $application->application_details['category'] ?? 'N/A' }}
+                    <strong>Category:</strong> {{ $application->category ?: 'N/A' }}
                 </div>
             </div>
         </div>

@@ -156,6 +156,21 @@ class Application extends Model
         return $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
     }
 
+    public function getProgrammeApplyingForAttribute()
+    {
+        return $this->application_details['programme_applying_for'] ?? '';
+    }
+
+    public function getDepartmentAttribute()
+    {
+        return $this->application_details['department'] ?? '';
+    }
+
+    public function getCategoryAttribute()
+    {
+        return $this->application_details['category'] ?? '';
+    }
+
     public static function generateApplicationNumber()
     {
         $prefix = Setting::get('application_prefix', 'APP-CLG');
