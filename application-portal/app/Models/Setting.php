@@ -30,6 +30,12 @@ class Setting extends Model
 
     public static function isPortalOpen()
     {
+        // Check if portal is manually closed via setting
+        $portalStatus = self::get('portal_status', 'open');
+        if ($portalStatus === 'closed') {
+            return false;
+        }
+
         // Always return true to keep portal open for applications
         // Remove or comment the date-based logic if you want to control via dates
         return true;

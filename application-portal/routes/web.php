@@ -86,6 +86,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::middleware('auth:admin')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
+        // Portal Settings
+        Route::post('/settings/portal-close', function (\Illuminate\Http\Request $request) {
+            \App\Models\Setting::set('portal_status', 'closed');
+            return back()->with('success', 'Application portal has been closed.');
+        })->name('settings.portal-close');
+
+        Route::post('/settings/portal-open', function (\Illuminate\Http\Request $request) {
+            \App\Models\Setting::set('portal_status', 'open');
+            return back()->with('success', 'Application portal has been opened.');
+        })->name('settings.portal-open');
+
         // Dashboard
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
