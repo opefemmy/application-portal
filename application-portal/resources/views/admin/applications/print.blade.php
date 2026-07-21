@@ -246,6 +246,20 @@
         </table>
     </div>
 
+    <!-- Employment History -->
+    @if($application->employment_info && count($application->employment_info) > 0)
+    <div class="section">
+        <div class="section-title">Employment History</div>
+        <table class="info-table">
+            @foreach($application->employment_info as $emp)
+            <tr><td class="label">Employer:</td><td>{{ $emp['employer'] ?? '' }}</td></tr>
+            <tr><td class="label">Position:</td><td>{{ $emp['position'] ?? '' }}</td></tr>
+            <tr><td class="label">Years Exp:</td><td>{{ $emp['years_experience'] ?? '' }}</td></tr>
+            @endforeach
+        </table>
+    </div>
+    @endif
+
     <!-- Application Details -->
     <div class="section">
         <div class="section-title">Application Details</div>
