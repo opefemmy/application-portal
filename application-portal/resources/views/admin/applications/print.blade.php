@@ -209,18 +209,18 @@
     <div class="section">
         <div class="section-title">Personal Information</div>
         <table class="info-table">
-            <tr><td class="label">Full Name:</td><td>{{ $application->full_name ?: 'N/A' }}</td></tr>
-            <tr><td class="label">Gender:</td><td>{{ ucfirst($application->gender) ?: 'N/A' }}</td></tr>
-            <tr><td class="label">Date of Birth:</td><td>{{ $application->personal_info['date_of_birth'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->personal_info['marital_status'] ?? 'N/A') }}</td></tr>
-            <tr><td class="label">Nationality:</td><td>{{ $application->personal_info['nationality'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">State of Origin:</td><td>{{ $application->personal_info['state_of_origin'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">LGA:</td><td>{{ $application->personal_info['local_government'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Address:</td><td>{{ $application->personal_info['residential_address'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Postal Address:</td><td>{{ $application->personal_info['postal_address'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Email:</td><td>{{ $application->personal_info['email'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Phone:</td><td>{{ $application->personal_info['phone_number'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Alternative Phone:</td><td>{{ $application->personal_info['alternative_phone'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Full Name:</td><td>{{ $application->displayValue($application->full_name) }}</td></tr>
+            <tr><td class="label">Gender:</td><td>{{ $application->displayValue($application->gender, true) }}</td></tr>
+            <tr><td class="label">Date of Birth:</td><td>{{ $application->displayValue($application->personal_info['date_of_birth'] ?? null) }}</td></tr>
+            <tr><td class="label">Marital Status:</td><td>{{ $application->displayValue($application->personal_info['marital_status'] ?? null, true) }}</td></tr>
+            <tr><td class="label">Nationality:</td><td>{{ $application->displayValue($application->personal_info['nationality'] ?? null) }}</td></tr>
+            <tr><td class="label">State of Origin:</td><td>{{ $application->displayValue($application->personal_info['state_of_origin'] ?? null) }}</td></tr>
+            <tr><td class="label">LGA:</td><td>{{ $application->displayValue($application->personal_info['local_government'] ?? null) }}</td></tr>
+            <tr><td class="label">Address:</td><td>{{ $application->displayValue($application->personal_info['residential_address'] ?? null) }}</td></tr>
+            <tr><td class="label">Postal Address:</td><td>{{ $application->displayValue($application->personal_info['postal_address'] ?? null) }}</td></tr>
+            <tr><td class="label">Email:</td><td>{{ $application->displayValue($application->personal_info['email'] ?? null) }}</td></tr>
+            <tr><td class="label">Phone:</td><td>{{ $application->displayValue($application->personal_info['phone_number'] ?? null) }}</td></tr>
+            <tr><td class="label">Alternative Phone:</td><td>{{ $application->displayValue($application->personal_info['alternative_phone'] ?? null) }}</td></tr>
         </table>
     </div>
 
@@ -228,11 +228,11 @@
     <div class="section">
         <div class="section-title">Academic Information</div>
         <table class="info-table">
-            <tr><td class="label">Qualification:</td><td>{{ $application->academic_info['highest_qualification'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Institution:</td><td>{{ $application->academic_info['institution_attended'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Course:</td><td>{{ $application->academic_info['course_studied'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Grade/Class:</td><td>{{ $application->academic_info['grade_class'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Graduation Year:</td><td>{{ $application->academic_info['graduation_year'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Qualification:</td><td>{{ $application->displayValue($application->academic_info['highest_qualification'] ?? null) }}</td></tr>
+            <tr><td class="label">Institution:</td><td>{{ $application->displayValue($application->academic_info['institution_attended'] ?? null) }}</td></tr>
+            <tr><td class="label">Course:</td><td>{{ $application->displayValue($application->academic_info['course_studied'] ?? null) }}</td></tr>
+            <tr><td class="label">Grade/Class:</td><td>{{ $application->displayValue($application->academic_info['grade_class'] ?? null) }}</td></tr>
+            <tr><td class="label">Graduation Year:</td><td>{{ $application->displayValue($application->academic_info['graduation_year'] ?? null) }}</td></tr>
         </table>
     </div>
 
@@ -242,9 +242,9 @@
         <div class="section-title">Employment History</div>
         <table class="info-table">
             @foreach($application->employment_info as $emp)
-            <tr><td class="label">Employer:</td><td>{{ $emp['employer'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Position:</td><td>{{ $emp['position'] ?? 'N/A' }}</td></tr>
-            <tr><td class="label">Years Exp:</td><td>{{ $emp['years_experience'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Employer:</td><td>{{ $application->displayValue($emp['employer'] ?? null) }}</td></tr>
+            <tr><td class="label">Position:</td><td>{{ $application->displayValue($emp['position'] ?? null) }}</td></tr>
+            <tr><td class="label">Years Exp:</td><td>{{ $application->displayValue($emp['years_experience'] ?? null) }}</td></tr>
             @endforeach
         </table>
     </div>
@@ -254,7 +254,7 @@
     <div class="section">
         <div class="section-title">Application Details</div>
         <table class="info-table">
-            <tr><td class="label">Position Applied:</td><td>{{ $application->application_details['position_applying_for'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Position Applied:</td><td>{{ $application->displayValue($application->application_details['position_applying_for'] ?? null) }}</td></tr>
         </table>
     </div>
 

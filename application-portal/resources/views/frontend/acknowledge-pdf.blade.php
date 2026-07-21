@@ -208,35 +208,35 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <div class="info-label">Full Name:</div>
-                        <div class="info-value">{{ $application->full_name }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->full_name) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Gender:</div>
-                        <div class="info-value">{{ ucfirst($application->gender) }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->gender, true) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Date of Birth:</div>
-                        <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth', 'N/A') }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->personal_info['date_of_birth'] ?? null) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Marital Status:</div>
-                        <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status', 'N/A')) }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->personal_info['marital_status'] ?? null, true) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Nationality:</div>
-                        <div class="info-value">{{ data_get($application->personal_info, 'nationality', 'N/A') }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->personal_info['nationality'] ?? null) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">State of Origin:</div>
-                        <div class="info-value">{{ $application->state }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->state) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Email:</div>
-                        <div class="info-value">{{ $application->email }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->email) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Phone:</div>
-                        <div class="info-value">{{ $application->phone }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->phone) }}</div>
                     </div>
                 </div>
             </div>
@@ -246,23 +246,23 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <div class="info-label">Qualification:</div>
-                        <div class="info-value">{{ $application->qualification }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->qualification) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Institution:</div>
-                        <div class="info-value">{{ $application->academic_info['institution_attended'] ?? 'N/A' }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->academic_info['institution_attended'] ?? null) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Course:</div>
-                        <div class="info-value">{{ $application->academic_info['course_studied'] ?? 'N/A' }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->academic_info['course_studied'] ?? null) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Grade:</div>
-                        <div class="info-value">{{ $application->academic_info['grade_class'] ?? 'N/A' }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->academic_info['grade_class'] ?? null) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Graduation Year:</div>
-                        <div class="info-value">{{ $application->academic_info['graduation_year'] ?? 'N/A' }}</div>
+                        <div class="info-value">{{ $application->displayValue($application->academic_info['graduation_year'] ?? null) }}</div>
                     </div>
                 </div>
             </div>
@@ -272,19 +272,7 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <div class="info-label">Position Applying For:</div>
-                        <div class="info-value">
-                            @php
-                            $position = '';
-                            $details = $application->application_details ?? [];
-                            $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? $details['position'] ?? '';
-                            if (empty($position)) {
-                                $position = data_get($application->personal_info, 'position_applying_for')
-                                    ?? data_get($application->personal_info, 'position')
-                                    ?? data_get($application->personal_info, 'programme');
-                            }
-                            echo !empty($position) ? $position : 'N/A';
-                            @endphp
-                        </div>
+                        <div class="info-value">{{ $application->displayValue($application->position_applying_for) }}</div>
                     </div>
                 </div>
             </div>
