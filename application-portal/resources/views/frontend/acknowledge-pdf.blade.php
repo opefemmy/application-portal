@@ -239,6 +239,10 @@
                         <div class="info-value">{{ $application->residentialAddress }}</div>
                     </div>
                     <div class="info-row">
+                        <div class="info-label">Postal Address:</div>
+                        <div class="info-value">{{ $application->postalAddress }}</div>
+                    </div>
+                    <div class="info-row">
                         <div class="info-label">Email:</div>
                         <div class="info-value">{{ $application->email }}</div>
                     </div>

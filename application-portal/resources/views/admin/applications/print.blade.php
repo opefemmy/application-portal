@@ -217,7 +217,7 @@
             <tr><td class="label">State of Origin:</td><td>{{ $application->state }}</td></tr>
             <tr><td class="label">LGA:</td><td>{{ $application->localGovernment }}</td></tr>
             <tr><td class="label">Address:</td><td>{{ $application->residentialAddress }}</td></tr>
-            <tr><td class="label">Postal Address:</td><td>{{ $application->personal_info['postal_address'] ?? '' }}</td></tr>
+            <tr><td class="label">Postal Address:</td><td>{{ $application->postalAddress }}</td></tr>
             <tr><td class="label">Email:</td><td>{{ $application->email }}</td></tr>
             <tr><td class="label">Phone:</td><td>{{ $application->phone }}</td></tr>
             <tr><td class="label">Alternative Phone:</td><td>{{ $application->alternativePhone }}</td></tr>

@@ -316,6 +316,10 @@
                         <td class="value">{{ $application->residentialAddress ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
+                        <td class="label">Postal Address:</td>
+                        <td class="value">{{ $application->postalAddress ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
                         <td class="label">Email:</td>
                         <td class="value">{{ $application->email }}</td>
                     </tr>

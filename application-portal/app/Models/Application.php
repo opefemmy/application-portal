@@ -140,6 +140,11 @@ class Application extends Model
         return $this->personal_info['residential_address'] ?? '';
     }
 
+    public function getPostalAddressAttribute()
+    {
+        return $this->personal_info['postal_address'] ?? '';
+    }
+
     public function getAlternativePhoneAttribute()
     {
         return $this->personal_info['alternative_phone'] ?? '';
