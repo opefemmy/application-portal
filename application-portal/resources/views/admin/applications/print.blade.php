@@ -246,28 +246,11 @@
         </table>
     </div>
 
-    <!-- Employment -->
-    @if($application->employment_info && count($application->employment_info) > 0)
-    <div class="section">
-        <div class="section-title">Employment History</div>
-        <table class="info-table">
-            @foreach($application->employment_info as $emp)
-            <tr><td class="label">Employer:</td><td>{{ $emp['employer'] ?? '' }}</td></tr>
-            <tr><td class="label">Position:</td><td>{{ $emp['position'] ?? '' }}</td></tr>
-            <tr><td class="label">Years Exp:</td><td>{{ $emp['years_experience'] ?? '' }}</td></tr>
-            @endforeach
-        </table>
-    </div>
-    @endif
-
     <!-- Application Details -->
     <div class="section">
         <div class="section-title">Application Details</div>
         <table class="info-table">
             <tr><td class="label">Position Applied:</td><td>{{ $application->positionApplyingFor ?: 'N/A' }}</td></tr>
-            <tr><td class="label">Programme:</td><td>{{ $application->programmeApplyingFor }}</td></tr>
-            <tr><td class="label">Department:</td><td>{{ $application->department }}</td></tr>
-            <tr><td class="label">Category:</td><td>{{ $application->category }}</td></tr>
         </table>
     </div>
 
