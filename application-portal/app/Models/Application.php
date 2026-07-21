@@ -94,6 +94,63 @@ class Application extends Model
         return $this->academic_info['highest_qualification'] ?? '';
     }
 
+    public function getGradeClassAttribute()
+    {
+        return $this->academic_info['grade_class'] ?? '';
+    }
+
+    public function getGraduationYearAttribute()
+    {
+        return $this->academic_info['graduation_year'] ?? '';
+    }
+
+    public function getInstitutionAttendedAttribute()
+    {
+        return $this->academic_info['institution_attended'] ?? '';
+    }
+
+    public function getCourseStudiedAttribute()
+    {
+        return $this->academic_info['course_studied'] ?? '';
+    }
+
+    // Personal info accessors
+    public function getDateOfBirthAttribute()
+    {
+        return $this->personal_info['date_of_birth'] ?? '';
+    }
+
+    public function getMaritalStatusAttribute()
+    {
+        return $this->personal_info['marital_status'] ?? '';
+    }
+
+    public function getNationalityAttribute()
+    {
+        return $this->personal_info['nationality'] ?? '';
+    }
+
+    public function getLocalGovernmentAttribute()
+    {
+        return $this->personal_info['local_government'] ?? '';
+    }
+
+    public function getResidentialAddressAttribute()
+    {
+        return $this->personal_info['residential_address'] ?? '';
+    }
+
+    public function getAlternativePhoneAttribute()
+    {
+        return $this->personal_info['alternative_phone'] ?? '';
+    }
+
+    public function getPositionApplyingForAttribute()
+    {
+        $details = $this->application_details ?? [];
+        return $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
+    }
+
     public static function generateApplicationNumber()
     {
         $prefix = Setting::get('application_prefix', 'APP');

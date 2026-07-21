@@ -293,15 +293,15 @@
                     </tr>
                     <tr>
                         <td class="label">Date of Birth:</td>
-                        <td class="value">{{ data_get($application->personal_info, 'date_of_birth') ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->date_of_birth ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Marital Status:</td>
-                        <td class="value">{{ ucfirst(data_get($application->personal_info, 'marital_status')) ?: 'Not Provided' }}</td>
+                        <td class="value">{{ ucfirst($application->marital_status) ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Nationality:</td>
-                        <td class="value">{{ data_get($application->personal_info, 'nationality') ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->nationality ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">State of Origin:</td>
@@ -309,11 +309,11 @@
                     </tr>
                     <tr>
                         <td class="label">LGA:</td>
-                        <td class="value">{{ data_get($application->personal_info, 'local_government') ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->local_government ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Residential Address:</td>
-                        <td class="value">{{ data_get($application->personal_info, 'residential_address') ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->residential_address ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Email:</td>
@@ -323,10 +323,10 @@
                         <td class="label">Phone:</td>
                         <td class="value">{{ $application->phone }}</td>
                     </tr>
-                    @if(data_get($application->personal_info, 'alternative_phone'))
+                    @if($application->alternative_phone)
                     <tr>
                         <td class="label">Alt. Phone:</td>
-                        <td class="value">{{ data_get($application->personal_info, 'alternative_phone') }}</td>
+                        <td class="value">{{ $application->alternative_phone }}</td>
                     </tr>
                     @endif
                 </table>
@@ -342,19 +342,19 @@
                     </tr>
                     <tr>
                         <td class="label">Institution:</td>
-                        <td class="value">{{ $application->academic_info['institution_attended'] ?? 'Not Provided' }}</td>
+                        <td class="value">{{ $application->institution_attended ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Course:</td>
-                        <td class="value">{{ $application->academic_info['course_studied'] ?? 'Not Provided' }}</td>
+                        <td class="value">{{ $application->course_studied ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
-                        <td class="label">Grade:</td>
-                        <td class="value">{{ $application->academic_info['grade_class'] ?? 'Not Provided' }}</td>
+                        <td class="label">Grade/Class:</td>
+                        <td class="value">{{ $application->grade_class ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Graduation Year:</td>
-                        <td class="value">{{ $application->academic_info['graduation_year'] ?? 'Not Provided' }}</td>
+                        <td class="value">{{ $application->graduation_year ?: 'Not Provided' }}</td>
                     </tr>
                 </table>
             </div>
@@ -388,19 +388,7 @@
                 <table class="info-table">
                     <tr>
                         <td class="label">Position Applied:</td>
-                        <td class="value">
-                            @php
-                            $position = '';
-                            $details = $application->application_details ?? [];
-                            $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
-                            if (empty($position)) {
-                                $position = data_get($application->personal_info, 'position_applying_for')
-                                    ?? data_get($application->personal_info, 'position')
-                                    ?? '';
-                            }
-                            echo !empty($position) ? $position : 'Not Specified';
-                            @endphp
-                        </td>
+                        <td class="value">{{ $application->position_applying_for ?: 'Not Specified' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Status:</td>
