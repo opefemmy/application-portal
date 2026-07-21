@@ -151,16 +151,6 @@ class Application extends Model
         return $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
     }
 
-    // Helper to return N/A for empty values
-    public function displayValue($value, $capitalize = false)
-    {
-        $val = $value;
-        if ($capitalize && !empty($val)) {
-            $val = ucfirst($val);
-        }
-        return $val ?: 'N/A';
-    }
-
     public static function generateApplicationNumber()
     {
         $prefix = Setting::get('application_prefix', 'APP-CLG');
