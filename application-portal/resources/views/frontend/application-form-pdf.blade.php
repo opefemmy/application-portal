@@ -303,7 +303,7 @@
                 @if($passportImg)
                 <img src="{{ $passportImg }}" alt="Passport Photo">
                 @else
-                <span style="font-size:9px;color:#999;">No Photo</span>
+                <span style="font-size:9px;color:#999;">Not Uploaded</span>
                 @endif
             </div>
             <div class="passport-label">Passport Photo</div>
@@ -325,15 +325,15 @@
                         </div>
                         <div class="info-row">
                             <div class="info-label">Date of Birth:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth', 'N/A') }}</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth') ?: 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Marital Status:</div>
-                            <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status', 'N/A')) }}</div>
+                            <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status')) ?: 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Nationality:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'nationality', 'N/A') }}</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'nationality') ?: 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">State of Origin:</div>
@@ -341,11 +341,11 @@
                         </div>
                         <div class="info-row">
                             <div class="info-label">Local Government Area:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'local_government', 'N/A') }}</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'local_government') ?: 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Residential Address:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'residential_address', 'N/A') }}</div>
+                            <div class="info-value">{{ data_get($application->personal_info, 'residential_address') ?: 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Email Address:</div>
@@ -370,23 +370,23 @@
                     <div class="info-grid">
                         <div class="info-row">
                             <div class="info-label">Highest Qualification:</div>
-                            <div class="info-value">{{ $application->qualification }}</div>
+                            <div class="info-value">{{ $application->qualification ?: 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Institution Attended:</div>
-                            <div class="info-value">{{ $application->academic_info['institution_attended'] ?? 'N/A' }}</div>
+                            <div class="info-value">{{ $application->academic_info['institution_attended'] ?? 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Course Studied:</div>
-                            <div class="info-value">{{ $application->academic_info['course_studied'] ?? 'N/A' }}</div>
+                            <div class="info-value">{{ $application->academic_info['course_studied'] ?? 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Grade/Class:</div>
-                            <div class="info-value">{{ $application->academic_info['grade_class'] ?? 'N/A' }}</div>
+                            <div class="info-value">{{ $application->academic_info['grade_class'] ?? 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Year of Graduation:</div>
-                            <div class="info-value">{{ $application->academic_info['graduation_year'] ?? 'N/A' }}</div>
+                            <div class="info-value">{{ $application->academic_info['graduation_year'] ?? 'Not Provided' }}</div>
                         </div>
                     </div>
                 </div>
@@ -399,11 +399,11 @@
                         @foreach($application->employment_info as $emp)
                         <div class="info-row">
                             <div class="info-label">Employer:</div>
-                            <div class="info-value">{{ $emp['employer'] ?? 'N/A' }}</div>
+                            <div class="info-value">{{ $emp['employer'] ?? 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Position:</div>
-                            <div class="info-value">{{ $emp['position'] ?? 'N/A' }}</div>
+                            <div class="info-value">{{ $emp['position'] ?? 'Not Provided' }}</div>
                         </div>
                         <div class="info-row">
                             <div class="info-label">Years of Experience:</div>
@@ -430,7 +430,7 @@
                                         ?? data_get($application->personal_info, 'position')
                                         ?? data_get($application->personal_info, 'programme');
                                 }
-                                echo !empty($position) ? $position : 'N/A';
+                                echo !empty($position) ? $position : 'Not Specified';
                                 @endphp
                             </div>
                         </div>
