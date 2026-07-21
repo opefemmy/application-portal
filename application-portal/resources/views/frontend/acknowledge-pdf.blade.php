@@ -212,35 +212,35 @@
                     </div>
                     <div class="info-row">
                         <div class="info-label">Gender:</div>
-                        <div class="info-value">{{ ucfirst($application->gender) }}</div>
+                        <div class="info-value">{{ ucfirst($application->gender) ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Date of Birth:</div>
-                        <div class="info-value">{{ $application->dateOfBirth }}</div>
+                        <div class="info-value">{{ $application->dateOfBirth ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Marital Status:</div>
-                        <div class="info-value">{{ ucfirst($application->maritalStatus) }}</div>
+                        <div class="info-value">{{ ucfirst($application->maritalStatus) ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Nationality:</div>
-                        <div class="info-value">{{ $application->nationality }}</div>
+                        <div class="info-value">{{ $application->nationality ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">State of Origin:</div>
-                        <div class="info-value">{{ $application->state }}</div>
+                        <div class="info-value">{{ $application->state ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">LGA:</div>
-                        <div class="info-value">{{ $application->localGovernment }}</div>
+                        <div class="info-value">{{ $application->localGovernment ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Residential Address:</div>
-                        <div class="info-value">{{ $application->residentialAddress }}</div>
+                        <div class="info-value">{{ $application->residentialAddress ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Postal Address:</div>
-                        <div class="info-value">{{ $application->postalAddress }}</div>
+                        <div class="info-value">{{ $application->postalAddress ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Email:</div>
@@ -252,7 +252,7 @@
                     </div>
                     <div class="info-row">
                         <div class="info-label">Alternative Phone:</div>
-                        <div class="info-value">{{ $application->alternativePhone }}</div>
+                        <div class="info-value">{{ $application->alternativePhone ?: 'N/A' }}</div>
                     </div>
                 </div>
             </div>
@@ -262,23 +262,23 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <div class="info-label">Qualification:</div>
-                        <div class="info-value">{{ $application->qualification }}</div>
+                        <div class="info-value">{{ $application->qualification ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Institution:</div>
-                        <div class="info-value">{{ $application->institutionAttended }}</div>
+                        <div class="info-value">{{ $application->institutionAttended ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Course:</div>
-                        <div class="info-value">{{ $application->courseStudied }}</div>
+                        <div class="info-value">{{ $application->courseStudied ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Grade:</div>
-                        <div class="info-value">{{ $application->gradeClass }}</div>
+                        <div class="info-value">{{ $application->gradeClass ?: 'N/A' }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Graduation Year:</div>
-                        <div class="info-value">{{ $application->graduationYear }}</div>
+                        <div class="info-value">{{ $application->graduationYear ?: 'N/A' }}</div>
                     </div>
                 </div>
             </div>
@@ -288,7 +288,19 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <div class="info-label">Position Applying For:</div>
-                        <div class="info-value">{{ $application->positionApplyingFor }}</div>
+                        <div class="info-value">{{ $application->positionApplyingFor ?: 'N/A' }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Programme:</div>
+                        <div class="info-value">{{ $application->programmeApplyingFor ?: 'N/A' }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Department:</div>
+                        <div class="info-value">{{ $application->department ?: 'N/A' }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Category:</div>
+                        <div class="info-value">{{ $application->category ?: 'N/A' }}</div>
                     </div>
                 </div>
             </div>

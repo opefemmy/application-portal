@@ -395,6 +395,18 @@
                         <td class="value">{{ $application->positionApplyingFor ?: 'Not Specified' }}</td>
                     </tr>
                     <tr>
+                        <td class="label">Programme:</td>
+                        <td class="value">{{ $application->programmeApplyingFor ?: 'Not Specified' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Department:</td>
+                        <td class="value">{{ $application->department ?: 'Not Specified' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Category:</td>
+                        <td class="value">{{ $application->category ?: 'Not Specified' }}</td>
+                    </tr>
+                    <tr>
                         <td class="label">Status:</td>
                         <td class="value" style="font-weight:bold; color: var(--secondary); text-transform:uppercase;">{{ $application->status }}</td>
                     </tr>
