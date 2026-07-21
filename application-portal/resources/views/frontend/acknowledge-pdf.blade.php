@@ -329,9 +329,18 @@
                 })->first();
                 $passportImg = null;
                 if ($passportDoc) {
+                    // Try storage/app path first
                     $storagePath = storage_path('app/' . $passportDoc->file_path);
+                    if (!file_exists($storagePath)) {
+                        // Try public/storage path
+                        $storagePath = public_path('storage/' . $passportDoc->file_path);
+                    }
                     if (file_exists($storagePath)) {
-                        $passportImg = 'data:' . ($passportDoc->mime_type ?? 'image/jpeg') . ';base64,' . base64_encode(file_get_contents($storagePath));
+                        $mimeType = $passportDoc->mime_type ?? 'image/jpeg';
+                        $imageData = @file_get_contents($storagePath);
+                        if ($imageData !== false) {
+                            $passportImg = 'data:' . $mimeType . ';base64,' . base64_encode($imageData);
+                        }
                     }
                 }
                 @endphp
