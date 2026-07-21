@@ -210,17 +210,17 @@
         <div class="section-title">Personal Information</div>
         <table class="info-table">
             <tr><td class="label">Full Name:</td><td>{{ $application->full_name }}</td></tr>
-            <tr><td class="label">Gender:</td><td>{{ ucfirst($application->gender) }}</td></tr>
-            <tr><td class="label">Date of Birth:</td><td>{{ $application->dateOfBirth }}</td></tr>
-            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->maritalStatus) }}</td></tr>
-            <tr><td class="label">Nationality:</td><td>{{ $application->nationality }}</td></tr>
-            <tr><td class="label">State of Origin:</td><td>{{ $application->state }}</td></tr>
-            <tr><td class="label">LGA:</td><td>{{ $application->localGovernment }}</td></tr>
-            <tr><td class="label">Address:</td><td>{{ $application->residentialAddress }}</td></tr>
-            <tr><td class="label">Postal Address:</td><td>{{ $application->postalAddress }}</td></tr>
+            <tr><td class="label">Gender:</td><td>{{ ucfirst($application->gender) ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Date of Birth:</td><td>{{ $application->dateOfBirth ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->maritalStatus) ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Nationality:</td><td>{{ $application->nationality ?: 'N/A' }}</td></tr>
+            <tr><td class="label">State of Origin:</td><td>{{ $application->state ?: 'N/A' }}</td></tr>
+            <tr><td class="label">LGA:</td><td>{{ $application->localGovernment ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Address:</td><td>{{ $application->residentialAddress ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Postal Address:</td><td>{{ $application->postalAddress ?: 'N/A' }}</td></tr>
             <tr><td class="label">Email:</td><td>{{ $application->email }}</td></tr>
             <tr><td class="label">Phone:</td><td>{{ $application->phone }}</td></tr>
-            <tr><td class="label">Alternative Phone:</td><td>{{ $application->alternativePhone }}</td></tr>
+            <tr><td class="label">Alternative Phone:</td><td>{{ $application->alternativePhone ?: 'N/A' }}</td></tr>
         </table>
     </div>
 
@@ -228,11 +228,11 @@
     <div class="section">
         <div class="section-title">Academic Information</div>
         <table class="info-table">
-            <tr><td class="label">Qualification:</td><td>{{ $application->qualification }}</td></tr>
-            <tr><td class="label">Institution:</td><td>{{ $application->institutionAttended }}</td></tr>
-            <tr><td class="label">Course:</td><td>{{ $application->courseStudied }}</td></tr>
-            <tr><td class="label">Grade/Class:</td><td>{{ $application->gradeClass }}</td></tr>
-            <tr><td class="label">Graduation Year:</td><td>{{ $application->graduationYear }}</td></tr>
+            <tr><td class="label">Qualification:</td><td>{{ $application->qualification ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Institution:</td><td>{{ $application->institutionAttended ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Course:</td><td>{{ $application->courseStudied ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Grade/Class:</td><td>{{ $application->gradeClass ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Graduation Year:</td><td>{{ $application->graduationYear ?: 'N/A' }}</td></tr>
         </table>
     </div>
 
@@ -254,7 +254,10 @@
     <div class="section">
         <div class="section-title">Application Details</div>
         <table class="info-table">
-            <tr><td class="label">Position Applied:</td><td>{{ $application->positionApplyingFor }}</td></tr>
+            <tr><td class="label">Position Applied:</td><td>{{ $application->positionApplyingFor ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Programme:</td><td>{{ $application->programmeApplyingFor }}</td></tr>
+            <tr><td class="label">Department:</td><td>{{ $application->department }}</td></tr>
+            <tr><td class="label">Category:</td><td>{{ $application->category }}</td></tr>
         </table>
     </div>
 
