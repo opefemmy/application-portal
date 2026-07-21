@@ -25,6 +25,19 @@ Route::get('/storage-link', function () {
     return response()->json(['success' => true, 'message' => 'Storage link already exists']);
 });
 
+// Cache clear route
+Route::get('/clear-cache', function () {
+    try {
+        Artisan::call('cache:clear');
+        Artisan::call('route:clear');
+        Artisan::call('view:clear');
+        Artisan::call('config:clear');
+        return response()->json(['success' => true, 'message' => 'All caches cleared successfully']);
+    } catch (\Exception $e) {
+        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+    }
+});
+
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
