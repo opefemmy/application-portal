@@ -92,6 +92,17 @@
         }
         .passport-photo img { width: 100%; height: 100%; object-fit: cover; }
 
+        /* Application Number under passport */
+        .app-num-under-passport {
+            margin-top: 6px;
+            background: var(--accent); color: #fff;
+            padding: 5px 8px; border-radius: 3px;
+            font-size: 9px; font-weight: bold;
+            display: inline-block;
+            text-align: center;
+            width: 100%;
+        }
+
         /* Sections */
         .section { margin-bottom: 10px; }
         .section-title {
@@ -166,6 +177,8 @@
             <span style="font-size:8px;color:#999;">No Photo</span>
             @endif
         </div>
+        <!-- Application Number under passport -->
+        <div class="app-num-under-passport">{{ $application->application_number }}</div>
     </div>
 
     <!-- Header -->
@@ -188,7 +201,6 @@
             </div>
         </div>
         <div class="header-right">
-            <div class="app-num-badge">{{ $application->application_number }}</div><br>
             <span class="status-badge status-{{ $application->status }}">{{ ucwords(str_replace('_', ' ', $application->status)) }}</span>
         </div>
     </div>
@@ -197,16 +209,18 @@
     <div class="section">
         <div class="section-title">Personal Information</div>
         <table class="info-table">
-            <tr><td class="label">Full Name:</td><td>{{ $application->full_name }}</td></tr>
-            <tr><td class="label">Gender:</td><td>{{ ucfirst($application->gender) }}</td></tr>
-            <tr><td class="label">Date of Birth:</td><td>{{ $application->personal_info['date_of_birth'] ?? '' }}</td></tr>
-            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->personal_info['marital_status'] ?? '') }}</td></tr>
-            <tr><td class="label">Nationality:</td><td>{{ $application->personal_info['nationality'] ?? '' }}</td></tr>
-            <tr><td class="label">State of Origin:</td><td>{{ $application->personal_info['state_of_origin'] ?? '' }}</td></tr>
-            <tr><td class="label">LGA:</td><td>{{ $application->personal_info['local_government'] ?? '' }}</td></tr>
-            <tr><td class="label">Address:</td><td>{{ $application->personal_info['residential_address'] ?? '' }}</td></tr>
-            <tr><td class="label">Email:</td><td>{{ $application->personal_info['email'] ?? '' }}</td></tr>
-            <tr><td class="label">Phone:</td><td>{{ $application->personal_info['phone_number'] ?? '' }}</td></tr>
+            <tr><td class="label">Full Name:</td><td>{{ $application->full_name ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Gender:</td><td>{{ ucfirst($application->gender) ?: 'N/A' }}</td></tr>
+            <tr><td class="label">Date of Birth:</td><td>{{ $application->personal_info['date_of_birth'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->personal_info['marital_status'] ?? 'N/A') }}</td></tr>
+            <tr><td class="label">Nationality:</td><td>{{ $application->personal_info['nationality'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">State of Origin:</td><td>{{ $application->personal_info['state_of_origin'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">LGA:</td><td>{{ $application->personal_info['local_government'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Address:</td><td>{{ $application->personal_info['residential_address'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Postal Address:</td><td>{{ $application->personal_info['postal_address'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Email:</td><td>{{ $application->personal_info['email'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Phone:</td><td>{{ $application->personal_info['phone_number'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Alternative Phone:</td><td>{{ $application->personal_info['alternative_phone'] ?? 'N/A' }}</td></tr>
         </table>
     </div>
 
@@ -214,11 +228,11 @@
     <div class="section">
         <div class="section-title">Academic Information</div>
         <table class="info-table">
-            <tr><td class="label">Qualification:</td><td>{{ $application->academic_info['highest_qualification'] ?? '' }}</td></tr>
-            <tr><td class="label">Institution:</td><td>{{ $application->academic_info['institution_attended'] ?? '' }}</td></tr>
-            <tr><td class="label">Course:</td><td>{{ $application->academic_info['course_studied'] ?? '' }}</td></tr>
-            <tr><td class="label">Grade/Class:</td><td>{{ $application->academic_info['grade_class'] ?? '' }}</td></tr>
-            <tr><td class="label">Graduation Year:</td><td>{{ $application->academic_info['graduation_year'] ?? '' }}</td></tr>
+            <tr><td class="label">Qualification:</td><td>{{ $application->academic_info['highest_qualification'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Institution:</td><td>{{ $application->academic_info['institution_attended'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Course:</td><td>{{ $application->academic_info['course_studied'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Grade/Class:</td><td>{{ $application->academic_info['grade_class'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Graduation Year:</td><td>{{ $application->academic_info['graduation_year'] ?? 'N/A' }}</td></tr>
         </table>
     </div>
 
@@ -228,9 +242,9 @@
         <div class="section-title">Employment History</div>
         <table class="info-table">
             @foreach($application->employment_info as $emp)
-            <tr><td class="label">Employer:</td><td>{{ $emp['employer'] ?? '' }}</td></tr>
-            <tr><td class="label">Position:</td><td>{{ $emp['position'] ?? '' }}</td></tr>
-            <tr><td class="label">Years Exp:</td><td>{{ $emp['years_experience'] ?? '' }}</td></tr>
+            <tr><td class="label">Employer:</td><td>{{ $emp['employer'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Position:</td><td>{{ $emp['position'] ?? 'N/A' }}</td></tr>
+            <tr><td class="label">Years Exp:</td><td>{{ $emp['years_experience'] ?? 'N/A' }}</td></tr>
             @endforeach
         </table>
     </div>
@@ -240,7 +254,7 @@
     <div class="section">
         <div class="section-title">Application Details</div>
         <table class="info-table">
-            <tr><td class="label">Position Applied:</td><td>{{ $application->application_details['position_applying_for'] ?? '' }}</td></tr>
+            <tr><td class="label">Position Applied:</td><td>{{ $application->application_details['position_applying_for'] ?? 'N/A' }}</td></tr>
         </table>
     </div>
 

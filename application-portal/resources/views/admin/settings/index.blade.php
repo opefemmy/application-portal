@@ -48,7 +48,7 @@
                     </div>
                     <div class="col-md-6 mb-3">
                         <label class="form-label">Application Prefix</label>
-                        <input type="text" name="application_prefix" class="form-control" value="{{ $settings['application_prefix'] ?? 'APP' }}">
+                        <input type="text" name="application_prefix" class="form-control" value="{{ $settings['application_prefix'] ?? 'APP-CLG' }}">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary-custom">Save Changes</button>

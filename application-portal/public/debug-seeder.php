@@ -246,7 +246,7 @@ try {
         ['key' => 'institution_name', 'value' => 'EKSCOTECH', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'contact_email', 'value' => 'contact@ekscotech.edu.ng', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'phone_number', 'value' => '+2341234567890', 'created_at' => now(), 'updated_at' => now()],
-        ['key' => 'application_prefix', 'value' => 'APP', 'created_at' => now(), 'updated_at' => now()],
+        ['key' => 'application_prefix', 'value' => 'APP-CLG', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'maintenance_mode', 'value' => '0', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'primary_color', 'value' => '#38488e', 'created_at' => now(), 'updated_at' => now()],
         ['key' => 'secondary_color', 'value' => '#4052a0', 'created_at' => now(), 'updated_at' => now()],

@@ -78,7 +78,7 @@ class DatabaseSeeder extends Seeder
             ['key' => 'institution_name', 'value' => 'EKSCOTECH'],
             ['key' => 'contact_email', 'value' => 'contact@ekscotech.edu.ng'],
             ['key' => 'phone_number', 'value' => '+2341234567890'],
-            ['key' => 'application_prefix', 'value' => 'APP'],
+            ['key' => 'application_prefix', 'value' => 'APP-CLG'],
             ['key' => 'portal_open_date', 'value' => '2024-01-01'],
             ['key' => 'portal_close_date', 'value' => '2024-12-31'],
             ['key' => 'max_applications', 'value' => '10000'],

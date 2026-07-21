@@ -153,41 +153,33 @@ class Application extends Model
 
     public static function generateApplicationNumber()
     {
-        $prefix = Setting::get('application_prefix', 'APP');
-        $year = date('Y');
+        $prefix = Setting::get('application_prefix', 'APP-CLG');
 
-        // Try to generate a sequential number first
-        $lastApplication = self::where('application_number', 'like', "{$prefix}-{$year}-%")
-            ->orderByDesc('application_number')
-            ->first();
-
-        if ($lastApplication) {
-            // Extract the number part and increment
-            $numPart = substr($lastApplication->application_number, -6);
-            $newNum = intval($numPart) + 1;
-        } else {
-            $newNum = 1;
-        }
-
-        // Keep trying until we find a unique number
+        // Generate unique number using timestamp + random (not sequential 1,2,3)
         $maxAttempts = 100;
         for ($i = 0; $i < $maxAttempts; $i++) {
-            $newAppNumber = $prefix . '-' . $year . '-' . str_pad($newNum, 6, '0', STR_PAD_LEFT);
+            // Use timestamp (without dashes) + random 4-digit number for uniqueness
+            $timestamp = date('ymdHis'); // 6-digit timestamp (YYMMDDHHMMSS)
+            $random = str_pad(rand(1000, 9999), 4, '0', STR_PAD_LEFT);
+            $uniqueNum = $timestamp . $random;
 
-            // Check if it exists in database - use COUNT for better performance
-            $exists = self::where('application_number', $newAppNumber)->count() > 0;
+            // Format: APP-CLG-2507211432561234 (prefix + unique number)
+            // Or with year: APP-CLG-2026-2507211432561234
+            $newAppNumber = $prefix . '-' . $uniqueNum;
+
+            // Check if it exists in database
+            $exists = self::where('application_number', $newAppNumber)->exists();
 
             if (!$exists) {
                 return $newAppNumber;
             }
 
-            $newNum++;
+            // Small delay to get different timestamp on next attempt
+            usleep(10000); // 10ms
         }
 
-        // Ultimate fallback - use timestamp + random to ensure uniqueness
-        // This ensures we always return a unique number even after exhausting sequential numbers
-        $timestamp = date('YmdHis');
-        $random = str_pad(rand(1000, 9999), 4, '0', STR_PAD_LEFT);
-        return $prefix . '-' . $year . '-' . $timestamp . $random;
+        // Ultimate fallback - use microtime for guaranteed uniqueness
+        $micro = str_replace('.', '', microtime());
+        return $prefix . '-' . $micro . rand(1000, 9999);
     }
 }
