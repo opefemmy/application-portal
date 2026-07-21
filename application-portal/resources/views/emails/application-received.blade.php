@@ -45,7 +45,7 @@
 
         <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
             <p style="color: #666; margin: 0;">Best regards,</p>
-            <p style="font-weight: bold; margin: 5px 0;">Admissions Team</p>
+            <p style="font-weight: bold; margin: 5px 0;">Registrar</p>
             <p style="color: #999; margin: 0;">{{ config('app.name', 'Application Portal') }}</p>
         </div>
     </div>
