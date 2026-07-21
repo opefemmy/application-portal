@@ -216,15 +216,15 @@
                     </div>
                     <div class="info-row">
                         <div class="info-label">Date of Birth:</div>
-                        <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth', '') }}</div>
+                        <div class="info-value">{{ $application->dateOfBirth }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Marital Status:</div>
-                        <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status', '')) }}</div>
+                        <div class="info-value">{{ ucfirst($application->maritalStatus) }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Nationality:</div>
-                        <div class="info-value">{{ data_get($application->personal_info, 'nationality', '') }}</div>
+                        <div class="info-value">{{ $application->nationality }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">State of Origin:</div>
@@ -250,19 +250,19 @@
                     </div>
                     <div class="info-row">
                         <div class="info-label">Institution:</div>
-                        <div class="info-value">{{ $application->academic_info['institution_attended'] ?? '' }}</div>
+                        <div class="info-value">{{ $application->institutionAttended }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Course:</div>
-                        <div class="info-value">{{ $application->academic_info['course_studied'] ?? '' }}</div>
+                        <div class="info-value">{{ $application->courseStudied }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Grade:</div>
-                        <div class="info-value">{{ $application->academic_info['grade_class'] ?? '' }}</div>
+                        <div class="info-value">{{ $application->gradeClass }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Graduation Year:</div>
-                        <div class="info-value">{{ $application->academic_info['graduation_year'] ?? '' }}</div>
+                        <div class="info-value">{{ $application->graduationYear }}</div>
                     </div>
                 </div>
             </div>
@@ -272,7 +272,7 @@
                 <div class="info-grid">
                     <div class="info-row">
                         <div class="info-label">Position Applying For:</div>
-                        <div class="info-value">{{ $application->application_details['position_applying_for'] ?? '' }}</div>
+                        <div class="info-value">{{ $application->positionApplyingFor }}</div>
                     </div>
                 </div>
             </div>

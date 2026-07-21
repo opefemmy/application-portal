@@ -211,16 +211,16 @@
         <table class="info-table">
             <tr><td class="label">Full Name:</td><td>{{ $application->full_name }}</td></tr>
             <tr><td class="label">Gender:</td><td>{{ ucfirst($application->gender) }}</td></tr>
-            <tr><td class="label">Date of Birth:</td><td>{{ $application->personal_info['date_of_birth'] ?? '' }}</td></tr>
-            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->personal_info['marital_status'] ?? '') }}</td></tr>
-            <tr><td class="label">Nationality:</td><td>{{ $application->personal_info['nationality'] ?? '' }}</td></tr>
-            <tr><td class="label">State of Origin:</td><td>{{ $application->personal_info['state_of_origin'] ?? '' }}</td></tr>
-            <tr><td class="label">LGA:</td><td>{{ $application->personal_info['local_government'] ?? '' }}</td></tr>
-            <tr><td class="label">Address:</td><td>{{ $application->personal_info['residential_address'] ?? '' }}</td></tr>
+            <tr><td class="label">Date of Birth:</td><td>{{ $application->dateOfBirth }}</td></tr>
+            <tr><td class="label">Marital Status:</td><td>{{ ucfirst($application->maritalStatus) }}</td></tr>
+            <tr><td class="label">Nationality:</td><td>{{ $application->nationality }}</td></tr>
+            <tr><td class="label">State of Origin:</td><td>{{ $application->state }}</td></tr>
+            <tr><td class="label">LGA:</td><td>{{ $application->localGovernment }}</td></tr>
+            <tr><td class="label">Address:</td><td>{{ $application->residentialAddress }}</td></tr>
             <tr><td class="label">Postal Address:</td><td>{{ $application->personal_info['postal_address'] ?? '' }}</td></tr>
-            <tr><td class="label">Email:</td><td>{{ $application->personal_info['email'] ?? '' }}</td></tr>
-            <tr><td class="label">Phone:</td><td>{{ $application->personal_info['phone_number'] ?? '' }}</td></tr>
-            <tr><td class="label">Alternative Phone:</td><td>{{ $application->personal_info['alternative_phone'] ?? '' }}</td></tr>
+            <tr><td class="label">Email:</td><td>{{ $application->email }}</td></tr>
+            <tr><td class="label">Phone:</td><td>{{ $application->phone }}</td></tr>
+            <tr><td class="label">Alternative Phone:</td><td>{{ $application->alternativePhone }}</td></tr>
         </table>
     </div>
 
@@ -228,11 +228,11 @@
     <div class="section">
         <div class="section-title">Academic Information</div>
         <table class="info-table">
-            <tr><td class="label">Qualification:</td><td>{{ $application->academic_info['highest_qualification'] ?? '' }}</td></tr>
-            <tr><td class="label">Institution:</td><td>{{ $application->academic_info['institution_attended'] ?? '' }}</td></tr>
-            <tr><td class="label">Course:</td><td>{{ $application->academic_info['course_studied'] ?? '' }}</td></tr>
-            <tr><td class="label">Grade/Class:</td><td>{{ $application->academic_info['grade_class'] ?? '' }}</td></tr>
-            <tr><td class="label">Graduation Year:</td><td>{{ $application->academic_info['graduation_year'] ?? '' }}</td></tr>
+            <tr><td class="label">Qualification:</td><td>{{ $application->qualification }}</td></tr>
+            <tr><td class="label">Institution:</td><td>{{ $application->institutionAttended }}</td></tr>
+            <tr><td class="label">Course:</td><td>{{ $application->courseStudied }}</td></tr>
+            <tr><td class="label">Grade/Class:</td><td>{{ $application->gradeClass }}</td></tr>
+            <tr><td class="label">Graduation Year:</td><td>{{ $application->graduationYear }}</td></tr>
         </table>
     </div>
 
@@ -254,7 +254,7 @@
     <div class="section">
         <div class="section-title">Application Details</div>
         <table class="info-table">
-            <tr><td class="label">Position Applied:</td><td>{{ $application->application_details['position_applying_for'] ?? '' }}</td></tr>
+            <tr><td class="label">Position Applied:</td><td>{{ $application->positionApplyingFor }}</td></tr>
         </table>
     </div>
 
