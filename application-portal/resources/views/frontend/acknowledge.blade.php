@@ -300,8 +300,8 @@
             @endif
 
             <div class="d-grid gap-2 no-print">
-                <a href="{{ route('application.download', $application->id) }}" class="btn btn-primary-custom">
-                    <i class="bi bi-download me-2"></i>Download Application Form (PDF)
+                <a href="{{ route('application.print', $application->id) }}" class="btn btn-primary-custom" target="_blank">
+                    <i class="bi bi-printer me-2"></i>Print Application Form
                 </a>
             </div>
         </div>

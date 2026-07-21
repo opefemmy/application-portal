@@ -36,6 +36,7 @@ Route::get('/test-app-number', function () {
     ]);
 });
 Route::get('/application/acknowledge/{application}', [FrontendApplicationController::class, 'acknowledge'])->name('application.acknowledge');
+Route::get('/application/print/{application}', [FrontendApplicationController::class, 'publicPrint'])->name('application.print');
 Route::get('/application/download/{application}', [FrontendApplicationController::class, 'downloadAcknowledge'])->name('application.download');
 
 // Admin Routes

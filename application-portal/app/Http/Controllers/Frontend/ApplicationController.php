@@ -320,6 +320,13 @@ class ApplicationController extends Controller
         return view('frontend.acknowledge', compact('application', 'settings'));
     }
 
+    // Public print view - uses the same template as admin print
+    public function publicPrint(Application $application)
+    {
+        $settings = \App\Models\Setting::getSettings();
+        return view('admin.applications.print', compact('application', 'settings'));
+    }
+
     public function downloadAcknowledge(Application $application)
     {
         try {
