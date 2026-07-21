@@ -303,17 +303,19 @@ class ApplicationController extends Controller
             // Use dompdf v2.0
             $options = new \Dompdf\Options();
             $options->setIsRemoteEnabled(true);
+            $options->setIsHtml5ParserEnabled(true);
 
             $dompdf = new \Dompdf\Dompdf();
             $dompdf->setOptions($options);
 
             // Load application with documents
             $application->load('documents');
+            $settings = \App\Models\Setting::getSettings();
 
-            // Render the view to HTML
-            $html = view('frontend.application-form-pdf', [
+            // Use the same print template as admin (which works)
+            $html = view('admin.applications.print', [
                 'application' => $application,
-                'settings' => \App\Models\Setting::getSettings()
+                'settings' => $settings
             ])->render();
 
             $dompdf->loadHtml($html);
