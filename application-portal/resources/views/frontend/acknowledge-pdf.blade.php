@@ -231,12 +231,24 @@
                         <div class="info-value">{{ $application->state }}</div>
                     </div>
                     <div class="info-row">
+                        <div class="info-label">LGA:</div>
+                        <div class="info-value">{{ $application->localGovernment }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Residential Address:</div>
+                        <div class="info-value">{{ $application->residentialAddress }}</div>
+                    </div>
+                    <div class="info-row">
                         <div class="info-label">Email:</div>
                         <div class="info-value">{{ $application->email }}</div>
                     </div>
                     <div class="info-row">
                         <div class="info-label">Phone:</div>
                         <div class="info-value">{{ $application->phone }}</div>
+                    </div>
+                    <div class="info-row">
+                        <div class="info-label">Alternative Phone:</div>
+                        <div class="info-value">{{ $application->alternativePhone }}</div>
                     </div>
                 </div>
             </div>

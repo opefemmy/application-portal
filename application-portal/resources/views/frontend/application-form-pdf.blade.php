@@ -293,11 +293,11 @@
                     </tr>
                     <tr>
                         <td class="label">Date of Birth:</td>
-                        <td class="value">{{ $application->date_of_birth ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->dateOfBirth ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Marital Status:</td>
-                        <td class="value">{{ ucfirst($application->marital_status) ?: 'Not Provided' }}</td>
+                        <td class="value">{{ ucfirst($application->maritalStatus) ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Nationality:</td>
@@ -309,11 +309,11 @@
                     </tr>
                     <tr>
                         <td class="label">LGA:</td>
-                        <td class="value">{{ $application->local_government ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->localGovernment ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Residential Address:</td>
-                        <td class="value">{{ $application->residential_address ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->residentialAddress ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Email:</td>
@@ -323,10 +323,10 @@
                         <td class="label">Phone:</td>
                         <td class="value">{{ $application->phone }}</td>
                     </tr>
-                    @if($application->alternative_phone)
+                    @if($application->alternativePhone)
                     <tr>
                         <td class="label">Alt. Phone:</td>
-                        <td class="value">{{ $application->alternative_phone }}</td>
+                        <td class="value">{{ $application->alternativePhone }}</td>
                     </tr>
                     @endif
                 </table>
@@ -342,19 +342,19 @@
                     </tr>
                     <tr>
                         <td class="label">Institution:</td>
-                        <td class="value">{{ $application->institution_attended ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->institutionAttended ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Course:</td>
-                        <td class="value">{{ $application->course_studied ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->courseStudied ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Grade/Class:</td>
-                        <td class="value">{{ $application->grade_class ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->gradeClass ?: 'Not Provided' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Graduation Year:</td>
-                        <td class="value">{{ $application->graduation_year ?: 'Not Provided' }}</td>
+                        <td class="value">{{ $application->graduationYear ?: 'Not Provided' }}</td>
                     </tr>
                 </table>
             </div>
@@ -388,7 +388,7 @@
                 <table class="info-table">
                     <tr>
                         <td class="label">Position Applied:</td>
-                        <td class="value">{{ $application->position_applying_for ?: 'Not Specified' }}</td>
+                        <td class="value">{{ $application->positionApplyingFor ?: 'Not Specified' }}</td>
                     </tr>
                     <tr>
                         <td class="label">Status:</td>
