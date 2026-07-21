@@ -5,21 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Application Form - {{ $application->application_number }}</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             font-size: 10px;
-            line-height: 1.3;
+            line-height: 1.4;
             color: #333;
-            padding: 10px;
+            padding: 8mm;
             background: #fff;
         }
         .page {
             max-width: 210mm;
+            min-height: 297mm;
             margin: 0 auto;
             background: #fff;
             position: relative;
@@ -32,114 +29,94 @@
             --accent: #a48613;
         }
 
-        /* Watermark Background */
+        /* Watermark */
         .watermark {
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 350px;
-            height: 350px;
-            opacity: 0.06;
+            width: 300px;
+            height: 300px;
+            opacity: 0.08;
             z-index: -1;
-            pointer-events: none;
         }
-        .watermark img {
-            width: 100%;
-            height: auto;
-        }
+        .watermark img { width: 100%; height: auto; }
 
-        /* Header */
-        .form-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 10px 15px;
+        /* Header Banner */
+        .header-banner {
             background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
-            color: white;
+            padding: 15px 20px;
             margin-bottom: 15px;
-            border-radius: 5px;
-        }
-        .header-left {
+            border-radius: 4px;
             display: flex;
             align-items: center;
             gap: 15px;
         }
         .header-logo {
-            width: 60px;
-            height: 60px;
-            object-fit: contain;
-            background: white;
-            border-radius: 50%;
-            padding: 3px;
-        }
-        .header-text h1 {
-            font-size: 16px;
-            font-weight: bold;
-            text-transform: uppercase;
-            margin-bottom: 2px;
-        }
-        .header-text p {
-            font-size: 9px;
-            opacity: 0.9;
-        }
-
-        /* QR Code Section */
-        .header-right {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-        }
-        .qr-code {
             width: 70px;
             height: 70px;
-            background: white;
+            object-fit: contain;
+            background: #fff;
+            border-radius: 8px;
+            padding: 5px;
+        }
+        .header-text {
+            color: #fff;
+            flex: 1;
+        }
+        .header-text h1 {
+            font-size: 18px;
+            font-weight: bold;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+        .header-text .portal-name {
+            font-size: 11px;
+            opacity: 0.95;
+        }
+
+        /* QR and App Number */
+        .header-right {
+            text-align: right;
+        }
+        .qr-code {
+            width: 55px;
+            height: 55px;
+            background: #fff;
             padding: 3px;
-            border-radius: 5px;
+            border-radius: 4px;
+            margin-bottom: 5px;
         }
-        .qr-code img {
-            width: 100%;
-            height: 100%;
-        }
-        .app-number-badge {
+        .qr-code img { width: 100%; height: 100%; }
+        .app-number {
             background: var(--accent);
             color: #fff;
-            padding: 4px 10px;
+            padding: 4px 12px;
             border-radius: 3px;
             font-size: 11px;
             font-weight: bold;
-            text-align: center;
         }
 
-        /* Main Content Layout */
-        .content-wrapper {
-            display: flex;
-            gap: 15px;
-        }
-        .main-content {
-            flex: 1;
-        }
+        /* Two Column Layout */
+        .main-content { width: 100%; }
 
-        /* Passport Section - Top Right */
-        .passport-section {
-            width: 110px;
-            flex-shrink: 0;
-            text-align: center;
+        /* Passport - Top Right */
+        .passport-box {
             position: absolute;
-            top: 80px;
-            right: 15px;
+            top: 8mm;
+            right: 8mm;
+            width: 100px;
+            text-align: center;
         }
         .passport-photo {
-            width: 100px;
-            height: 120px;
+            width: 90px;
+            height: 110px;
             border: 3px solid var(--primary);
             display: flex;
             align-items: center;
             justify-content: center;
-            background: #f9f9f9;
+            background: #f5f5f5;
             overflow: hidden;
-            margin-bottom: 5px;
         }
         .passport-photo img {
             width: 100%;
@@ -147,160 +124,98 @@
             object-fit: cover;
         }
 
-        /* Info Grid */
-        .section {
-            margin-bottom: 12px;
-            clear: both;
-        }
+        /* Info Sections */
+        .section { margin-bottom: 12px; }
         .section-title {
             font-size: 11px;
             font-weight: bold;
             background: var(--primary);
-            color: white;
-            padding: 4px 8px;
-            margin-bottom: 6px;
+            color: #fff;
+            padding: 5px 10px;
             text-transform: uppercase;
             border-radius: 3px;
+            margin-bottom: 8px;
         }
-        .info-grid {
-            display: table;
+
+        /* Table */
+        .info-table {
             width: 100%;
             border-collapse: collapse;
         }
-        .info-row {
-            display: table-row;
+        .info-table tr { border-bottom: 1px solid #eee; }
+        .info-table td {
+            padding: 4px 8px;
+            vertical-align: top;
         }
-        .info-label {
-            display: table-cell;
+        .info-table .label {
             width: 32%;
-            padding: 3px 5px 3px 0;
             font-weight: 600;
             color: var(--primary);
-            background: #f8f8f8;
-            border-bottom: 1px solid #eee;
+            background: #f9f9f9;
         }
-        .info-value {
-            display: table-cell;
-            padding: 3px 0;
-            border-bottom: 1px solid #eee;
-        }
-
-        /* Signature */
-        .signature-section {
-            margin-top: 25px;
-            display: table;
-            width: 100%;
-            border-top: 2px solid var(--secondary);
-            padding-top: 10px;
-        }
-        .signature-box {
-            display: table-cell;
-            width: 50%;
-            padding: 10px;
-            vertical-align: bottom;
-        }
-        .signature-line {
-            border-top: 1px solid #333;
-            margin-top: 20px;
-            padding-top: 5px;
-            font-size: 9px;
-        }
+        .info-table .value { padding-left: 10px; }
 
         /* Footer */
-        .form-footer {
+        .footer {
+            margin-top: 20px;
+            padding-top: 10px;
+            border-top: 1px solid #ddd;
             text-align: center;
             font-size: 8px;
             color: #888;
-            margin-top: 15px;
-            padding-top: 10px;
-            border-top: 1px solid #ddd;
         }
 
-        @page {
-            size: A4;
-            margin: 8mm;
+        /* Signature */
+        .signature-area {
+            margin-top: 25px;
+            display: flex;
+            justify-content: space-between;
+            border-top: 1px solid #333;
+            padding-top: 8px;
         }
+        .signature-box {
+            width: 45%;
+        }
+        .signature-line {
+            border-top: 1px solid #333;
+            margin-top: 25px;
+            font-size: 9px;
+        }
+
+        @page { size: A4; margin: 0; }
     </style>
 </head>
 <body>
     <div class="page">
-        <!-- Watermark Background -->
+        <!-- Watermark -->
         <div class="watermark">
             @php
-            $watermarkPath = null;
-            // Check settings logo first
-            if (!empty($settings['logo'])) {
-                $watermarkPath = $settings['logo'];
+            $logoSrc = null;
+            $logoKey = $settings['logo'] ?? null;
+            if ($logoKey) {
+                $logoSrc = asset($logoKey);
             }
-            // Fallback to common logo locations
-            if (!$watermarkPath || !file_exists(public_path($watermarkPath))) {
+            if (!$logoSrc || !@getimagesize(public_path($logoKey))) {
                 if (file_exists(public_path('images/logo.png'))) {
-                    $watermarkPath = 'images/logo.png';
+                    $logoSrc = asset('images/logo.png');
                 } elseif (file_exists(public_path('images/logo.jpg'))) {
-                    $watermarkPath = 'images/logo.jpg';
-                } elseif (file_exists(public_path('images/logo.jpeg'))) {
-                    $watermarkPath = 'images/logo.jpeg';
+                    $logoSrc = asset('images/logo.jpg');
                 }
             }
             @endphp
-            @if($watermarkPath && file_exists(public_path($watermarkPath)))
-            <img src="{{ asset($watermarkPath) }}" alt="Watermark">
+            @if($logoSrc)
+            <img src="{{ $logoSrc }}" alt="Watermark">
             @endif
         </div>
 
-        <!-- Header with Logo, Institution Name & QR Code -->
-        <div class="form-header">
-            <div class="header-left">
-                @php
-                $logoPath = null;
-                // Check settings logo first
-                if (!empty($settings['logo'])) {
-                    $logoPath = $settings['logo'];
-                }
-                // Fallback to common logo locations
-                if (!$logoPath || !file_exists(public_path($logoPath))) {
-                    if (file_exists(public_path('images/logo.png'))) {
-                        $logoPath = 'images/logo.png';
-                    } elseif (file_exists(public_path('images/logo.jpg'))) {
-                        $logoPath = 'images/logo.jpg';
-                    } elseif (file_exists(public_path('images/logo.jpeg'))) {
-                        $logoPath = 'images/logo.jpeg';
-                    }
-                }
-                @endphp
-                @if($logoPath && file_exists(public_path($logoPath)))
-                <img src="{{ asset($logoPath) }}" alt="Institution Logo" class="header-logo">
-                @endif
-                <div class="header-text">
-                    <h1>{{ $settings['institution_name'] ?? 'EKSCOTECH' }}</h1>
-                    <p>{{ $settings['portal_name'] ?? 'Online Application Portal' }}</p>
-                </div>
-            </div>
-            <div class="header-right">
-                @php
-                // Generate QR code data
-                $qrData = json_encode([
-                    'app' => $application->application_number,
-                    'name' => $application->full_name,
-                    'status' => $application->status
-                ]);
-                $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=' . urlencode($qrData);
-                @endphp
-                <div class="qr-code">
-                    <img src="{{ $qrCodeUrl }}" alt="QR Code">
-                </div>
-                <div class="app-number-badge">{{ $application->application_number }}</div>
-            </div>
-        </div>
-
-        <!-- Passport Photo - Top Right -->
-        <div class="passport-section">
+        <!-- Passport - Top Right Corner -->
+        <div class="passport-box">
             <div class="passport-photo">
                 @php
+                $passportImg = null;
                 $passportDoc = $application->documents->filter(function($doc) {
                     return stripos($doc->document_type, 'passport') !== false;
                 })->first();
-                $passportImg = null;
                 if ($passportDoc) {
                     $storagePath = storage_path('app/' . $passportDoc->file_path);
                     if (file_exists($storagePath)) {
@@ -309,174 +224,220 @@
                 }
                 @endphp
                 @if($passportImg)
-                <img src="{{ $passportImg }}" alt="Passport Photo">
+                <img src="{{ $passportImg }}" alt="Passport">
                 @else
-                <span style="font-size:9px;color:#999;">Not Uploaded</span>
+                <span style="font-size:8px;color:#999;">No Photo</span>
                 @endif
             </div>
         </div>
 
-        <div class="content-wrapper">
-            <div class="main-content">
-                <!-- Personal Information -->
-                <div class="section">
-                    <div class="section-title">Personal Information</div>
-                    <div class="info-grid">
-                        <div class="info-row">
-                            <div class="info-label">Full Name:</div>
-                            <div class="info-value">{{ $application->full_name }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Gender:</div>
-                            <div class="info-value">{{ ucfirst($application->gender) }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Date of Birth:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'date_of_birth') ?: 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Marital Status:</div>
-                            <div class="info-value">{{ ucfirst(data_get($application->personal_info, 'marital_status')) ?: 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Nationality:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'nationality') ?: 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">State of Origin:</div>
-                            <div class="info-value">{{ $application->state }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Local Government Area:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'local_government') ?: 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Residential Address:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'residential_address') ?: 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Email Address:</div>
-                            <div class="info-value">{{ $application->email }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Phone Number:</div>
-                            <div class="info-value">{{ $application->phone }}</div>
-                        </div>
-                        @if(data_get($application->personal_info, 'alternative_phone'))
-                        <div class="info-row">
-                            <div class="info-label">Alternative Phone:</div>
-                            <div class="info-value">{{ data_get($application->personal_info, 'alternative_phone') }}</div>
-                        </div>
-                        @endif
-                    </div>
-                </div>
+        <!-- Header -->
+        <div class="header-banner">
+            @php
+            $institutionName = $settings['institution_name'] ?? 'EKSCOTECH';
+            $portalName = $settings['portal_name'] ?? 'Online Application Portal';
+            @endphp
 
-                <!-- Academic Information -->
-                <div class="section">
-                    <div class="section-title">Academic Information</div>
-                    <div class="info-grid">
-                        <div class="info-row">
-                            <div class="info-label">Highest Qualification:</div>
-                            <div class="info-value">{{ $application->qualification ?: 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Institution Attended:</div>
-                            <div class="info-value">{{ $application->academic_info['institution_attended'] ?? 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Course Studied:</div>
-                            <div class="info-value">{{ $application->academic_info['course_studied'] ?? 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Grade/Class:</div>
-                            <div class="info-value">{{ $application->academic_info['grade_class'] ?? 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Year of Graduation:</div>
-                            <div class="info-value">{{ $application->academic_info['graduation_year'] ?? 'Not Provided' }}</div>
-                        </div>
-                    </div>
-                </div>
+            @php
+            $headerLogoSrc = null;
+            $logoKey = $settings['logo'] ?? null;
+            if ($logoKey) {
+                $headerLogoSrc = asset($logoKey);
+            }
+            if (!$headerLogoSrc || !@getimagesize(public_path($logoKey))) {
+                if (file_exists(public_path('images/logo.png'))) {
+                    $headerLogoSrc = asset('images/logo.png');
+                } elseif (file_exists(public_path('images/logo.jpg'))) {
+                    $headerLogoSrc = asset('images/logo.jpg');
+                }
+            }
+            @endphp
 
-                <!-- Employment Information -->
-                @if($application->employment_info && count($application->employment_info) > 0)
-                <div class="section">
-                    <div class="section-title">Employment History</div>
-                    <div class="info-grid">
-                        @foreach($application->employment_info as $emp)
-                        <div class="info-row">
-                            <div class="info-label">Employer:</div>
-                            <div class="info-value">{{ $emp['employer'] ?? 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Position:</div>
-                            <div class="info-value">{{ $emp['position'] ?? 'Not Provided' }}</div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Years of Experience:</div>
-                            <div class="info-value">{{ $emp['years_experience'] ?? '0' }}</div>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                @endif
+            @if($headerLogoSrc)
+            <img src="{{ $headerLogoSrc }}" alt="Logo" class="header-logo">
+            @endif
 
-                <!-- Application Details -->
-                <div class="section">
-                    <div class="section-title">Application Details</div>
-                    <div class="info-grid">
-                        <div class="info-row">
-                            <div class="info-label">Position/Programme Applied:</div>
-                            <div class="info-value">
-                                @php
-                                $position = '';
-                                $details = $application->application_details ?? [];
-                                $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? $details['position'] ?? '';
-                                if (empty($position)) {
-                                    $position = data_get($application->personal_info, 'position_applying_for')
-                                        ?? data_get($application->personal_info, 'position')
-                                        ?? data_get($application->personal_info, 'programme');
-                                }
-                                echo !empty($position) ? $position : 'Not Specified';
-                                @endphp
-                            </div>
-                        </div>
-                        <div class="info-row">
-                            <div class="info-label">Application Status:</div>
-                            <div class="info-value" style="text-transform: uppercase; font-weight: bold; color: #247d57;">{{ $application->status }}</div>
-                        </div>
-                    </div>
-                </div>
+            <div class="header-text">
+                <h1>{{ $institutionName }}</h1>
+                <div class="portal-name">{{ $portalName }}</div>
+            </div>
 
-                <!-- Uploaded Documents -->
-                @if($application->documents->count() > 0)
-                <div class="section">
-                    <div class="section-title">Uploaded Documents</div>
-                    <div class="info-grid">
-                        @foreach($application->documents as $doc)
-                        <div class="info-row">
-                            <div class="info-label">{{ $doc->document_type }}:</div>
-                            <div class="info-value">{{ $doc->file_name }}</div>
-                        </div>
-                        @endforeach
-                    </div>
+            <div class="header-right">
+                @php
+                $qrData = json_encode([
+                    'app' => $application->application_number,
+                    'name' => $application->full_name
+                ]);
+                $qrCodeUrl = 'https://api.qrserver.com/v1/create-qr-code/?size=60x60&data=' . urlencode($qrData);
+                @endphp
+                <div class="qr-code">
+                    <img src="{{ $qrCodeUrl }}" alt="QR">
                 </div>
-                @endif
+                <div class="app-number">{{ $application->application_number }}</div>
+            </div>
+        </div>
 
-                <!-- Declaration & Signature -->
-                <div class="signature-section">
-                    <div class="signature-box">
-                        <div class="signature-line">Applicant's Signature</div>
-                    </div>
-                    <div class="signature-box">
-                        <div class="signature-line">Date</div>
-                    </div>
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Personal Information -->
+            <div class="section">
+                <div class="section-title">Personal Information</div>
+                <table class="info-table">
+                    <tr>
+                        <td class="label">Full Name:</td>
+                        <td class="value">{{ $application->full_name }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Gender:</td>
+                        <td class="value">{{ ucfirst($application->gender) ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Date of Birth:</td>
+                        <td class="value">{{ data_get($application->personal_info, 'date_of_birth') ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Marital Status:</td>
+                        <td class="value">{{ ucfirst(data_get($application->personal_info, 'marital_status')) ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Nationality:</td>
+                        <td class="value">{{ data_get($application->personal_info, 'nationality') ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">State of Origin:</td>
+                        <td class="value">{{ $application->state ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">LGA:</td>
+                        <td class="value">{{ data_get($application->personal_info, 'local_government') ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Residential Address:</td>
+                        <td class="value">{{ data_get($application->personal_info, 'residential_address') ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Email:</td>
+                        <td class="value">{{ $application->email }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Phone:</td>
+                        <td class="value">{{ $application->phone }}</td>
+                    </tr>
+                    @if(data_get($application->personal_info, 'alternative_phone'))
+                    <tr>
+                        <td class="label">Alt. Phone:</td>
+                        <td class="value">{{ data_get($application->personal_info, 'alternative_phone') }}</td>
+                    </tr>
+                    @endif
+                </table>
+            </div>
+
+            <!-- Academic Information -->
+            <div class="section">
+                <div class="section-title">Academic Information</div>
+                <table class="info-table">
+                    <tr>
+                        <td class="label">Highest Qualification:</td>
+                        <td class="value">{{ $application->qualification ?: 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Institution:</td>
+                        <td class="value">{{ $application->academic_info['institution_attended'] ?? 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Course:</td>
+                        <td class="value">{{ $application->academic_info['course_studied'] ?? 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Grade:</td>
+                        <td class="value">{{ $application->academic_info['grade_class'] ?? 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Graduation Year:</td>
+                        <td class="value">{{ $application->academic_info['graduation_year'] ?? 'Not Provided' }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Employment -->
+            @if($application->employment_info && count($application->employment_info) > 0)
+            <div class="section">
+                <div class="section-title">Employment History</div>
+                <table class="info-table">
+                    @foreach($application->employment_info as $emp)
+                    <tr>
+                        <td class="label">Employer:</td>
+                        <td class="value">{{ $emp['employer'] ?? 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Position:</td>
+                        <td class="value">{{ $emp['position'] ?? 'Not Provided' }}</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Years Experience:</td>
+                        <td class="value">{{ $emp['years_experience'] ?? '0' }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+            @endif
+
+            <!-- Application Details -->
+            <div class="section">
+                <div class="section-title">Application Details</div>
+                <table class="info-table">
+                    <tr>
+                        <td class="label">Position Applied:</td>
+                        <td class="value">
+                            @php
+                            $position = '';
+                            $details = $application->application_details ?? [];
+                            $position = $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
+                            if (empty($position)) {
+                                $position = data_get($application->personal_info, 'position_applying_for')
+                                    ?? data_get($application->personal_info, 'position')
+                                    ?? '';
+                            }
+                            echo !empty($position) ? $position : 'Not Specified';
+                            @endphp
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="label">Status:</td>
+                        <td class="value" style="font-weight:bold; color: var(--secondary); text-transform:uppercase;">{{ $application->status }}</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Documents -->
+            @if($application->documents->count() > 0)
+            <div class="section">
+                <div class="section-title">Uploaded Documents</div>
+                <table class="info-table">
+                    @foreach($application->documents as $doc)
+                    <tr>
+                        <td class="label">{{ $doc->document_type }}:</td>
+                        <td class="value">{{ $doc->file_name }}</td>
+                    </tr>
+                    @endforeach
+                </table>
+            </div>
+            @endif
+
+            <!-- Signature -->
+            <div class="signature-area">
+                <div class="signature-box">
+                    <div class="signature-line">Applicant's Signature</div>
+                </div>
+                <div class="signature-box">
+                    <div class="signature-line">Date</div>
                 </div>
             </div>
         </div>
 
-        <div class="form-footer">
-            Generated on {{ now()->format('F j, Y') }} | {{ $settings['portal_name'] ?? 'Application Portal' }} | {{ $settings['institution_name'] ?? 'EKSCOTECH' }}
+        <!-- Footer -->
+        <div class="footer">
+            Generated on {{ now()->format('F j, Y') }} | {{ $portalName }} | {{ $institutionName }}
         </div>
     </div>
 </body>
