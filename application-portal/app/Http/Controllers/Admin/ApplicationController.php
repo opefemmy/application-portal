@@ -214,6 +214,36 @@ class ApplicationController extends Controller
         return back()->with('success', 'Acceptance email sent successfully.');
     }
 
+    public function closeApplication(Request $request, Application $application)
+    {
+        $request->validate([
+            'close_reason' => 'required|string|max:255',
+            'close_notes' => 'nullable|string',
+        ]);
+
+        // Build notes with close reason
+        $notes = '【CLOSED】Reason: ' . $request->close_reason;
+        if ($request->close_notes) {
+            $notes .= "\nNotes: " . $request->close_notes;
+        }
+
+        // Append to existing notes if any
+        $existingNotes = $application->notes;
+        if ($existingNotes) {
+            $notes = $existingNotes . "\n\n" . $notes;
+        }
+
+        // Update application status and notes
+        $application->update([
+            'status' => 'closed',
+            'notes' => $notes,
+        ]);
+
+        ActivityLog::log('update', "Application closed - Reason: {$request->close_reason}");
+
+        return back()->with('success', 'Application has been closed successfully.');
+    }
+
     public function downloadDocument(ApplicationDocument $document)
     {
         // Check if file exists

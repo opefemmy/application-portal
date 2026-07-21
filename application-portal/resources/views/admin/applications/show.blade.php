@@ -64,6 +64,9 @@
                 <button class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#rejectModal">
                     <i class="bi bi-x-circle me-2"></i>Send Rejection Email
                 </button>
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#closeModal">
+                    <i class="bi bi-x-square me-2"></i>Close Application
+                </button>
             </div>
         </div>
 
@@ -310,6 +313,47 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                     <button type="submit" class="btn btn-success">Send Acceptance Email</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- Close Modal -->
+<div class="modal fade" id="closeModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Close Application</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <form method="POST" action="{{ route('admin.applications.close', $application->id) }}">
+                @csrf
+                <div class="modal-body">
+                    <div class="alert alert-warning">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Warning:</strong> This action will close the application. The applicant will no longer be able to make changes or updates.
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Reason for Closing <span class="text-danger">*</span></label>
+                        <select name="close_reason" class="form-select" required>
+                            <option value="">Select a reason</option>
+                            <option value="Duplicate Application">Duplicate Application</option>
+                            <option value="Incomplete Information">Incomplete Information</option>
+                            <option value="Does Not Meet Requirements">Does Not Meet Requirements</option>
+                            <option value="Withdrawn by Applicant">Withdrawn by Applicant</option>
+                            <option value="Position Filled">Position Filled</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Additional Notes</label>
+                        <textarea name="close_notes" class="form-control" rows="4" placeholder="Provide additional details about why this application is being closed..."></textarea>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="submit" class="btn btn-dark">Close Application</button>
                 </div>
             </form>
         </div>

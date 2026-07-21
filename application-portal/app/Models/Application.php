@@ -34,6 +34,7 @@ class Application extends Model
     const STATUS_ACCEPTED = 'accepted';
     const STATUS_REJECTED = 'rejected';
     const STATUS_COMPLETED = 'completed';
+    const STATUS_CLOSED = 'closed';
 
     public static function getStatuses()
     {
@@ -45,6 +46,7 @@ class Application extends Model
             self::STATUS_ACCEPTED => 'Accepted',
             self::STATUS_REJECTED => 'Rejected',
             self::STATUS_COMPLETED => 'Completed',
+            self::STATUS_CLOSED => 'Closed',
         ];
     }
 
