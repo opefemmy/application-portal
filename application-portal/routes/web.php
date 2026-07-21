@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Artisan;
 use App\Http\Controllers\Frontend\HomeController;
 use App\Http\Controllers\Frontend\ApplicationController as FrontendApplicationController;
 use App\Http\Controllers\Admin\AuthController;
@@ -10,6 +11,19 @@ use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PageBuilderController;
 use App\Http\Controllers\Admin\ProgrammesController;
+
+// Storage link route - creates symlink if not exists
+Route::get('/storage-link', function () {
+    if (!file_exists(public_path('storage'))) {
+        try {
+            Artisan::call('storage:link');
+            return response()->json(['success' => true, 'message' => 'Storage link created']);
+        } catch (\Exception $e) {
+            return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        }
+    }
+    return response()->json(['success' => true, 'message' => 'Storage link already exists']);
+});
 
 // Frontend Routes
 Route::get('/', [HomeController::class, 'index'])->name('home');
