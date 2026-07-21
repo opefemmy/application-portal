@@ -218,9 +218,23 @@
                     $passportDoc = $application->documents->filter(function($doc) {
                         return stripos($doc->document_type, 'passport') !== false;
                     })->first();
+                    $passportUrl = null;
+                    if ($passportDoc && $passportDoc->file_path) {
+                        // Try to get the file - check both storage paths
+                        $storagePath = storage_path('app/' . $passportDoc->file_path);
+                        if (!file_exists($storagePath)) {
+                            $storagePath = public_path('storage/' . $passportDoc->file_path);
+                        }
+                        if (file_exists($storagePath)) {
+                            $passportUrl = asset('storage/' . $passportDoc->file_path);
+                        }
+                    }
                     @endphp
-                    @if($passportDoc)
-                    <img src="{{ asset('storage/' . $passportDoc->file_path) }}" alt="Passport Photo">
+                    @if($passportUrl)
+                    <img src="{{ $passportUrl }}" alt="Passport Photo" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">
+                    <div style="width:100%;height:100%;display:none;align-items:center;justify-content:center;background:#f9f9f9;">
+                        <span class="text-muted small">Photo unavailable</span>
+                    </div>
                     @else
                     <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#f9f9f9;">
                         <span class="text-muted small">No Photo</span>
