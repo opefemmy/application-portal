@@ -220,13 +220,13 @@
                     })->first();
                     $passportUrl = null;
                     if ($passportDoc && $passportDoc->file_path) {
-                        // Try to get the file - check both storage paths
+                        // File is stored in storage/app/ - use Storage URL
+                        $passportUrl = \Illuminate\Support\Facades\Storage::url($passportDoc->file_path);
+
+                        // Check if file actually exists
                         $storagePath = storage_path('app/' . $passportDoc->file_path);
                         if (!file_exists($storagePath)) {
-                            $storagePath = public_path('storage/' . $passportDoc->file_path);
-                        }
-                        if (file_exists($storagePath)) {
-                            $passportUrl = asset('storage/' . $passportDoc->file_path);
+                            $passportUrl = null;
                         }
                     }
                     @endphp
