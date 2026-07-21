@@ -181,7 +181,7 @@
             <h5 class="mb-3">Application Details</h5>
             <div class="row">
                 <div class="col-md-6 mb-2">
-                    <strong>Position:</strong> {{ $application->application_details['position_applying_for'] ?? 'N/A' }}
+                    <strong>Position:</strong> {{ $application->positionApplyingFor ?: 'N/A' }}
                 </div>
                 <div class="col-md-6 mb-2">
                     <strong>Programme:</strong> {{ $application->application_details['programme_applying_for'] ?? 'N/A' }}
