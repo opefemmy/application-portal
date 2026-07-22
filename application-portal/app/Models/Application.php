@@ -160,17 +160,20 @@ class Application extends Model
 
     public function getProgrammeApplyingForAttribute()
     {
-        return $this->application_details['programme_applying_for'] ?: 'N/A';
+        $details = $this->application_details ?? [];
+        return $details['programme_applying_for'] ?: 'N/A';
     }
 
     public function getDepartmentAttribute()
     {
-        return $this->application_details['department'] ?: 'N/A';
+        $details = $this->application_details ?? [];
+        return $details['department'] ?: 'N/A';
     }
 
     public function getCategoryAttribute()
     {
-        return $this->application_details['category'] ?: 'N/A';
+        $details = $this->application_details ?? [];
+        return $details['category'] ?: 'N/A';
     }
 
     public static function generateApplicationNumber()
