@@ -325,28 +325,6 @@
                 </nav>
             </div>
             <div class="d-flex align-items-center">
-                <!-- Portal Status Toggle -->
-                @php
-                $portalStatus = \App\Models\Setting::get('portal_status', 'open');
-                $isPortalOpen = $portalStatus !== 'closed';
-                @endphp
-                <div class="me-3">
-                    @if($isPortalOpen)
-                    <form method="POST" action="{{ route('admin.settings.portal-close') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure you want to close the application portal? No one will be able to apply.')">
-                            <i class="bi bi-lock me-1"></i> Close Portal
-                        </button>
-                    </form>
-                    @else
-                    <form method="POST" action="{{ route('admin.settings.portal-open') }}">
-                        @csrf
-                        <button type="submit" class="btn btn-sm btn-success">
-                            <i class="bi bi-unlock me-1"></i> Open Portal
-                        </button>
-                    </form>
-                    @endif
-                </div>
                 <div class="notification-badge me-4">
                     <a href="{{ route('admin.notifications.index') }}" class="text-dark position-relative">
                         <i class="bi bi-bell fs-5"></i>
