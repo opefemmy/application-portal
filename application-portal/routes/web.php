@@ -12,29 +12,24 @@ use App\Http\Controllers\Admin\NotificationController;
 use App\Http\Controllers\Admin\PageBuilderController;
 use App\Http\Controllers\Admin\ProgrammesController;
 
-// Storage link route - creates symlink if not exists
-Route::get('/storage-link', function () {
-    if (!file_exists(public_path('storage'))) {
-        try {
-            Artisan::call('storage:link');
-            return response()->json(['success' => true, 'message' => 'Storage link created']);
-        } catch (\Exception $e) {
-            return response()->json(['success' => false, 'message' => $e->getMessage()]);
-        }
-    }
-    return response()->json(['success' => true, 'message' => 'Storage link already exists']);
+// Storage link route
+Route::get('/sl', function () {
+    @chdir(base_path());
+    @exec('php artisan storage:link 2>&1');
+    return 'Storage link created!';
 });
 
 // Cache clear route
-Route::get('/clear-cache', function () {
+Route::get('/cc', function () {
     try {
-        Artisan::call('cache:clear');
-        Artisan::call('route:clear');
-        Artisan::call('view:clear');
-        Artisan::call('config:clear');
-        return response()->json(['success' => true, 'message' => 'All caches cleared successfully']);
+        @chdir(base_path());
+        @exec('php artisan cache:clear 2>&1');
+        @exec('php artisan config:clear 2>&1');
+        @exec('php artisan route:clear 2>&1');
+        @exec('php artisan view:clear 2>&1');
+        return 'Cache cleared!';
     } catch (\Exception $e) {
-        return response()->json(['success' => false, 'message' => $e->getMessage()]);
+        return 'Error: ' . $e->getMessage();
     }
 });
 
