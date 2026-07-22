@@ -154,26 +154,35 @@ class Application extends Model
 
     public function getPositionApplyingForAttribute()
     {
-        $details = $this->application_details ?? [];
+        $details = $this->application_details ?: [];
         return $details['position_applying_for'] ?? $details['programme_applying_for'] ?? '';
     }
 
     public function getProgrammeApplyingForAttribute()
     {
-        $details = $this->application_details ?? [];
-        return $details['programme_applying_for'] ?: 'N/A';
+        $details = $this->application_details ?: [];
+        if (empty($details)) {
+            return 'N/A';
+        }
+        return ($details['programme_applying_for'] ?? null) ?: 'N/A';
     }
 
     public function getDepartmentAttribute()
     {
-        $details = $this->application_details ?? [];
-        return $details['department'] ?: 'N/A';
+        $details = $this->application_details ?: [];
+        if (empty($details)) {
+            return 'N/A';
+        }
+        return ($details['department'] ?? null) ?: 'N/A';
     }
 
     public function getCategoryAttribute()
     {
-        $details = $this->application_details ?? [];
-        return $details['category'] ?: 'N/A';
+        $details = $this->application_details ?: [];
+        if (empty($details)) {
+            return 'N/A';
+        }
+        return ($details['category'] ?? null) ?: 'N/A';
     }
 
     public static function generateApplicationNumber()
