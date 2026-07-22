@@ -14,23 +14,14 @@ use App\Http\Controllers\Admin\ProgrammesController;
 
 // Storage link route
 Route::get('/sl', function () {
-    @chdir(base_path());
-    @exec('php artisan storage:link 2>&1');
+    chdir(base_path());
+    exec('php artisan storage:link 2>&1');
     return 'Storage link created!';
 });
 
-// Cache clear route
-Route::get('/cc', function () {
-    try {
-        @chdir(base_path());
-        @exec('php artisan cache:clear 2>&1');
-        @exec('php artisan config:clear 2>&1');
-        @exec('php artisan route:clear 2>&1');
-        @exec('php artisan view:clear 2>&1');
-        return 'Cache cleared!';
-    } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
-    }
+// Simple test route
+Route::get('/test', function () {
+    return 'Laravel is working!';
 });
 
 // Frontend Routes
